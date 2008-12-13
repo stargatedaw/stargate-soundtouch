@@ -297,7 +297,7 @@ void BPMDetect::init(int numChannels, int sampleRate)
 
 float BPMDetect::getBpm()
 {
-    float peakPos;
+    double peakPos;
     PeakFinder peakFinder;
 
     // find peak position
@@ -307,5 +307,5 @@ float BPMDetect::getBpm()
     if (peakPos < 1e-6) return 0.0; // detection failed.
 
     // calculate BPM
-    return 60.0f * (((float)sampleRate / (float)decimateBy) / peakPos);
+    return (float)(60.0 * (((double)sampleRate / (double)decimateBy) / peakPos));
 }

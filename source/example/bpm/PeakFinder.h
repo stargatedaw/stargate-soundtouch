@@ -47,7 +47,7 @@ protected:
     int minPos, maxPos;
 
     /// Calculates the mass center between given vector items.
-    float calcMassCenter(const float *data, ///< Data vector.
+    double calcMassCenter(const float *data, ///< Data vector.
                          int firstPos,      ///< Index of first vector item beloging to the peak.
                          int lastPos        ///< Index of last vector item beloging to the peak.
                          ) const;
@@ -67,15 +67,18 @@ protected:
                      int direction          /// Direction where to proceed from the peak: 1 = right, -1 = left.
                      ) const;
 
+    /// get exact center of peak near given position by calculating local mass of center
+    double getPeakCenter(const float *data, int peakpos);
+
 public:
     /// Constructor. 
     PeakFinder();
 
     /// Detect exact peak position of the data vector by finding the largest peak 'hump'
-    /// and calculating the mass-center location of the peak hump. 
+    /// and calculating the mass-center location of the peak hump.
     ///
-    /// \return The exact mass-center location of the largest peak hump.
-    float detectPeak(const float *data, /// Data vector to be analyzed. The data vector has
+    /// \return The location of the largest base harmonic peak hump.
+    double detectPeak(const float *data, /// Data vector to be analyzed. The data vector has
                                         /// to be at least 'maxPos' items long.
                      int minPos,        ///< Min allowed peak location within the vector data.
                      int maxPos         ///< Max allowed peak location within the vector data.
