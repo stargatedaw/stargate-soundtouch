@@ -44,6 +44,7 @@
 #include <string.h>
 #include <limits.h>
 #include <assert.h>
+#include <math.h>
 #include <stdexcept>
 
 #include "STTypes.h"
@@ -768,6 +769,12 @@ void TDStretch::overlapStereo(short *output, const short *input) const
     }
 }
 
+// Calculates the x having the closest 2^x value for the given value
+static int _getClosest2Power(double value)
+{
+    return (int)(log(value) / log(2.0) + 0.5);
+}
+
 
 /// Calculates overlap period length in samples.
 /// Integer version rounds overlap length to closest power of 2
@@ -794,7 +801,7 @@ void TDStretch::calculateOverlapLength(int overlapMs)
 long TDStretch::calcCrossCorrMono(const short *mixingPos, const short *compare) const
 {
     long corr;
-    uint i;
+    int i;
 
     corr = 0;
     for (i = 1; i < overlapLength; i ++) 
@@ -809,7 +816,7 @@ long TDStretch::calcCrossCorrMono(const short *mixingPos, const short *compare) 
 long TDStretch::calcCrossCorrStereo(const short *mixingPos, const short *compare) const
 {
     long corr;
-    uint i;
+    int i;
 
     corr = 0;
     for (i = 2; i < 2 * overlapLength; i += 2) 

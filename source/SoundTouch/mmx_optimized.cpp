@@ -77,7 +77,7 @@ long TDStretchMMX::calcCrossCorrStereo(const short *pV1, const short *pV2) const
     __m64 shifter;
     __m64 accu;
     long corr;
-    uint i;
+    int i;
    
     pVec1 = (__m64*)pV1;
     pVec2 = (__m64*)pV2;
@@ -139,7 +139,7 @@ void TDStretchMMX::overlapStereo(short *output, const short *input) const
     const __m64 *pVinput, *pVMidBuf;
     __m64 *pVdest;
     __m64 mix1, mix2, adder, shifter;
-    uint i;
+    int i;
 
     pVinput  = (const __m64*)input;
     pVMidBuf = (const __m64*)pMidBuffer;
