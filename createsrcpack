@@ -1,5 +1,5 @@
 # Helper script for building a source code release package
-# $Id: $
+# $Id$
 
 rm -Rf soundtouch
 rm soundtouch.zip
