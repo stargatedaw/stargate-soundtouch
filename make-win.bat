@@ -17,7 +17,7 @@
 md bin
 md lib
 msdev source\SoundTouch\SoundTouch.dsw /MAKE ALL
-msdev source\SoundStretch\SoundStretch.dsw /MAKE "SoundStretch - Win32 Release"
+msdev source\SoundStretch\SoundStretch.dsw /MAKE ALL
 
 goto end
 

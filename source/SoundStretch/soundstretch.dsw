@@ -1,23 +1,9 @@
 Microsoft Developer Studio Workspace File, Format Version 6.00
 # WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
-#
-# $Id$
 
 ###############################################################################
 
-Project: "SoundTouch"=..\..\SoundTouch\SoundTouch.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "bpm"=..\bpm\bpm.dsp - Package Owner=<4>
+Project: "SoundTouch"=..\SoundTouch\SoundTouch.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -39,9 +25,6 @@ Package=<4>
 {{{
     Begin Project Dependency
     Project_Dep_Name SoundTouch
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name bpm
     End Project Dependency
 }}}
 

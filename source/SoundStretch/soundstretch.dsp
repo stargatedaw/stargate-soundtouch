@@ -42,7 +42,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /Zi /O2 /I "..\..\..\include" /I "..\bpm" /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /FD /c
+# ADD CPP /nologo /W3 /GX /Zi /O2 /I "..\..\include" /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /FD /c
 # SUBTRACT CPP /YX
 # ADD BASE RSC /l 0x40b /d "NDEBUG"
 # ADD RSC /l 0x40b /d "NDEBUG"
@@ -51,10 +51,10 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /machine:I386
-# ADD LINK32 SoundTouch.lib bpm.lib /nologo /subsystem:console /profile /map /debug /machine:I386 /libpath:"..\..\..\lib"
+# ADD LINK32 SoundTouch.lib /nologo /subsystem:console /profile /map /debug /machine:I386 /libpath:"..\..\lib"
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=copy          Release\soundstretch.exe          ..\..\..\bin\ 
+PostBuild_Cmds=copy           Release\soundstretch.exe           ..\..\bin\ 
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "soundstretch - Win32 Debug"
@@ -71,7 +71,7 @@ PostBuild_Cmds=copy          Release\soundstretch.exe          ..\..\..\bin\
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c
-# ADD CPP /nologo /Zp16 /W3 /Gm /GX /ZI /Od /I "..\..\..\include" /I "..\bpm" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR /FD /GZ /c
+# ADD CPP /nologo /Zp16 /W3 /Gm /GX /ZI /Od /I "..\..\include" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR /FD /GZ /c
 # SUBTRACT CPP /YX
 # ADD BASE RSC /l 0x40b /d "_DEBUG"
 # ADD RSC /l 0x40b /d "_DEBUG"
@@ -80,11 +80,11 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 SoundTouchD.lib bpmD.lib /nologo /subsystem:console /map /debug /machine:I386 /nodefaultlib:"libc" /out:"Debug/soundstretchD.exe" /pdbtype:sept /libpath:"..\..\..\lib"
+# ADD LINK32 SoundTouchD.lib /nologo /subsystem:console /map /debug /machine:I386 /nodefaultlib:"libc" /out:"Debug/soundstretchD.exe" /pdbtype:sept /libpath:"..\..\lib"
 # SUBTRACT LINK32 /pdb:none
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=copy          Debug\soundstretchD.exe          ..\..\..\bin\ 
+PostBuild_Cmds=copy           Debug\soundstretchD.exe           ..\..\bin\ 
 # End Special Build Tool
 
 !ENDIF 
