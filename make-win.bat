@@ -9,15 +9,34 @@
 @REM
 @REM $Id$ 
 
-@if "%MsDevDir%"=="" goto nodevdir
+@rem ****************************
+@rem try first for VS6.0 support
+
+@if "%MsDevDir%"=="" goto nomsdevdir
 
 md bin
 md lib
 msdev source\SoundTouch\SoundTouch.dsw /MAKE ALL
-msdev source\example\bpm\bpm.dsw /MAKE ALL
 msdev source\example\SoundStretch\SoundStretch.dsw /MAKE "SoundStretch - Win32 Release"
 
 goto end
+
+:nomsdevdir
+
+@rem **********************************
+@rem try with devenv for VS2003 support
+
+@if "%DevEnvDir%"=="" goto nodevdir
+
+md bin
+md lib
+devenv source\SoundTouch\SoundTouch.vcproj /build debug
+devenv source\SoundTouch\SoundTouch.vcproj /build release
+devenv source\example\SoundStretch\SoundStretch.vcproj /build debug
+devenv source\example\SoundStretch\SoundStretch.vcproj /build release
+
+@goto end
+
 
 :nodevdir
 
