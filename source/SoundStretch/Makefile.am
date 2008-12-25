@@ -1,6 +1,6 @@
 ## Process this file with automake to create Makefile.in
 ##
-## $Id$
+## $Id: Makefile.am 37 2008-12-25 16:33:39Z oparviai $
 ##
 ## Copyright (C) 2003 - David W. Durham
 ## 
@@ -31,7 +31,7 @@ bin_PROGRAMS=soundstretch
 noinst_HEADERS=RunParameters.h WavFile.h
 
 # extra files to include in distrubution tarball
-EXTRA_DIST=soundstretch.dsp soundstretch.dsw
+EXTRA_DIST=soundstretch.dsp soundstretch.dsw soundstretch.sln soundstretch.vcproj
 
 ## for every name listed under bin_PROGRAMS, you have a <prog>_SOURCES. This lists
 ## all the sources in the current directory that are used to build soundstretch.
@@ -41,7 +41,7 @@ soundstretch_SOURCES=main.cpp RunParameters.cpp WavFile.cpp
 ## created by the above soundstretch_SOURCES are automatically linked in, so here I
 ## list object files from other directories as well as flags passed to the
 ## linker. 
-soundstretch_LDADD=../../SoundTouch/libSoundTouch.la -lm
+soundstretch_LDADD=../SoundTouch/libSoundTouch.la -lm
 
 ## linker flags
 soundstretch_LDFLAGS=-s

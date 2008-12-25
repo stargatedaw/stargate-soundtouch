@@ -124,13 +124,12 @@ AC_CONFIG_FILES([
 	Makefile
 	source/Makefile
 		source/SoundTouch/Makefile
-		source/example/Makefile
-		source/example/SoundStretch/Makefile
+		source/SoundStretch/Makefile
 	include/Makefile
 ])
 
 AC_OUTPUT(
-	soundtouch-1.0.pc
+	soundtouch-1.4.pc
 )
 
 dnl use 'echo' to put stuff here if you want a message to the builder

@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="SoundTouch"
+	ProjectGUID="{68A5DD20-7057-448B-8FE0-B6AC8D205509}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
