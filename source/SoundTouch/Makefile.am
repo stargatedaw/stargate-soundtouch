@@ -26,11 +26,11 @@ include $(top_srcdir)/config/am_include.mk
 # set to something if you want other stuff to be included in the distribution tarball
 EXTRA_DIST=3dnow_win.cpp cpu_detect_x86_win.cpp SoundTouch.dsp SoundTouch.dsw SoundTouch.sln SoundTouch.vcproj
 
-noinst_HEADERS=AAFilter.h cpu_detect.h cpu_detect_x86_gcc.cpp FIRFilter.h RateTransposer.h TDStretch.h
+noinst_HEADERS=AAFilter.h cpu_detect.h cpu_detect_x86_gcc.cpp FIRFilter.h RateTransposer.h TDStretch.h PeakFinder.h
 
 lib_LTLIBRARIES=libSoundTouch.la
 #
-libSoundTouch_la_SOURCES=AAFilter.cpp FIRFilter.cpp FIFOSampleBuffer.cpp mmx_optimized.cpp sse_optimized.cpp RateTransposer.cpp SoundTouch.cpp TDStretch.cpp cpu_detect_x86_gcc.cpp
+libSoundTouch_la_SOURCES=AAFilter.cpp FIRFilter.cpp FIFOSampleBuffer.cpp mmx_optimized.cpp sse_optimized.cpp RateTransposer.cpp SoundTouch.cpp TDStretch.cpp cpu_detect_x86_gcc.cpp BPMDetect.cpp PeakFinder.cpp
 
 
 # Note by authore: '-msse2' might not work in non-X86 compilations. If someone can

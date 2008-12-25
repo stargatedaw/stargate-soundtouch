@@ -366,7 +366,7 @@ static int isAlphaStr(char *str)
 
 int WavInFile::readRIFFBlock()
 {
-    fread(&(header.riff), sizeof(WavRiff), 1, fptr);
+    if (fread(&(header.riff), sizeof(WavRiff), 1, fptr) != 1) return -1;
 
     // swap 32bit data byte order if necessary
     _swap32((unsigned int &)header.riff.package_len);
@@ -388,7 +388,7 @@ int WavInFile::readHeaderBlock()
     string sLabel;
 
     // lead label string
-    fread(label, 1, 4, fptr);
+    if (fread(label, 1, 4, fptr) !=4) return -1;
     label[4] = 0;
 
     if (isAlphaStr(label) == 0) return -1;    // not a valid label
@@ -402,7 +402,7 @@ int WavInFile::readHeaderBlock()
         memcpy(header.format.fmt, fmtStr, 4);
 
         // read length of the format field
-        fread(&nLen, sizeof(int), 1, fptr);
+        if (fread(&nLen, sizeof(int), 1, fptr) != 1) return -1;
         // swap byte order if necessary
         _swap32((unsigned int &)nLen); // int format_len;
         header.format.format_len = nLen;
@@ -417,7 +417,7 @@ int WavInFile::readHeaderBlock()
         }
 
         // read data
-        fread(&(header.format.fixed), nLen, 1, fptr);
+        if (fread(&(header.format.fixed), nLen, 1, fptr) != 1) return -1;
 
         // swap byte order if necessary
         _swap16((unsigned short &)header.format.fixed);            // short int fixed;
@@ -439,7 +439,7 @@ int WavInFile::readHeaderBlock()
     {
         // 'data' block
         memcpy(header.data.data_field, dataStr, 4);
-        fread(&(header.data.data_len), sizeof(uint), 1, fptr);
+        if (fread(&(header.data.data_len), sizeof(uint), 1, fptr) != 1) return -1;
 
         // swap byte order if necessary
         _swap32((unsigned int &)header.data.data_len);
@@ -453,11 +453,11 @@ int WavInFile::readHeaderBlock()
         // unknown block
 
         // read length
-        fread(&len, sizeof(len), 1, fptr);
+        if (fread(&len, sizeof(len), 1, fptr) != 1) return -1;
         // scan through the block
         for (i = 0; i < len; i ++)
         {
-            fread(&temp, 1, 1, fptr);
+            if (fread(&temp, 1, 1, fptr) != 1) return -1;
             if (feof(fptr)) return -1;   // unexpected eof
         }
     }

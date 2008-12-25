@@ -34,5 +34,3 @@ INCLUDES=-I$(top_srcdir)/include
 
 # doc directory
 pkgdocdir=$(prefix)/doc/@PACKAGE@
-
-

@@ -21,7 +21,7 @@
 
 include $(top_srcdir)/config/am_include.mk
 
-SUBDIRS=bpm SoundStretch
+SUBDIRS=SoundStretch
 
 # set to something if you want other stuff to be included in the distribution tarball
 #EXTRA_DIST=
