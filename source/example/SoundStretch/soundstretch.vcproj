@@ -39,7 +39,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="SoundTouchD.lib bpmD.lib"
+				AdditionalDependencies="SoundTouchD.lib"
 				OutputFile="Debug/soundstretchD.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
@@ -106,7 +106,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="SoundTouch.lib bpm.lib"
+				AdditionalDependencies="SoundTouch.lib"
 				OutputFile=".\Release/soundstretch.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"

@@ -60,6 +60,9 @@
 #include "STTypes.h"
 #include "FIFOSampleBuffer.h"
 
+namespace soundtouch
+{
+
 /// Minimum allowed BPM rate. Used to restrict accepted result above a reasonable limit.
 #define MIN_BPM 29
 
@@ -155,5 +158,7 @@ public:
     /// \return Beats-per-minute rate, or zero if detection failed.
     float getBpm();
 };
+
+}
 
 #endif // _BPMDetect_H_

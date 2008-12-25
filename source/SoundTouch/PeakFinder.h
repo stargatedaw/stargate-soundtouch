@@ -9,10 +9,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date$
+// Last changed  : $Date: 2008-12-13 20:43:55 +0200 (la, 13 joulu 2008) $
 // File revision : $Revision: 4 $
 //
-// $Id$
+// $Id: PeakFinder.h 30 2008-12-13 18:43:55Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -39,6 +39,9 @@
 
 #ifndef _PeakFinder_H_
 #define _PeakFinder_H_
+
+namespace soundtouch
+{
 
 class PeakFinder
 {
@@ -84,5 +87,7 @@ public:
                      int maxPos         ///< Max allowed peak location within the vector data.
                      );
 };
+
+}
 
 #endif // _PeakFinder_H_

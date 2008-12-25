@@ -298,12 +298,25 @@
 						BrowseInformation="1"/>
 				</FileConfiguration>
 			</File>
+			<Filter
+				Name="bpm"
+				Filter="">
+				<File
+					RelativePath=".\BPMDetect.cpp">
+				</File>
+				<File
+					RelativePath=".\PeakFinder.cpp">
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl">
 			<File
 				RelativePath="AAFilter.h">
+			</File>
+			<File
+				RelativePath="..\..\include\BPMDetect.h">
 			</File>
 			<File
 				RelativePath="cpu_detect.h">

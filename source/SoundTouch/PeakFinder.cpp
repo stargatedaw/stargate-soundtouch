@@ -11,10 +11,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date$
+// Last changed  : $Date: 2008-12-13 20:43:55 +0200 (la, 13 joulu 2008) $
 // File revision : $Revision: 4 $
 //
-// $Id$
+// $Id: PeakFinder.cpp 30 2008-12-13 18:43:55Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -43,6 +43,8 @@
 #include <assert.h>
 
 #include "PeakFinder.h"
+
+using namespace soundtouch;
 
 #define max(x, y) (((x) > (y)) ? (x) : (y))
 
