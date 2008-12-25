@@ -77,7 +77,10 @@ static const char whatText[] =
 
 static const char usage[] = 
     "Usage :\n"
-    "    soundstretch infile.wav outfile.wav [switches]\n\n"
+    "    soundstretch infilename outfilename [switches]\n"
+    "\n"
+    "To use standard input/output pipes, give 'stdin' and 'stdout' as filenames.\n"
+    "\n"
     "Available switches are:\n"
     "  -tempo=n : Change sound tempo by n percents  (n=-95..+5000 %)\n"
     "  -pitch=n : Change sound pitch by n semitones (n=-60..+60 semitones)\n"

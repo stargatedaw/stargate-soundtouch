@@ -49,12 +49,25 @@ using namespace std;
 // Processing chunk size
 #define BUFF_SIZE           2048
 
+#if WIN32
+    #include <io.h>
+    #include <fcntl.h>
+
+    // Macro for Win32 standard input/output stream support: Sets a file stream into binary mode
+    #define SET_STREAM_TO_BIN_MODE(f) (_setmode(fileno(f), _O_BINARY))
+#else
+    // Not needed for GNU environment... ?
+    #define SET_STREAM_TO_BIN_MODE(f) ()
+#endif
+
 
 static const char _helloText[] = 
     "\n"
     "   SoundStretch v%s -  Written by Olli Parviainen 2001 - 2008\n"
     "==================================================================\n"
-    "author e-mail: <oparviai@iki.fi> - WWW: http://www.surina.net/soundtouch\n"
+    "author e-mail: <oparviai"
+    "@"
+    "iki.fi> - WWW: http://www.surina.net/soundtouch\n"
     "\n"
     "This program is subject to (L)GPL license. Run \"soundstretch -license\" for\n"
     "more information.\n"
@@ -64,8 +77,17 @@ static void openFiles(WavInFile **inFile, WavOutFile **outFile, const RunParamet
 {
     int bits, samplerate, channels;
 
-    // open input file...
-    *inFile = new WavInFile(params->inFileName);
+    if (strcmp(params->inFileName, "stdin") == 0)
+    {
+        // used 'stdin' as input file
+        SET_STREAM_TO_BIN_MODE(stdin);
+        *inFile = new WavInFile(stdin);
+    }
+    else
+    {
+        // open input file...
+        *inFile = new WavInFile(params->inFileName);
+    }
 
     // ... open output file with same sound parameters
     bits = (*inFile)->getNumBits();
@@ -74,7 +96,15 @@ static void openFiles(WavInFile **inFile, WavOutFile **outFile, const RunParamet
 
     if (params->outFileName)
     {
-        *outFile = new WavOutFile(params->outFileName, samplerate, bits, channels);
+        if (strcmp(params->outFileName, "stdout") == 0)
+        {
+            SET_STREAM_TO_BIN_MODE(stdout);
+            *outFile = new WavOutFile(stdout, samplerate, bits, channels);
+        }
+        else
+        {
+            *outFile = new WavOutFile(params->outFileName, samplerate, bits, channels);
+        }
     }
     else
     {
@@ -107,27 +137,27 @@ static void setup(SoundTouch *pSoundTouch, const WavInFile *inFile, const RunPar
     if (params->outFileName)
     {
 #ifdef INTEGER_SAMPLES
-        printf("Uses 16bit integer sample type in processing.\n\n");
+        fprintf(stderr, "Uses 16bit integer sample type in processing.\n\n");
 #else
     #ifndef FLOAT_SAMPLES
         #error "Sampletype not defined"
     #endif
-        printf("Uses 32bit floating point sample type in processing.\n\n");
+        fprintf(stderr, "Uses 32bit floating point sample type in processing.\n\n");
 #endif
         // print processing information only if outFileName given i.e. some processing will happen
-        printf("Processing the file with the following changes:\n");
-        printf("  tempo change = %+g %%\n", params->tempoDelta);
-        printf("  pitch change = %+g semitones\n", params->pitchDelta);
-        printf("  rate change  = %+g %%\n\n", params->rateDelta);
-        printf("Working...");
+        fprintf(stderr, "Processing the file with the following changes:\n");
+        fprintf(stderr, "  tempo change = %+g %%\n", params->tempoDelta);
+        fprintf(stderr, "  pitch change = %+g semitones\n", params->pitchDelta);
+        fprintf(stderr, "  rate change  = %+g %%\n\n", params->rateDelta);
+        fprintf(stderr, "Working...");
     }
     else
     {
         // outFileName not given
-        printf("Warning: output file name missing, won't output anything.\n\n");
+        fprintf(stderr, "Warning: output file name missing, won't output anything.\n\n");
     }
 
-    fflush(stdout);
+    fflush(stderr);
 }
 
 
@@ -194,8 +224,8 @@ static void detectBPM(WavInFile *inFile, RunParameters *params)
     SAMPLETYPE sampleBuffer[BUFF_SIZE];
 
     // detect bpm rate
-    printf("Detecting BPM rate...");
-    fflush(stdout);
+    fprintf(stderr, "Detecting BPM rate...");
+    fflush(stderr);
 
     nChannels = inFile->getNumChannels();
 
@@ -215,18 +245,18 @@ static void detectBPM(WavInFile *inFile, RunParameters *params)
 
     // Now the whole song data has been analyzed. Read the resulting bpm.
     bpmValue = bpm.getBpm();
-    printf("Done!\n");
+    fprintf(stderr, "Done!\n");
 
     // rewind the file after bpm detection
     inFile->rewind();
 
     if (bpmValue > 0)
     {
-        printf("Detected BPM rate %.1f\n\n", bpmValue);
+        fprintf(stderr, "Detected BPM rate %.1f\n\n", bpmValue);
     }
     else
     {
-        printf("Couldn't detect BPM rate.\n\n");
+        fprintf(stderr, "Couldn't detect BPM rate.\n\n");
         return;
     }
 
@@ -234,7 +264,7 @@ static void detectBPM(WavInFile *inFile, RunParameters *params)
     {
         // adjust tempo to given bpm
         params->tempoDelta = (params->goalBPM / bpmValue - 1.0f) * 100.0f;
-        printf("The file will be converted to %.1f BPM\n\n", params->goalBPM);
+        fprintf(stderr, "The file will be converted to %.1f BPM\n\n", params->goalBPM);
     }
 }
 
@@ -247,7 +277,7 @@ int main(const int nParams, const char *paramStr[])
     RunParameters *params;
     SoundTouch SoundTouch;
 
-    printf(_helloText, SoundTouch::getVersionString());
+    fprintf(stderr, _helloText, SoundTouch::getVersionString());
 
     try 
     {
@@ -275,12 +305,12 @@ int main(const int nParams, const char *paramStr[])
         delete outFile;
         delete params;
 
-        printf("Done!\n");
+        fprintf(stderr, "Done!\n");
     } 
     catch (runtime_error &e) 
     {
         // An exception occurred during processing, display an error message
-        printf("%s\n", e.what());
+        fprintf(stderr, "%s\n", e.what());
         return -1;
     }
 

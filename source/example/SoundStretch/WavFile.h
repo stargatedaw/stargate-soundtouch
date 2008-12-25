@@ -105,6 +105,9 @@ private:
     /// WAV header information
     WavHeader header;
 
+    /// Init the WAV file stream
+    void init();
+
     /// Read WAV file headers.
     /// \return zero if all ok, nonzero if file format is invalid.
     int readWavHeaders();
@@ -124,6 +127,8 @@ public:
     /// Constructor: Opens the given WAV file. If the file can't be opened,
     /// throws 'runtime_error' exception.
     WavInFile(const char *filename);
+
+    WavInFile(FILE *file);
 
     /// Destructor: Closes the file.
     ~WavInFile();
@@ -221,6 +226,8 @@ public:
                int bits,                ///< Bits per sample (8 or 16 bits)
                int channels             ///< Number of channels (1=mono, 2=stereo)
                );
+
+    WavOutFile(FILE *file, int sampleRate, int bits, int channels);
 
     /// Destructor: Finalizes & closes the WAV file.
     ~WavOutFile();

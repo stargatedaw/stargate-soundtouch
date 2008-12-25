@@ -140,8 +140,6 @@ const static char dataStr[] = "data";
 
 WavInFile::WavInFile(const char *fileName)
 {
-    int hdrsOk;
-
     // Try to open the file for reading
     fptr = fopen(fileName, "rb");
     if (fptr == NULL) 
@@ -153,22 +151,45 @@ WavInFile::WavInFile(const char *fileName)
         throw runtime_error(msg);
     }
 
+    init();
+}
+
+
+WavInFile::WavInFile(FILE *file)
+{
+    // Try to open the file for reading
+    fptr = file;
+    if (!file) 
+    {
+        // didn't succeed
+        string msg = "Error : Unable to access input stream for reading";
+        throw runtime_error(msg);
+    }
+
+    init();
+}
+
+
+/// Init the WAV file stream
+void WavInFile::init()
+{
+    int hdrsOk;
+
+    // assume file stream is already open
+    assert(fptr);
+
     // Read the file headers
     hdrsOk = readWavHeaders();
     if (hdrsOk != 0) 
     {
         // Something didn't match in the wav file headers 
-        string msg = "File \"";
-        msg += fileName;
-        msg += "\" is corrupt or not a WAV file";
+        string msg = "Input file is corrupt or not a WAV file";
         throw runtime_error(msg);
     }
 
     if (header.format.fixed != 1)
     {
-        string msg = "File \"";
-        msg += fileName;
-        msg += "\" uses unsupported encoding.";
+        string msg = "Input file uses unsupported encoding.";
         throw runtime_error(msg);
     }
 
@@ -529,6 +550,21 @@ WavOutFile::WavOutFile(const char *fileName, int sampleRate, int bits, int chann
         msg += fileName;
         msg += "\" for writing.";
         //pmsg = msg.c_str;
+        throw runtime_error(msg);
+    }
+
+    fillInHeader(sampleRate, bits, channels);
+    writeHeader();
+}
+
+
+WavOutFile::WavOutFile(FILE *file, int sampleRate, int bits, int channels)
+{
+    bytesWritten = 0;
+    fptr = file;
+    if (fptr == NULL) 
+    {
+        string msg = "Error : Unable to access output file stream.";
         throw runtime_error(msg);
     }
 

@@ -18,7 +18,7 @@
 </head>
 <body class="normal">
 <hr>
-<h1>SoundTouch audio processing library v1.3.2pre
+<h1>SoundTouch audio processing library v1.3.9 (1.4.0-pre)
 </h1>
 <p class="normal">SoundTouch library Copyright (c) Olli
 Parviainen 2002-2008 </p>
@@ -387,27 +387,29 @@ processing sound files.</p>
 <h3>4.1. SoundStretch Usage Instructions</h3>
 <p>SoundStretch Usage syntax:</p>
 <blockquote>
-  <pre>soundstretch infile.wav outfile.wav [switches]</pre>
+  <pre>soundstretch infilename outfilename [switches]</pre>
 </blockquote>
 <p>Where: </p>
 <table border="0" cellpadding="2" width="100%">
   <tbody>
     <tr>
       <td valign="top">
-      <pre>&quot;infile.wav&quot;</pre>
+      <pre>&quot;infilename&quot;</pre>
       </td>
-      <td valign="top">is the name of the input sound
-data file (in .WAV audio file format). </td>
+      <td valign="top">Name of the input sound
+data file (in .WAV audio file format). Give &quot;stdin&quot; as filename to use
+        standard input pipe. </td>
     </tr>
     <tr>
       <td valign="top">
-      <pre>&quot;outfile.wav&quot;</pre>
+      <pre>&quot;outfilename&quot;</pre>
       </td>
-      <td valign="top">is the name of the output sound
+      <td valign="top">Name of the output sound
 file where the resulting sound is saved (in .WAV audio file format).
 This parameter may be omitted if you&nbsp; don't want to save the
 output
-(e.g. when only calculating BPM rate with '-bpm' switch).</td>
+(e.g. when only calculating BPM rate with '-bpm' switch). Give &quot;stdout&quot;
+        as filename to use standard output pipe.</td>
     </tr>
     <tr>
       <td valign="top">
@@ -447,10 +449,10 @@ n percents (n = -95.0 .. +5000.0 %) </td>
       <pre>-bpm=n</pre>
       </td>
       <td valign="top">Detect the Beats-Per-Minute
-(BPM) rate of the sound and adjust the tempo to meet 'n' BPMs. If this
-switch is defined, the "-tempo=n" switch value is ignored. If "=n" is
-omitted, i.e. switch &quot;-bpm&quot; is used alone, the program just calculates
-and displays the BPM rate but doesn't adjust tempo according to the BPM
+(BPM) rate of the sound and adjust the tempo to meet 'n' BPMs. When this switch is
+        applied, the &quot;-tempo&quot; switch is ignored. If "=n" is
+omitted, i.e. switch &quot;-bpm&quot; is used alone, then the BPM rate is
+        estimated and displayed, but tempo not adjusted according to the BPM
 value. </td>
     </tr>
     <tr>
@@ -479,59 +481,61 @@ text (LGPL)</td>
 </table>
 <p>Notes:</p>
 <ul>
-  <li>The numerical switch values can be entered
-using either integer (e.g. "-tempo=123") or decimal (e.g.
+  <li>To use standard input/output pipes for processing, give &quot;stdin&quot;
+    and &quot;stdout&quot; as input/output filenames correspondingly. The
+    standard input/output pipes will still carry the audio data in .wav audio
+    file format.</li>
+  <li>The numerical switches allow both integer (e.g. "-tempo=123") and decimal (e.g.
 "-tempo=123.45") numbers.</li>
   <li>The &quot;-naa&quot; and/or "-quick" switches can be
 used to reduce CPU usage while compromising some sound quality </li>
   <li>The BPM detection algorithm works by detecting
-repeating low-frequency (&lt;250H) sound patterns and thus works
-mostly with most rock/pop music with bass or drum beat. The BPM
-detection doesn't work on pieces such as classical music without
-distinct, repeating bass frequency patterns. Also pieces with varying
-tempo, varying bass patterns or very complex bass patterns (ja, hiphop) may produce odd BPM readings. <br>
-    <br>
-In cases when the bass pattern drifts a bit around a nominal beat rate
-(e.g. drummer is again drunken :), the BPM algorithm may report
-incorrect harmonic one-halft to one-thirdth of the correct BPM value;
-in such case the system could for example report BPM value of 50 or 100
-instead of correct BPM value of 150. </li>
+repeating bass or drum patterns at low frequencies of &lt;250Hz. A
+    lower-than-expected BPM figure may be reported for music with uneven or
+    complex bass patterns. </li>
 </ul>
 <h3>4.2. SoundStretch usage examples </h3>
 <p><strong>Example 1</strong></p>
 <p>The following command increases tempo of
-the sound file &quot;originalfile.wav&quot; by 12.5% and saves
-result to file &quot;destinationfile.wav&quot;:</p>
+the sound file &quot;originalfile.wav&quot; by 12.5% and stores result to file &quot;destinationfile.wav&quot;:</p>
 <blockquote>
   <pre>soundstretch originalfile.wav destinationfile.wav -tempo=12.5</pre>
 </blockquote>
 <p><strong>Example 2</strong></p>
 <p>The following command decreases the sound
 pitch (key) of the sound file &quot;orig.wav&quot; by two
-semitones and saves the result to file &quot;dest.wav&quot;:</p>
+semitones and stores the result to file &quot;dest.wav&quot;:</p>
 <blockquote>
   <pre>soundstretch orig.wav dest.wav -pitch=-2</pre>
 </blockquote>
 <p><strong>Example 3</strong></p>
 <p>The following command processes the file &quot;orig.wav&quot; by decreasing the sound tempo by 25.3% and
-increasing the sound pitch (key) by 1.5 semitones. Result is
-saved to file &quot;dest.wav&quot;:</p>
+increasing the sound pitch (key) by 1.5 semitones. Resulting .wav audio data is
+directed to standard output pipe:</p>
 <blockquote>
-  <pre>soundstretch orig.wav dest.wav -tempo=-25.3 -pitch=1.5</pre>
+  <pre>soundstretch orig.wav stdout -tempo=-25.3 -pitch=1.5</pre>
 </blockquote>
 <p><strong>Example 4</strong></p>
 <p>The following command detects the BPM rate
 of the file &quot;orig.wav&quot; and adjusts the tempo to match
-100 beats per minute. Result is saved to file &quot;dest.wav&quot;:</p>
+100 beats per minute. Result is stored to file &quot;dest.wav&quot;:</p>
 <blockquote>
   <pre>soundstretch orig.wav dest.wav -bpm=100</pre>
+</blockquote>
+<p><strong>Example 5</strong></p>
+<p>The following command reads .wav sound data from standard input pipe and
+estimates the BPM rate:</p>
+<blockquote>
+  <pre>soundstretch stdin -bpm</pre>
 </blockquote>
 <hr>
 <h2>5. Change History</h2>
 <h3>5.1. SoundTouch library Change History </h3>
 
-<p><strong>v1.3.2:</strong></p>
+<p><strong>v1.3.9 (1.4.0 pre):</strong></p>
 <ul>
+<li>Moved BPM detection routines from SoundStretch application into SoundTouch
+  library</li>
 <li>Bugfixes: Using uninitialied variables, GNU build scripts, compiler errors
   due to 'const' keyword mismatch.</li>
 <li>Some source code cleanup</li>
@@ -617,6 +621,15 @@ files. </li>
 <p>&nbsp;</p>
 <h3>5.2. SoundStretch application Change
 History </h3>
+
+<p><strong>v1.3.9 (1.4.0 pre):</strong></p>
+<ul>
+<li>Moved BPM detection routines from SoundStretch application into SoundTouch
+  library</li>
+<li>Allow using standard input/output pipes for processing&nbsp;</li>
+
+</ul>
+
 <p><strong>v1.3.0:</strong></p>
 <ul>
   <li>Simplified accessing WAV files with floating
