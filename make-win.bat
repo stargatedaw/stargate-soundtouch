@@ -17,7 +17,7 @@
 md bin
 md lib
 msdev source\SoundTouch\SoundTouch.dsw /MAKE ALL
-msdev source\example\SoundStretch\SoundStretch.dsw /MAKE "SoundStretch - Win32 Release"
+msdev source\SoundStretch\SoundStretch.dsw /MAKE "SoundStretch - Win32 Release"
 
 goto end
 
@@ -32,8 +32,8 @@ md bin
 md lib
 devenv source\SoundTouch\SoundTouch.vcproj /build debug
 devenv source\SoundTouch\SoundTouch.vcproj /build release
-devenv source\example\SoundStretch\SoundStretch.vcproj /build debug
-devenv source\example\SoundStretch\SoundStretch.vcproj /build release
+devenv source\SoundStretch\SoundStretch.vcproj /build debug
+devenv source\SoundStretch\SoundStretch.vcproj /build release
 
 @goto end
 
