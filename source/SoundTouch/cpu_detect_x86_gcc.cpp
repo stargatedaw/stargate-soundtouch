@@ -43,6 +43,7 @@
 #include <stdexcept>
 #include <string>
 #include "cpu_detect.h"
+#include "STTypes.h"
 
 #ifndef __GNUC__
 #error wrong platform - this source code file is for the GNU C compiler.
@@ -72,8 +73,10 @@ void disableExtensions(uint dwDisableMask)
 /// Checks which instruction set extensions are supported by the CPU.
 uint detectCPUextensions(void)
 {
-#ifndef __i386__
+#ifndef ALLOW_X86_OPTIMIZATIONS
+
     return 0; // always disable extensions on non-x86 platforms.
+
 #else
     uint res = 0;
 
