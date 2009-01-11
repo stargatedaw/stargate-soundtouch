@@ -145,7 +145,7 @@ RateTransposer::~RateTransposer()
 
 
 /// Enables/disables the anti-alias filter. Zero to disable, nonzero to enable
-void RateTransposer::enableAAFilter(const BOOL newMode)
+void RateTransposer::enableAAFilter(BOOL newMode)
 {
     bUseAAFilter = newMode;
 }

@@ -220,7 +220,7 @@ void FIRFilter3DNow::setCoefficients(const float *coeffs, uint newLength, uint u
 
 
 // 3DNow!-optimized version of the filter routine for stereo sound
-uint FIRFilter3DNow::evaluateFilterStereo(float *dest, const float *src, const uint numSamples) const
+uint FIRFilter3DNow::evaluateFilterStereo(float *dest, const float *src, uint numSamples) const
 {
     float *filterCoeffsLocal = filterCoeffsAlign;
     uint count = (numSamples - length) & (uint)-2;

@@ -86,7 +86,7 @@ void AAFilter::setCutoffFreq(double newCutoffFreq)
 
 
 // Sets number of FIR filter taps
-void AAFilter::setLength(const uint newLength)
+void AAFilter::setLength(uint newLength)
 {
     length = newLength;
     calculateCoeffs();

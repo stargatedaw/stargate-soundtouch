@@ -247,7 +247,7 @@ void FIRFilterMMX::setCoefficients(const short *coeffs, uint newLength, uint uRe
 
 
 // mmx-optimized version of the filter routine for stereo sound
-uint FIRFilterMMX::evaluateFilterStereo(short *dest, const short *src, const uint numSamples) const
+uint FIRFilterMMX::evaluateFilterStereo(short *dest, const short *src, uint numSamples) const
 {
     // Create stack copies of the needed member variables for asm routines :
     uint i, j;
