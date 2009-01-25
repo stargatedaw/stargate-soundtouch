@@ -12,7 +12,7 @@
 /// NOTICE: If using Visual Studio 6.0, you'll need to install the "Visual C++ 
 /// 6.0 processor pack" update to support SSE instruction set. The update is 
 /// available for download at Microsoft Developers Network, see here:
-/// http://msdn.microsoft.com/vstudio/downloads/tools/ppack/default.aspx
+/// http://msdn.microsoft.com/en-us/vstudio/aa718349.aspx
 ///
 /// If the above URL is expired or removed, go to "http://msdn.microsoft.com" and 
 /// perform a search with keywords "processor pack".
