@@ -630,6 +630,7 @@ void WavOutFile::finishHeader()
 void WavOutFile::writeHeader()
 {
     WavHeader hdrTemp;
+    int res;
 
     // swap byte order if necessary
     hdrTemp = header;
@@ -645,7 +646,12 @@ void WavOutFile::writeHeader()
 
     // write the supplemented header in the beginning of the file
     fseek(fptr, 0, SEEK_SET);
-    fwrite(&hdrTemp, sizeof(hdrTemp), 1, fptr);
+    res = fwrite(&hdrTemp, sizeof(hdrTemp), 1, fptr);
+    if (res != 1)
+    {
+        throw runtime_error("Error while writing to a wav file.");
+    }
+
     // jump back to the end of the file
     fseek(fptr, 0, SEEK_END);
 }
