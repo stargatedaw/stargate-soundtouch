@@ -356,23 +356,24 @@ AMD K6-2 and Athlon (classic) CPU's; better performing SSE routines are
 used with AMD processor starting from Athlon XP. </li>
 </ul>
 <h3>3.6 GNU compilation issues </h3>
-<p><b>Required GNU tools</b>&nbsp;</p>
-<p> Bash shell, GNU C++ compiler, autoconf and automake tools are required to compile
-the SoundTouch library. These are usually included in the Linux distribution, but if
-not, install these packages. For example, in Ubuntu these can be acquired and
-installed in the &quot;build-essentials&quot; package by the following command:</p>
-<pre><b>sudo apt-get install build-essential</b></pre>
-<p><b>Problems with configure script or build process</b>&nbsp;</p>
-<p>Due differences between various GNU toolchain versions, you may get errors when running the &quot;configure&quot; script or building the source
+<h4><b>3.6.1 Required GNU tools</b>&nbsp;</h4>
+<p> Bash shell, GNU C++ compiler, libtool, autoconf and automake tools are required
+for compiling
+the SoundTouch library. These are usually included with the GNU/Linux distribution, but if
+not, install these packages first. For example, in Ubuntu Linux these can be acquired and
+installed with the following command:</p>
+<pre><b>sudo apt-get install <font SIZE="2">automake autoconf libtool build-essential</font></b></pre>
+<h4><b>3.6.2 Problems with configure script or build process</b>&nbsp;</h4>
+<p>Incompatibilities between various GNU toolchain versions may cause errors when running the &quot;configure&quot; script or building the source
 codes, if your GNU tool versions are not compatible with the versions used for
 preparing the SoundTouch kit.&nbsp;</p>
-<p>In such case, regenerate the configure script with your local tools by running
+<p>To resolve the issue, regenerate the configure scripts with your local tool
+set by running
 the &quot;<b>./bootstrap</b>&quot; script included in the SoundTouch source code
 kit. After that, run the <b>configure</b> script and <b>make</b> as usually.</p>
-<p><b>Compiler issues with non-x86 processors</b></p>
-<p>SoundTouch works also on non-x86 processors.</p>
-<p>However, in case that you get compiler errors when compiling for non-Intel processor,
-then edit the file
+<h4><b>3.6.3 Compiler issues with non-x86 processors</b></h4>
+<p>SoundTouch library works also on non-x86 processors.</p>
+<p>However, in case that you get compiler errors when trying to compile for non-Intel processor, edit the file
 &quot;<b>source\SoundTouch\Makefile.am</b>&quot; and remove the &quot;<b>-msse2</b>&quot;
 flag on the <b>AM_CXXFLAGS </b>line:</p>
 <pre><b>AM_CXXFLAGS=-O3 -fcheck-new -I../../include&nbsp;&nbsp;&nbsp; # Note: -msse2 flag removed!</b></pre>
@@ -681,11 +682,14 @@ and command-line switch &quot;-bpm&quot; </li>
 <p >Kudos for these people who have submitted bugfixed since
 SoundTouch v1.3.1: </p>
 <ul>
-  <li>Arthur A.: Bugfix</li>
-  <li>Stanislav Brabec / Takashi Iwai</li>
+  <li>Arthur A</li>
+  <li>Richard Ash</li>
+  <li>Stanislav Brabec</li>
+  <li>Brian Cameron</li>
   <li>Jason Garland</li>
+  <li>Takashi Iwai</li>
 </ul>
-<p >Moral greetings to all earlier contributors as well!</p>
+<p >Moral greetings to all other contributors as well!</p>
 <hr>
 <h2 >7. LICENSE </h2>
 <p>SoundTouch audio processing library<br>
