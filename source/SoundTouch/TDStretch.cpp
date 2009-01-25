@@ -14,7 +14,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Last changed  : $Date$
-// File revision : $Revision: 4 $
+// File revision : $Revision: 1.12 $
 //
 // $Id$
 //
@@ -87,13 +87,16 @@ static const int _scanOffsets[4][24]={
 
 TDStretch::TDStretch() : FIFOProcessor(&outputBuffer)
 {
-    bQuickseek = FALSE;
+    bQuickSeek = FALSE;
     channels = 2;
     bMidBufferDirty = FALSE;
 
     pMidBuffer = NULL;
     pRefMidBufferUnaligned = NULL;
     overlapLength = 0;
+
+    bAutoSeqSetting = TRUE;
+    bAutoSeekSetting = TRUE;
 
     tempo = 1.0f;
     setParameters(44100, DEFAULT_SEQUENCE_MS, DEFAULT_SEEKWINDOW_MS, DEFAULT_OVERLAP_MS);
@@ -102,13 +105,11 @@ TDStretch::TDStretch() : FIFOProcessor(&outputBuffer)
 
 
 
-
 TDStretch::~TDStretch()
 {
     delete[] pMidBuffer;
     delete[] pRefMidBufferUnaligned;
 }
-
 
 
 
@@ -124,16 +125,29 @@ TDStretch::~TDStretch()
 void TDStretch::setParameters(int aSampleRate, int aSequenceMS, 
                               int aSeekWindowMS, int aOverlapMS)
 {
-    // accept only positive parameter values - if negative, use old values instead
-    if (aSampleRate >= 0)   this->sampleRate = aSampleRate;
-    if (aSequenceMS >= 0)   this->sequenceMs = aSequenceMS;
-    if (aSeekWindowMS >= 0) this->seekWindowMs = aSeekWindowMS;
-    if (aOverlapMS >= 0)    this->overlapMs = aOverlapMS;
+    // accept only positive parameter values - if zero or negative, use old values instead
+    if (aSampleRate > 0)   this->sampleRate = aSampleRate;
+    if (aOverlapMS > 0)    this->overlapMs = aOverlapMS;
 
-    seekLength = (sampleRate * seekWindowMs) / 1000;
-    seekWindowLength = (sampleRate * sequenceMs) / 1000;
+    if (aSequenceMS > 0)
+    {
+        this->sequenceMs = aSequenceMS;
+        bAutoSeqSetting = FALSE;
+    } else {
+        // zero or below, use automatic setting
+        bAutoSeqSetting = TRUE;
+    }
 
-    maxOffset = seekLength;
+    if (aSeekWindowMS > 0) 
+    {
+        this->seekWindowMs = aSeekWindowMS;
+        bAutoSeekSetting = FALSE;
+    } else {
+        // zero or below, use automatic setting
+        bAutoSeekSetting = TRUE;
+    }
+
+    calcSeqParameters();
 
     calculateOverlapLength(overlapMs);
 
@@ -156,12 +170,12 @@ void TDStretch::getParameters(int *pSampleRate, int *pSequenceMs, int *pSeekWind
 
     if (pSequenceMs)
     {
-        *pSequenceMs = sequenceMs;
+        *pSequenceMs = (bAutoSeqSetting) ? (USE_AUTO_SEQUENCE_LEN) : sequenceMs;
     }
 
     if (pSeekWindowMs)
     {
-        *pSeekWindowMs = seekWindowMs;
+        *pSeekWindowMs = (bAutoSeekSetting) ? (USE_AUTO_SEEKWINDOW_LEN) : seekWindowMs;
     }
 
     if (pOverlapMs)
@@ -216,14 +230,14 @@ void TDStretch::clear()
 // to enable
 void TDStretch::enableQuickSeek(BOOL enable)
 {
-    bQuickseek = enable;
+    bQuickSeek = enable;
 }
 
 
 // Returns nonzero if the quick seeking algorithm is enabled.
 BOOL TDStretch::isQuickSeekEnabled() const
 {
-    return bQuickseek;
+    return bQuickSeek;
 }
 
 
@@ -233,7 +247,7 @@ int TDStretch::seekBestOverlapPosition(const SAMPLETYPE *refPos)
     if (channels == 2) 
     {
         // stereo sound
-        if (bQuickseek) 
+        if (bQuickSeek) 
         {
             return seekBestOverlapPositionStereoQuick(refPos);
         } 
@@ -245,7 +259,7 @@ int TDStretch::seekBestOverlapPosition(const SAMPLETYPE *refPos)
     else 
     {
         // mono sound
-        if (bQuickseek) 
+        if (bQuickSeek) 
         {
             return seekBestOverlapPositionMonoQuick(refPos);
         } 
@@ -479,6 +493,51 @@ void TDStretch::clearCrossCorrState()
 }
 
 
+/// Calculates processing sequence length according to tempo setting
+void TDStretch::calcSeqParameters()
+{
+    // Adjust tempo param according to tempo, so that variating processing sequence length is used
+    // at varius tempo settings, between the given low...top limits
+    #define AUTOSEQ_TEMPO_LOW   0.5     // auto setting low tempo range (-50%)
+    #define AUTOSEQ_TEMPO_TOP   2.0     // auto setting top tempo range (+100%)
+
+    // sequence-ms setting values at above low & top tempo
+    #define AUTOSEQ_AT_MIN      125.0
+    #define AUTOSEQ_AT_MAX      50.0
+    #define AUTOSEQ_K           ((AUTOSEQ_AT_MAX - AUTOSEQ_AT_MIN) / (AUTOSEQ_TEMPO_TOP - AUTOSEQ_TEMPO_LOW))
+    #define AUTOSEQ_C           (AUTOSEQ_AT_MIN - (AUTOSEQ_K) * (AUTOSEQ_TEMPO_LOW))
+
+    // seek-window-ms setting values at above low & top tempo
+    #define AUTOSEEK_AT_MIN     25.0
+    #define AUTOSEEK_AT_MAX     15.0
+    #define AUTOSEEK_K          ((AUTOSEEK_AT_MAX - AUTOSEEK_AT_MIN) / (AUTOSEQ_TEMPO_TOP - AUTOSEQ_TEMPO_LOW))
+    #define AUTOSEEK_C          (AUTOSEEK_AT_MIN - (AUTOSEEK_K) * (AUTOSEQ_TEMPO_LOW))
+
+    #define CHECK_LIMITS(x, mi, ma) ((x) < (mi)) ? (mi) : (((x) > (ma)) ? (ma) : (x))
+
+    double seq, seek;
+    
+    if (bAutoSeqSetting)
+    {
+        seq = AUTOSEQ_C + AUTOSEQ_K * tempo;
+        seq = CHECK_LIMITS(seq, AUTOSEQ_AT_MAX, AUTOSEQ_AT_MIN);
+        sequenceMs = (int)(seq + 0.5);
+    }
+
+    if (bAutoSeekSetting)
+    {
+        seek = AUTOSEEK_C + AUTOSEEK_K * tempo;
+        seek = CHECK_LIMITS(seek, AUTOSEEK_AT_MAX, AUTOSEEK_AT_MIN);
+        seekWindowMs = (int)(seek + 0.5);
+    }
+
+    // Update seek window lengths
+    seekWindowLength = (sampleRate * sequenceMs) / 1000;
+    seekLength = (sampleRate * seekWindowMs) / 1000;
+}
+
+
+
 // Sets new target tempo. Normal tempo = 'SCALE', smaller values represent slower 
 // tempo, larger faster tempo.
 void TDStretch::setTempo(float newTempo)
@@ -487,6 +546,9 @@ void TDStretch::setTempo(float newTempo)
 
     tempo = newTempo;
 
+    // Calculate new sequence duration
+    calcSeqParameters();
+
     // Calculate ideal skip length (according to tempo value) 
     nominalSkip = tempo * (seekWindowLength - overlapLength);
     skipFract = 0;
@@ -494,7 +556,7 @@ void TDStretch::setTempo(float newTempo)
 
     // Calculate how many samples are needed in the 'inputBuffer' to 
     // process another batch of samples
-    sampleReq = max(intskip + overlapLength, seekWindowLength) + maxOffset;
+    sampleReq = max(intskip + overlapLength, seekWindowLength) + seekLength;
 }
 
 

@@ -61,7 +61,12 @@ namespace soundtouch
 /// and vice versa.
 ///
 /// Increasing this value reduces computational burden & vice versa.
-#define DEFAULT_SEQUENCE_MS     130
+//#define DEFAULT_SEQUENCE_MS         130
+#define DEFAULT_SEQUENCE_MS         USE_AUTO_SEQUENCE_LEN
+
+/// Giving this value for the sequence length sets automatic parameter value
+/// according to tempo setting (recommended)
+#define USE_AUTO_SEQUENCE_LEN       0
 
 /// Seeking window default length in milliseconds for algorithm that finds the best possible 
 /// overlapping location. This determines from how wide window the algorithm may look for an 
@@ -75,7 +80,12 @@ namespace soundtouch
 /// around, try reducing this setting.
 ///
 /// Increasing this value increases computational burden & vice versa.
-#define DEFAULT_SEEKWINDOW_MS   25
+//#define DEFAULT_SEEKWINDOW_MS       25
+#define DEFAULT_SEEKWINDOW_MS       USE_AUTO_SEEKWINDOW_LEN
+
+/// Giving this value for the seek window length sets automatic parameter value
+/// according to tempo setting (recommended)
+#define USE_AUTO_SEEKWINDOW_LEN     0
 
 /// Overlap length in milliseconds. When the chopped sound sequences are mixed back together, 
 /// to form a continuous sound stream, this parameter defines over how long period the two 
@@ -110,13 +120,15 @@ protected:
     float skipFract;
     FIFOSampleBuffer outputBuffer;
     FIFOSampleBuffer inputBuffer;
-    BOOL bQuickseek;
+    BOOL bQuickSeek;
     BOOL bMidBufferDirty;
 
     int sampleRate;
     int sequenceMs;
     int seekWindowMs;
     int overlapMs;
+    BOOL bAutoSeqSetting;
+    BOOL bAutoSeekSetting;
 
     void acceptNewOverlapLength(int newOverlapLength);
 
@@ -140,6 +152,8 @@ protected:
 
     void precalcCorrReferenceMono();
     void precalcCorrReferenceStereo();
+
+    void calcSeqParameters();
 
     /// Changes the tempo of the given sound samples.
     /// Returns amount of samples returned in the "output" buffer.
