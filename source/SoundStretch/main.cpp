@@ -276,7 +276,7 @@ int main(const int nParams, const char *paramStr[])
     WavInFile *inFile;
     WavOutFile *outFile;
     RunParameters *params;
-    SoundTouch SoundTouch;
+    SoundTouch soundTouch;
 
     fprintf(stderr, _helloText, SoundTouch::getVersionString());
 
@@ -296,10 +296,10 @@ int main(const int nParams, const char *paramStr[])
         }
 
         // Setup the 'SoundTouch' object for processing the sound
-        setup(&SoundTouch, inFile, params);
+        setup(&soundTouch, inFile, params);
 
         // Process the sound
-        process(&SoundTouch, inFile, outFile);
+        process(&soundTouch, inFile, outFile);
 
         // Close WAV file handles & dispose of the objects
         delete inFile;
