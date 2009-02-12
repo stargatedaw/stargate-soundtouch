@@ -229,6 +229,7 @@ static void detectBPM(WavInFile *inFile, RunParameters *params)
     fflush(stderr);
 
     nChannels = inFile->getNumChannels();
+    assert(BUFF_SIZE % nChannels == 0);
 
     // Process the 'inFile' in small blocks, repeat until whole file has 
     // been processed

@@ -18,7 +18,7 @@
 </head>
 <body class="normal">
 <hr>
-<h1>SoundTouch audio processing library v1.4.0
+<h1>SoundTouch audio processing library v1.4.1
 </h1>
 <p class="normal">SoundTouch library Copyright (c) Olli
 Parviainen 2002-2009 </p>
@@ -537,6 +537,13 @@ estimates the BPM rate:</p>
 <hr>
 <h2>5. Change History</h2>
 <h3>5.1. SoundTouch library Change History </h3>
+
+<p><strong>1.4.1:</strong></p>
+<ul>
+<li>Fixed a buffer overflow bug in BPM detect algorithm routines if processing
+  more than 2048 samples at one call&nbsp;</li>
+
+</ul>
 
 <p><strong>1.4.0:</strong></p>
 <ul>

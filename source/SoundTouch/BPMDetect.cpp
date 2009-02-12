@@ -115,7 +115,8 @@ BPMDetect::~BPMDetect()
 }
 
 
-/// low-pass filter & decimate to about 500 Hz. return number of outputted samples.
+/// convert to mono, low-pass filter & decimate to about 500 Hz. 
+/// return number of outputted samples.
 ///
 /// Decimation is used to remove the unnecessary frequencies and thus to reduce 
 /// the amount of data needed to be processed as calculating autocorrelation 
@@ -134,13 +135,20 @@ int BPMDetect::decimate(SAMPLETYPE *dest, const SAMPLETYPE *src, int numsamples)
     outcount = 0;
     for (count = 0; count < numsamples; count ++) 
     {
-        decimateSum += src[count];
+        int j;
+
+        // convert to mono and accumulate
+        for (j = 0; j < channels; j ++)
+        {
+            decimateSum += src[j];
+        }
+        src += j;
 
         decimateCount ++;
         if (decimateCount >= decimateBy) 
         {
             // Store every Nth sample only
-            out = (LONG_SAMPLETYPE)(decimateSum / decimateBy);
+            out = (LONG_SAMPLETYPE)(decimateSum / (decimateBy * channels));
             decimateSum = 0;
             decimateCount = 0;
 #ifdef INTEGER_SAMPLES
@@ -231,27 +239,27 @@ void BPMDetect::calcEnvelope(SAMPLETYPE *samples, int numsamples)
 
 
 
-void BPMDetect::inputSamples(SAMPLETYPE *samples, int numSamples)
+void BPMDetect::inputSamples(const SAMPLETYPE *samples, int numSamples)
 {
     SAMPLETYPE decimated[DECIMATED_BLOCK_SAMPLES];
 
-    // convert from stereo to mono if necessary
-    if (channels == 2)
+    // iterate so that max INPUT_BLOCK_SAMPLES processed per iteration
+    while (numSamples > 0)
     {
-        int i;
+        int block;
+        int decSamples;
 
-        for (i = 0; i < numSamples; i ++)
-        {
-            samples[i] = (samples[i * 2] + samples[i * 2 + 1]) / 2;
-        }
+        block = (numSamples > INPUT_BLOCK_SAMPLES) ? INPUT_BLOCK_SAMPLES : numSamples;
+
+        // decimate. note that converts to mono at the same time
+        decSamples = decimate(decimated, samples, block);
+        samples += block * channels;
+        numSamples -= block;
+
+        // envelope new samples and add them to buffer
+        calcEnvelope(decimated, decSamples);
+        buffer->putSamples(decimated, decSamples);
     }
-    
-    // decimate
-    numSamples = decimate(decimated, samples, numSamples);
-
-    // envelope new samples and add them to buffer
-    calcEnvelope(decimated, numSamples);
-    buffer->putSamples(decimated, numSamples);
 
     // when the buffer has enought samples for processing...
     if ((int)buffer->numSamples() > windowLen) 
