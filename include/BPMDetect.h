@@ -146,8 +146,8 @@ public:
     /// function. 
     /// 
     /// Notice that data in 'samples' array can be disrupted in processing.
-    void inputSamples(soundtouch::SAMPLETYPE *samples,  ///< Pointer to input/working data buffer
-                      int numSamples                    ///< Number of samples in buffer
+    void inputSamples(const soundtouch::SAMPLETYPE *samples,    ///< Pointer to input/working data buffer
+                      int numSamples                            ///< Number of samples in buffer
                       );
 
 
