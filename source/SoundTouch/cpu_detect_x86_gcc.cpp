@@ -87,22 +87,21 @@ uint detectCPUextensions(void)
         // check if 'cpuid' instructions is available by toggling eflags bit 21
 
         "\n\tpushf"                      // save eflags to stack
-        "\n\tpop     %%eax"              // load eax from stack (with eflags)
+        "\n\tmovl    (%%esp), %%eax"     // load eax from stack (with eflags)
         "\n\tmovl    %%eax, %%ecx"       // save the original eflags values to ecx
         "\n\txor     $0x00200000, %%eax" // toggle bit 21
-        "\n\tpush    %%eax"              // store toggled eflags to stack
+        "\n\tmovl    %%eax, (%%esp)"     // store toggled eflags to stack
         "\n\tpopf"                       // load eflags from stack
         "\n\tpushf"                      // save updated eflags to stack
-        "\n\tpop     %%eax"              // load from stack
+        "\n\tmovl    (%%esp), %%eax"     // load eax from stack
+        "\n\tpopf"                       // pop stack to restore esp
         "\n\txor     %%edx, %%edx"       // clear edx for defaulting no mmx
         "\n\tcmp     %%ecx, %%eax"       // compare to original eflags values
         "\n\tjz      end"                // jumps to 'end' if cpuid not present
-
         // cpuid instruction available, test for presence of mmx instructions
 
         "\n\tmovl    $1, %%eax"
         "\n\tcpuid"
-//        movl       $0x00800000, %edx   // force enable MMX
         "\n\ttest    $0x00800000, %%edx"
         "\n\tjz      end"                // branch if MMX not available
 

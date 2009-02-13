@@ -78,13 +78,16 @@ uint detectCPUextensions(void)
         xor     esi, esi            ; clear esi = result register
 
         pushfd                      ; save eflags to stack
-        pop     eax                 ; load eax from stack (with eflags)
+        mov     eax,dword ptr [esp] ; load eax from stack (with eflags)
         mov     ecx, eax            ; save the original eflags values to ecx
         xor     eax, 0x00200000     ; toggle bit 21
-        push    eax                 ; store toggled eflags to stack
+        mov     dword ptr [esp],eax ; store toggled eflags to stack
         popfd                       ; load eflags from stack
+
         pushfd                      ; save updated eflags to stack
-        pop     eax                 ; load from stack
+        mov     eax,dword ptr [esp] ; load eax from stack
+        popfd                       ; pop stack to restore stack pointer
+
         xor     edx, edx            ; clear edx for defaulting no mmx
         cmp     eax, ecx            ; compare to original eflags values
         jz      end                 ; jumps to 'end' if cpuid not present
