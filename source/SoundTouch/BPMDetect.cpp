@@ -66,8 +66,6 @@ using namespace soundtouch;
 #define INPUT_BLOCK_SAMPLES       2048
 #define DECIMATED_BLOCK_SAMPLES   256
 
-typedef unsigned short ushort;
-
 /// decay constant for calculating RMS volume sliding average approximation 
 /// (time constant is about 10 sec)
 const float avgdecay = 0.99986f;
@@ -77,18 +75,13 @@ const float avgnorm = (1 - avgdecay);
 
 
 
-BPMDetect::BPMDetect(int numChannels, int sampleRate)
+BPMDetect::BPMDetect(int numChannels, int aSampleRate)
 {
-    xcorr = NULL;
-
-    buffer = new FIFOSampleBuffer();
+    this->sampleRate = aSampleRate;
+    this->channels = numChannels;
 
     decimateSum = 0;
     decimateCount = 0;
-    decimateBy = 0;
-
-    this->sampleRate = sampleRate;
-    this->channels = numChannels;
 
     envelopeAccu = 0;
 
@@ -103,7 +96,26 @@ BPMDetect::BPMDetect(int numChannels, int sampleRate)
     RMSVolumeAccu = (0.092f * 0.092f) / avgnorm;
 #endif
 
-    init(numChannels, sampleRate);
+    // choose decimation factor so that result is approx. 500 Hz
+    decimateBy = sampleRate / 500;
+    assert(decimateBy > 0);
+    assert(INPUT_BLOCK_SAMPLES < decimateBy * DECIMATED_BLOCK_SAMPLES);
+
+    // Calculate window length & starting item according to desired min & max bpms
+    windowLen = (60 * sampleRate) / (decimateBy * MIN_BPM);
+    windowStart = (60 * sampleRate) / (decimateBy * MAX_BPM);
+
+    assert(windowLen > windowStart);
+
+    // allocate new working objects
+    xcorr = new float[windowLen];
+    memset(xcorr, 0, windowLen * sizeof(float));
+
+    // allocate processing buffer
+    buffer = new FIFOSampleBuffer();
+    // we do processing in mono mode
+    buffer->setChannels(1);
+    buffer->clear();
 }
 
 
@@ -113,6 +125,7 @@ BPMDetect::~BPMDetect()
     delete[] xcorr;
     delete buffer;
 }
+
 
 
 /// convert to mono, low-pass filter & decimate to about 500 Hz. 
@@ -131,7 +144,8 @@ int BPMDetect::decimate(SAMPLETYPE *dest, const SAMPLETYPE *src, int numsamples)
     int count, outcount;
     LONG_SAMPLETYPE out;
 
-    assert(decimateBy != 0);
+    assert(channels > 0);
+    assert(decimateBy > 0);
     outcount = 0;
     for (count = 0; count < numsamples; count ++) 
     {
@@ -267,38 +281,13 @@ void BPMDetect::inputSamples(const SAMPLETYPE *samples, int numSamples)
         int processLength;
 
         // how many samples are processed
-        processLength = buffer->numSamples() - windowLen;
+        processLength = (int)buffer->numSamples() - windowLen;
 
         // ... calculate autocorrelations for oldest samples...
         updateXCorr(processLength);
         // ... and remove them from the buffer
         buffer->receiveSamples(processLength);
     }
-}
-
-
-void BPMDetect::init(int numChannels, int sampleRate)
-{
-    this->sampleRate = sampleRate;
-
-    // choose decimation factor so that result is approx. 500 Hz
-    decimateBy = sampleRate / 500;
-    assert(decimateBy > 0);
-    assert(INPUT_BLOCK_SAMPLES < decimateBy * DECIMATED_BLOCK_SAMPLES);
-
-    // Calculate window length & starting item according to desired min & max bpms
-    windowLen = (60 * sampleRate) / (decimateBy * MIN_BPM);
-    windowStart = (60 * sampleRate) / (decimateBy * MAX_BPM);
-
-    assert(windowLen > windowStart);
-
-    // allocate new working objects
-    xcorr = new float[windowLen];
-    memset(xcorr, 0, windowLen * sizeof(float));
-
-    // we do processing in mono mode
-    buffer->setChannels(1);
-    buffer->clear();
 }
 
 

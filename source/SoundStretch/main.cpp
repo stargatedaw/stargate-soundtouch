@@ -91,9 +91,9 @@ static void openFiles(WavInFile **inFile, WavOutFile **outFile, const RunParamet
     }
 
     // ... open output file with same sound parameters
-    bits = (*inFile)->getNumBits();
-    samplerate = (*inFile)->getSampleRate();
-    channels = (*inFile)->getNumChannels();
+    bits = (int)(*inFile)->getNumBits();
+    samplerate = (int)(*inFile)->getSampleRate();
+    channels = (int)(*inFile)->getNumChannels();
 
     if (params->outFileName)
     {
@@ -122,8 +122,8 @@ static void setup(SoundTouch *pSoundTouch, const WavInFile *inFile, const RunPar
     int sampleRate;
     int channels;
 
-    sampleRate = inFile->getSampleRate();
-    channels = inFile->getNumChannels();
+    sampleRate = (int)inFile->getSampleRate();
+    channels = (int)inFile->getNumChannels();
     pSoundTouch->setSampleRate(sampleRate);
     pSoundTouch->setChannels(channels);
 
@@ -132,7 +132,7 @@ static void setup(SoundTouch *pSoundTouch, const WavInFile *inFile, const RunPar
     pSoundTouch->setRateChange(params->rateDelta);
 
     pSoundTouch->setSetting(SETTING_USE_QUICKSEEK, params->quick);
-    pSoundTouch->setSetting(SETTING_USE_AA_FILTER, !params->noAntiAlias);
+    pSoundTouch->setSetting(SETTING_USE_AA_FILTER, !(params->noAntiAlias));
 
     // print processing information
     if (params->outFileName)
@@ -174,7 +174,8 @@ static void process(SoundTouch *pSoundTouch, WavInFile *inFile, WavOutFile *outF
 
     if ((inFile == NULL) || (outFile == NULL)) return;  // nothing to do.
 
-    nChannels = inFile->getNumChannels();
+    nChannels = (int)inFile->getNumChannels();
+    assert(nChannels > 0);
     buffSizeSamples = BUFF_SIZE / nChannels;
 
     // Process samples read from the input file
@@ -184,7 +185,7 @@ static void process(SoundTouch *pSoundTouch, WavInFile *inFile, WavOutFile *outF
 
         // Read a chunk of samples from the input file
         num = inFile->read(sampleBuffer, BUFF_SIZE);
-        nSamples = num / inFile->getNumChannels();
+        nSamples = num / (int)inFile->getNumChannels();
 
         // Feed the samples into SoundTouch processor
         pSoundTouch->putSamples(sampleBuffer, nSamples);
@@ -228,7 +229,7 @@ static void detectBPM(WavInFile *inFile, RunParameters *params)
     fprintf(stderr, "Detecting BPM rate...");
     fflush(stderr);
 
-    nChannels = inFile->getNumChannels();
+    nChannels = (int)inFile->getNumChannels();
     assert(BUFF_SIZE % nChannels == 0);
 
     // Process the 'inFile' in small blocks, repeat until whole file has 
@@ -272,7 +273,7 @@ static void detectBPM(WavInFile *inFile, RunParameters *params)
 
 
 
-int main(const int nParams, const char *paramStr[])
+int main(const int nParams, const char * const paramStr[])
 {
     WavInFile *inFile;
     WavOutFile *outFile;
@@ -309,7 +310,7 @@ int main(const int nParams, const char *paramStr[])
 
         fprintf(stderr, "Done!\n");
     } 
-    catch (runtime_error &e) 
+    catch (const runtime_error &e) 
     {
         // An exception occurred during processing, display an error message
         fprintf(stderr, "%s\n", e.what());

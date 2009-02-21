@@ -114,7 +114,7 @@ private:
 
     /// Checks WAV file header tags.
     /// \return zero if all ok, nonzero if file format is invalid.
-    int checkCharTags();
+    int checkCharTags() const;
 
     /// Reads a single WAV file header block.
     /// \return zero if all ok, nonzero if file format is invalid.
@@ -132,10 +132,6 @@ public:
 
     /// Destructor: Closes the file.
     ~WavInFile();
-
-    /// Close the file. Notice that file is automatically closed also when the 
-    /// class instance is deleted.
-    void close();
 
     /// Rewind to beginning of the file
     void rewind();
@@ -249,12 +245,6 @@ public:
     void write(const float *buffer,     ///< Pointer to sample data buffer.
                int numElems             ///< How many array items are to be written to file.
                );
-
-    /// Finalize & close the WAV file. Automatically supplements the WAV file header
-    /// information according to written data etc.
-    ///
-    /// Notice that file is automatically closed also when the class instance is deleted.
-    void close();
 };
 
 #endif

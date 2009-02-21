@@ -103,7 +103,7 @@ static int _toLowerCase(int c)
 
 
 // Constructor
-RunParameters::RunParameters(const int nParams, const char *paramStr[])
+RunParameters::RunParameters(const int nParams, const char * const paramStr[])
 {
     int i;
     int nFirstParam;
@@ -213,7 +213,7 @@ float RunParameters::parseSwitchValue(const string &str) const
 {
     int pos;
 
-    pos = str.find_first_of('=');
+    pos = (int)str.find_first_of('=');
     if (pos < 0) 
     {
         // '=' missing
@@ -266,7 +266,7 @@ void RunParameters::parseSwitchParam(const string &str)
             {
                 goalBPM = parseSwitchValue(str);
             } 
-            catch (runtime_error)
+            catch (const runtime_error)
             {
                 // illegal or missing bpm value => just calculate bpm
                 goalBPM = 0;

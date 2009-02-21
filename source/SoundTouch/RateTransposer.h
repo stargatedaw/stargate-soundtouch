@@ -45,6 +45,7 @@
 #ifndef RateTransposer_H
 #define RateTransposer_H
 
+#include <stddef.h>
 #include "AAFilter.h"
 #include "FIFOSamplePipe.h"
 #include "FIFOSampleBuffer.h"
@@ -90,7 +91,7 @@ protected:
     virtual uint transposeMono(SAMPLETYPE *dest, 
                        const SAMPLETYPE *src, 
                        uint numSamples) = 0;
-    uint transpose(SAMPLETYPE *dest, 
+    inline uint transpose(SAMPLETYPE *dest, 
                    const SAMPLETYPE *src, 
                    uint numSamples);
 
@@ -127,7 +128,7 @@ public:
     FIFOSamplePipe *getStore() { return &storeBuffer; };
 
     /// Return anti-alias filter object
-    AAFilter *getAAFilter() const;
+    AAFilter *getAAFilter();
 
     /// Enables/disables the anti-alias filter. Zero to disable, nonzero to enable
     void enableAAFilter(BOOL newMode);

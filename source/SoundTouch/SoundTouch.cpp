@@ -87,7 +87,7 @@ using namespace soundtouch;
 #define TEST_FLOAT_EQUAL(a, b)  (fabs(a - b) < 1e-10)
 
 
-/// Print library version string
+/// Print library version string for autoconf
 extern "C" void soundtouch_ac_test()
 {
     printf("SoundTouch Version: %s\n",SOUNDTOUCH_VERSION);
@@ -149,8 +149,8 @@ void SoundTouch::setChannels(uint numChannels)
         throw std::runtime_error("Illegal number of channels");
     }
     channels = numChannels;
-    pRateTransposer->setChannels(numChannels);
-    pTDStretch->setChannels(numChannels);
+    pRateTransposer->setChannels((int)numChannels);
+    pTDStretch->setChannels((int)numChannels);
 }
 
 
@@ -284,7 +284,7 @@ void SoundTouch::setSampleRate(uint srate)
 {
     bSrateSet = TRUE;
     // set sample rate, leave other tempo changer parameters as they are.
-    pTDStretch->setParameters(srate);
+    pTDStretch->setParameters((int)srate);
 }
 
 

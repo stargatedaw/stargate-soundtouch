@@ -56,10 +56,10 @@
 
 using namespace std;
 
-const static char riffStr[] = "RIFF";
-const static char waveStr[] = "WAVE";
-const static char fmtStr[]  = "fmt ";
-const static char dataStr[] = "data";
+static const char riffStr[] = "RIFF";
+static const char waveStr[] = "WAVE";
+static const char fmtStr[]  = "fmt ";
+static const char dataStr[] = "data";
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -200,7 +200,8 @@ void WavInFile::init()
 
 WavInFile::~WavInFile()
 {
-    close();
+    if (fptr) fclose(fptr);
+    fptr = NULL;
 }
 
 
@@ -216,7 +217,7 @@ void WavInFile::rewind()
 }
 
 
-int WavInFile::checkCharTags()
+int WavInFile::checkCharTags() const
 {
     // header.format.fmt should equal to 'fmt '
     if (memcmp(fmtStr, header.format.fmt, 4) != 0) return -1;
@@ -244,10 +245,11 @@ int WavInFile::read(char *buffer, int maxElems)
     if (afterDataRead > header.data.data_len) 
     {
         // Don't read more samples than are marked available in header
-        numBytes = header.data.data_len - dataRead;
+        numBytes = (int)header.data.data_len - (int)dataRead;
         assert(numBytes >= 0);
     }
 
+    assert(buffer);
     numBytes = fread(buffer, 1, numBytes, fptr);
     dataRead += numBytes;
 
@@ -261,6 +263,7 @@ int WavInFile::read(short *buffer, int maxElems)
     int numBytes;
     int numElems;
 
+    assert(buffer);
     if (header.format.bits_per_sample == 8)
     {
         // 8 bit format
@@ -286,7 +289,7 @@ int WavInFile::read(short *buffer, int maxElems)
         if (afterDataRead > header.data.data_len) 
         {
             // Don't read more samples than are marked available in header
-            numBytes = header.data.data_len - dataRead;
+            numBytes = (int)header.data.data_len - (int)dataRead;
             assert(numBytes >= 0);
         }
 
@@ -332,13 +335,6 @@ int WavInFile::eof() const
 }
 
 
-void WavInFile::close()
-{
-    fclose(fptr);
-    fptr = NULL;
-}
-
-
 
 // test if character code is between a white space ' ' and little 'z'
 static int isAlpha(char c)
@@ -348,9 +344,9 @@ static int isAlpha(char c)
 
 
 // test if all characters are between a white space ' ' and little 'z'
-static int isAlphaStr(char *str)
+static int isAlphaStr(const char *str)
 {
-    int c;
+    char c;
 
     c = str[0];
     while (c) 
@@ -408,7 +404,7 @@ int WavInFile::readHeaderBlock()
         header.format.format_len = nLen;
 
         // calculate how much length differs from expected
-        nDump = nLen - (sizeof(header.format) - 8);
+        nDump = nLen - ((int)sizeof(header.format) - 8);
 
         // if format_len is larger than expected, read only as much data as we've space for
         if (nDump > 0)
@@ -518,7 +514,8 @@ uint WavInFile::getDataSizeInBytes() const
 
 uint WavInFile::getNumSamples() const
 {
-    return header.data.data_len / header.format.byte_per_sample;
+    if (header.format.byte_per_sample == 0) return 0;
+    return header.data.data_len / (unsigned short)header.format.byte_per_sample;
 }
 
 
@@ -576,7 +573,9 @@ WavOutFile::WavOutFile(FILE *file, int sampleRate, int bits, int channels)
 
 WavOutFile::~WavOutFile()
 {
-    close();
+    finishHeader();
+    if (fptr) fclose(fptr);
+    fptr = NULL;
 }
 
 
@@ -601,11 +600,11 @@ void WavOutFile::fillInHeader(uint sampleRate, uint bits, uint channels)
     header.format.format_len = 0x10;
     header.format.fixed = 1;
     header.format.channel_number = (short)channels;
-    header.format.sample_rate = sampleRate;
+    header.format.sample_rate = (int)sampleRate;
     header.format.bits_per_sample = (short)bits;
     header.format.byte_per_sample = (short)(bits * channels / 8);
-    header.format.byte_rate = header.format.byte_per_sample * sampleRate;
-    header.format.sample_rate = sampleRate;
+    header.format.byte_rate = header.format.byte_per_sample * (int)sampleRate;
+    header.format.sample_rate = (int)sampleRate;
 
     // fill in the 'data' part..
 
@@ -656,14 +655,6 @@ void WavOutFile::writeHeader()
     fseek(fptr, 0, SEEK_END);
 }
 
-
-
-void WavOutFile::close()
-{
-    finishHeader();
-    fclose(fptr);
-    fptr = NULL;
-}
 
 
 void WavOutFile::write(const char *buffer, int numElems)

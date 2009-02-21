@@ -73,8 +73,9 @@ using namespace soundtouch;
 double TDStretchSSE::calcCrossCorrStereo(const float *pV1, const float *pV2) const
 {
     int i;
-    float *pVec1;
-    __m128 vSum, *pVec2;
+    const float *pVec1;
+    const __m128 *pVec2;
+    __m128 vSum;
 
     // Note. It means a major slow-down if the routine needs to tolerate 
     // unaligned __m128 memory accesses. It's way faster if we can skip 
@@ -104,8 +105,8 @@ double TDStretchSSE::calcCrossCorrStereo(const float *pV1, const float *pV2) con
 
     // Calculates the cross-correlation value between 'pV1' and 'pV2' vectors
     // Note: pV2 _must_ be aligned to 16-bit boundary, pV1 need not.
-    pVec1 = (float*)pV1;
-    pVec2 = (__m128*)pV2;
+    pVec1 = (const float*)pV1;
+    pVec2 = (const __m128*)pV2;
     vSum = _mm_setzero_ps();
 
     // Unroll the loop by factor of 4 * 4 operations
@@ -300,14 +301,14 @@ uint FIRFilterSSE::evaluateFilterStereo(float *dest, const float *source, uint n
     // filter is evaluated for two stereo samples with each iteration, thus use of 'j += 2'
     for (j = 0; j < count; j += 2)
     {
-        float *pSrc;
+        const float *pSrc;
         const __m128 *pFil;
         __m128 sum1, sum2;
         uint i;
 
-        pSrc = (float*)source;              // source audio data
-        pFil = (__m128*)filterCoeffsAlign;  // filter coefficients. NOTE: Assumes coefficients 
-                                            // are aligned to 16-byte boundary
+        pSrc = (const float*)source;              // source audio data
+        pFil = (const __m128*)filterCoeffsAlign;  // filter coefficients. NOTE: Assumes coefficients 
+                                                  // are aligned to 16-byte boundary
         sum1 = sum2 = _mm_setzero_ps();
 
         for (i = 0; i < length / 8; i ++) 

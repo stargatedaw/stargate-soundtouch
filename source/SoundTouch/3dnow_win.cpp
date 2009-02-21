@@ -82,17 +82,13 @@ using namespace soundtouch;
 //////////////////////////////////////////////////////////////////////////////
 
 #include "TDStretch.h"
-//#include <limits.h>
-
-// these are declared in 'TDStretch.cpp'
-// extern int scanOffsets[4][24];
 
 
 // Calculates cross correlation of two buffers
 double TDStretch3DNow::calcCrossCorrStereo(const float *pV1, const float *pV2) const
 {
-    uint overlapLengthLocal = overlapLength;
-    float corr;
+    int overlapLengthLocal = overlapLength;
+    float corr = 0;
 
     // Calculates the cross-correlation value between 'pV1' and 'pV2' vectors
     /*

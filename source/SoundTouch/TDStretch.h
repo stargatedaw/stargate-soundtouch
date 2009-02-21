@@ -44,6 +44,7 @@
 #ifndef TDStretch_H
 #define TDStretch_H
 
+#include <stddef.h>
 #include "STTypes.h"
 #include "RateTransposer.h"
 #include "FIFOSamplePipe.h"
@@ -113,7 +114,6 @@ protected:
     int overlapLength;
     int seekLength;
     int seekWindowLength;
-    int maxOffset;
     int overlapDividerBits;
     int slopingDivider;
     float nominalSkip;

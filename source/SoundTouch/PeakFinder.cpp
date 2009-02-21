@@ -51,6 +51,7 @@ using namespace soundtouch;
 
 PeakFinder::PeakFinder()
 {
+    minPos = maxPos = 0;
 }
 
 
@@ -140,13 +141,15 @@ double PeakFinder::calcMassCenter(const float *data, int firstPos, int lastPos) 
         sum += (float)i * data[i];
         wsum += data[i];
     }
+
+    if (wsum < 1e-6) return 0;
     return sum / wsum;
 }
 
 
 
 /// get exact center of peak near given position by calculating local mass of center
-double PeakFinder::getPeakCenter(const float *data, int peakpos)
+double PeakFinder::getPeakCenter(const float *data, int peakpos) const
 {
     float peakLevel;            // peak level
     int crosspos1, crosspos2;   // position where the peak 'hump' crosses cutting level
@@ -178,15 +181,15 @@ double PeakFinder::getPeakCenter(const float *data, int peakpos)
 
 
 
-double PeakFinder::detectPeak(const float *data, int minPos, int maxPos) 
+double PeakFinder::detectPeak(const float *data, int aminPos, int amaxPos) 
 {
 
     int i;
     int peakpos;                // position of peak level
     double highPeak, peak;
 
-    this->minPos = minPos;
-    this->maxPos = maxPos;
+    this->minPos = aminPos;
+    this->maxPos = amaxPos;
 
     // find absolute peak
     peakpos = minPos;

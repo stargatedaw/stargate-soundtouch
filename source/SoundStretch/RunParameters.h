@@ -65,7 +65,7 @@ public:
     float goalBPM;
     BOOL  detectBPM;
 
-    RunParameters(const int nParams, const char *paramStr[]);
+    RunParameters(const int nParams, const char * const paramStr[]);
 };
 
 #endif

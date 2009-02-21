@@ -332,6 +332,9 @@
 				RelativePath="FIRFilter.h">
 			</File>
 			<File
+				RelativePath=".\PeakFinder.h">
+			</File>
+			<File
 				RelativePath="RateTransposer.h">
 			</File>
 			<File

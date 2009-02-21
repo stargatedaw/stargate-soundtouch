@@ -71,7 +71,7 @@ protected:
                      ) const;
 
     /// get exact center of peak near given position by calculating local mass of center
-    double getPeakCenter(const float *data, int peakpos);
+    double getPeakCenter(const float *data, int peakpos) const;
 
 public:
     /// Constructor. 

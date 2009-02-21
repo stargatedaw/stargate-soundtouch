@@ -53,11 +53,7 @@
 
 using namespace soundtouch;
 
-#ifndef min
-//#define min(a,b) (((a) > (b)) ? (b) : (a))
-#define max(a,b) (((a) < (b)) ? (b) : (a))
-#endif
-
+#define max(x, y) (((x) > (y)) ? (x) : (y))
 
 
 /*****************************************************************************
@@ -513,7 +509,7 @@ void TDStretch::calcSeqParameters()
     #define AUTOSEEK_K          ((AUTOSEEK_AT_MAX - AUTOSEEK_AT_MIN) / (AUTOSEQ_TEMPO_TOP - AUTOSEQ_TEMPO_LOW))
     #define AUTOSEEK_C          (AUTOSEEK_AT_MIN - (AUTOSEEK_K) * (AUTOSEQ_TEMPO_LOW))
 
-    #define CHECK_LIMITS(x, mi, ma) ((x) < (mi)) ? (mi) : (((x) > (ma)) ? (ma) : (x))
+    #define CHECK_LIMITS(x, mi, ma) (((x) < (mi)) ? (mi) : (((x) > (ma)) ? (ma) : (x)))
 
     double seq, seek;
     
@@ -816,18 +812,18 @@ void TDStretch::precalcCorrReferenceMono()
 
 // Overlaps samples in 'midBuffer' with the samples in 'input'. The 'Stereo' 
 // version of the routine.
-void TDStretch::overlapStereo(short *output, const short *input) const
+void TDStretch::overlapStereo(short *poutput, const short *input) const
 {
     int i;
     short temp;
-    uint cnt2;
+    int cnt2;
 
-    for (i = 0; i < (int)overlapLength ; i ++) 
+    for (i = 0; i < overlapLength ; i ++) 
     {
         temp = (short)(overlapLength - i);
         cnt2 = 2 * i;
-        output[cnt2] = (input[cnt2] * i + pMidBuffer[cnt2] * temp )  / overlapLength;
-        output[cnt2 + 1] = (input[cnt2 + 1] * i + pMidBuffer[cnt2 + 1] * temp ) / overlapLength;
+        poutput[cnt2] = (input[cnt2] * i + pMidBuffer[cnt2] * temp )  / overlapLength;
+        poutput[cnt2 + 1] = (input[cnt2 + 1] * i + pMidBuffer[cnt2 + 1] * temp ) / overlapLength;
     }
 }
 
@@ -841,15 +837,15 @@ static int _getClosest2Power(double value)
 /// Calculates overlap period length in samples.
 /// Integer version rounds overlap length to closest power of 2
 /// for a divide scaling operation.
-void TDStretch::calculateOverlapLength(int overlapMs)
+void TDStretch::calculateOverlapLength(int aoverlapMs)
 {
     int newOvl;
 
-    assert(overlapMs >= 0);
-    overlapDividerBits = _getClosest2Power((sampleRate * overlapMs) / 1000.0);
+    assert(aoverlapMs >= 0);
+    overlapDividerBits = _getClosest2Power((sampleRate * aoverlapMs) / 1000.0);
     if (overlapDividerBits > 9) overlapDividerBits = 9;
     if (overlapDividerBits < 4) overlapDividerBits = 4;
-    newOvl = (int)pow(2, (double) overlapDividerBits);
+    newOvl = (int)pow(2, overlapDividerBits);
 
     acceptNewOverlapLength(newOvl);
 

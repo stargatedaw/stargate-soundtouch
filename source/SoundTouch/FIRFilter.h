@@ -42,6 +42,7 @@
 #ifndef FIRFilter_H
 #define FIRFilter_H
 
+#include <stddef.h>
 #include "STTypes.h"
 
 namespace soundtouch
@@ -103,7 +104,7 @@ public:
 
 #ifdef ALLOW_MMX
 
-    /// Class that implements MMX optimized functions exclusive for 16bit integer samples type.
+/// Class that implements MMX optimized functions exclusive for 16bit integer samples type.
     class FIRFilterMMX : public FIRFilter
     {
     protected:
