@@ -1,10 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 ///
-/// gcc version of the x86 CPU detect routine.
+/// Generic version of the x86 CPU extension detection routine.
 ///
-/// This file is to be compiled on any platform with the GNU C compiler.
-/// Compiler. Please see 'cpu_detect_x86_win.cpp' for the x86 Windows version 
-/// of this file.
+/// This file is for GNU & other non-Windows compilers, see 'cpu_detect_x86_win.cpp' 
+/// for the Microsoft compiler version.
 ///
 /// Author        : Copyright (c) Olli Parviainen
 /// Author e-mail : oparviai 'at' iki.fi
@@ -45,19 +44,15 @@
 #include "cpu_detect.h"
 #include "STTypes.h"
 
-#ifndef __GNUC__
-#error wrong platform - this source code file is for the GNU C compiler.
-#endif
-
 using namespace std;
 
 #include <stdio.h>
+
 //////////////////////////////////////////////////////////////////////////////
 //
 // processor instructions extension detection routines
 //
 //////////////////////////////////////////////////////////////////////////////
-
 
 // Flag variable indicating whick ISA extensions are disabled (for debugging)
 static uint _dwDisabledISA = 0x00;      // 0xffffffff; //<- use this to disable all extensions
@@ -73,7 +68,7 @@ void disableExtensions(uint dwDisableMask)
 /// Checks which instruction set extensions are supported by the CPU.
 uint detectCPUextensions(void)
 {
-#ifndef ALLOW_X86_OPTIMIZATIONS
+#if (!(ALLOW_X86_OPTIMIZATIONS) || !(__GNUC__))
 
     return 0; // always disable extensions on non-x86 platforms.
 

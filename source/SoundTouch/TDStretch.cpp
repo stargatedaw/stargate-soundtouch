@@ -845,7 +845,7 @@ void TDStretch::calculateOverlapLength(int aoverlapMs)
     overlapDividerBits = _getClosest2Power((sampleRate * aoverlapMs) / 1000.0);
     if (overlapDividerBits > 9) overlapDividerBits = 9;
     if (overlapDividerBits < 4) overlapDividerBits = 4;
-    newOvl = (int)pow(2, overlapDividerBits);
+    newOvl = (int)pow(2.0, (int)overlapDividerBits);
 
     acceptNewOverlapLength(newOvl);
 

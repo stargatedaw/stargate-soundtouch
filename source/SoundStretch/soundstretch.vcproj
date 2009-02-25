@@ -220,12 +220,6 @@
 				RelativePath="RunParameters.h">
 			</File>
 			<File
-				RelativePath="..\..\..\include\SoundTouch.h">
-			</File>
-			<File
-				RelativePath="..\..\..\include\STTypes.h">
-			</File>
-			<File
 				RelativePath="WavFile.h">
 			</File>
 		</Filter>
