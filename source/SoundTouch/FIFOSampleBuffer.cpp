@@ -179,7 +179,10 @@ void FIFOSampleBuffer::ensureCapacity(uint capacityRequirement)
         }
         // Align the buffer to begin at 16byte cache line boundary for optimal performance
         temp = (SAMPLETYPE *)(((ulong)tempUnaligned + 15) & (ulong)-16);
-        memcpy(temp, ptrBegin(), samplesInBuffer * channels * sizeof(SAMPLETYPE));
+        if (samplesInBuffer)
+        {
+            memcpy(temp, ptrBegin(), samplesInBuffer * channels * sizeof(SAMPLETYPE));
+        }
         delete[] bufferUnaligned;
         buffer = temp;
         bufferUnaligned = tempUnaligned;
