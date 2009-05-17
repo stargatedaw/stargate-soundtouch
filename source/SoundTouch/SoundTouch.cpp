@@ -243,7 +243,25 @@ void SoundTouch::calcEffectiveRateAndTempo()
     if (!TEST_FLOAT_EQUAL(rate,oldRate)) pRateTransposer->setRate(rate);
     if (!TEST_FLOAT_EQUAL(tempo, oldTempo)) pTDStretch->setTempo(tempo);
 
-    if (rate > 1.0f) 
+#ifndef PREVENT_CLICK_AT_RATE_CROSSOVER
+    if (rate <= 1.0f) 
+    {
+        if (output != pTDStretch) 
+        {
+            FIFOSamplePipe *tempoOut;
+
+            assert(output == pRateTransposer);
+            // move samples in the current output buffer to the output of pTDStretch
+            tempoOut = pTDStretch->getOutput();
+            tempoOut->moveSamples(*output);
+            // move samples in pitch transposer's store buffer to tempo changer's input
+            pTDStretch->moveSamples(*pRateTransposer->getStore());
+
+            output = pTDStretch;
+        }
+    }
+    else
+#endif
     {
         if (output != pRateTransposer) 
         {
@@ -259,23 +277,6 @@ void SoundTouch::calcEffectiveRateAndTempo()
             output = pRateTransposer;
         }
     } 
-    else 
-    {
-        if (output != pTDStretch) 
-        {
-            FIFOSamplePipe *tempoOut;
-
-            assert(output == pRateTransposer);
-            // move samples in the current output buffer to the output of pTDStretch
-            tempoOut = pTDStretch->getOutput();
-            tempoOut->moveSamples(*output);
-            // move samples in pitch transposer's store buffer to tempo changer's input
-            pTDStretch->moveSamples(*pRateTransposer->getStore());
-
-            output = pTDStretch;
-
-        }
-    }
 }
 
 
@@ -316,6 +317,7 @@ void SoundTouch::putSamples(const SAMPLETYPE *samples, uint nSamples)
         pTDStretch->putSamples(samples, nSamples);
     } 
     */
+#ifndef _PREVENT_CLICK_AT_RATE_CROSSOVER
     else if (rate <= 1.0f) 
     {
         // transpose the rate down, output the transposed sound to tempo changer buffer
@@ -324,8 +326,8 @@ void SoundTouch::putSamples(const SAMPLETYPE *samples, uint nSamples)
         pTDStretch->moveSamples(*pRateTransposer);
     } 
     else 
+#endif
     {
-        assert(rate > 1.0f);
         // evaluate the tempo changer, then transpose the rate up, 
         assert(output == pRateTransposer);
         pTDStretch->putSamples(samples, nSamples);
