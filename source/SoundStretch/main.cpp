@@ -134,6 +134,15 @@ static void setup(SoundTouch *pSoundTouch, const WavInFile *inFile, const RunPar
     pSoundTouch->setSetting(SETTING_USE_QUICKSEEK, params->quick);
     pSoundTouch->setSetting(SETTING_USE_AA_FILTER, !(params->noAntiAlias));
 
+    if (params->speech)
+    {
+        // use settings for speech processing
+        pSoundTouch->setSetting(SETTING_SEQUENCE_MS, 40);
+        pSoundTouch->setSetting(SETTING_SEEKWINDOW_MS, 15);
+        pSoundTouch->setSetting(SETTING_OVERLAP_MS, 8);
+        fprintf(stderr, "Tune processing parameters for speech processing.\n");
+    }
+
     // print processing information
     if (params->outFileName)
     {

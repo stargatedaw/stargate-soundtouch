@@ -88,6 +88,7 @@ static const char usage[] =
     "             If '=n' is omitted, just detects the BPM rate.\n"
     "  -quick   : Use quicker tempo change algorithm (gain speed, lose quality)\n"
     "  -naa     : Don't use anti-alias filtering (gain speed, lose quality)\n"
+    "  -speech  : Tune algorithm for speech processing (default is for music)\n"
     "  -license : Display the program license text (LGPL)\n";
 
 
@@ -130,6 +131,7 @@ RunParameters::RunParameters(const int nParams, const char * const paramStr[])
     quick = 0;
     noAntiAlias = 0;
     goalBPM = 0;
+    speech = FALSE;
     detectBPM = FALSE;
 
     // Get input & output file names
@@ -286,6 +288,11 @@ void RunParameters::parseSwitchParam(const string &str)
         case 'l' :
             // switch '-license'
             throwLicense();
+            break;
+
+        case 's' :
+            // switch '-speech'
+            speech = TRUE;
             break;
 
         default:

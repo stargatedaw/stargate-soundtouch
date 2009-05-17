@@ -64,6 +64,7 @@ public:
     int   noAntiAlias;
     float goalBPM;
     BOOL  detectBPM;
+    BOOL  speech;
 
     RunParameters(const int nParams, const char * const paramStr[]);
 };
