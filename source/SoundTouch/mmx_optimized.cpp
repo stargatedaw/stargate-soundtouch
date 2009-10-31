@@ -270,7 +270,7 @@ uint FIRFilterMMX::evaluateFilterStereo(short *dest, const short *src, uint numS
 
     if (length < 2) return 0;
 
-    for (i = 0; i < numSamples / 2; i ++)
+    for (i = 0; i < (numSamples - length) / 2; i ++)
     {
         __m64 accu1;
         __m64 accu2;
