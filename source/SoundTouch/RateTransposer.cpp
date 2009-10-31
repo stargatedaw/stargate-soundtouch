@@ -248,9 +248,9 @@ void RateTransposer::downsample(const SAMPLETYPE *src, uint nSamples)
 
     // If the parameter 'uRate' value is larger than 'SCALE', first apply the
     // anti-alias filter to remove high frequencies (prevent them from folding
-    // over the lover frequencies), then transpose. */
+    // over the lover frequencies), then transpose.
 
-    // Add the new samples to the end of the storeBuffer */
+    // Add the new samples to the end of the storeBuffer
     storeBuffer.putSamples(src, nSamples);
 
     // Anti-alias filter the samples to prevent folding and output the filtered 
@@ -261,6 +261,8 @@ void RateTransposer::downsample(const SAMPLETYPE *src, uint nSamples)
 
     count = pAAFilter->evaluate(tempBuffer.ptrEnd(sizeTemp), 
         storeBuffer.ptrBegin(), sizeTemp, (uint)numChannels);
+
+	if (count == 0) return;
 
     // Remove the filtered samples from 'storeBuffer'
     storeBuffer.receiveSamples(count);
@@ -398,7 +400,9 @@ uint RateTransposerInteger::transposeMono(SAMPLETYPE *dest, const SAMPLETYPE *sr
     unsigned int i, used;
     LONG_SAMPLETYPE temp, vol1;
 
-    used = 0;    
+    if (nSamples == 0) return 0;  // no samples, no work
+
+	used = 0;    
     i = 0;
 
     // Process the last sample saved from the previous call first...
