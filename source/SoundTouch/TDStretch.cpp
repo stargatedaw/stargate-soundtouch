@@ -45,6 +45,7 @@
 #include <limits.h>
 #include <assert.h>
 #include <math.h>
+#include <float.h>
 #include <stdexcept>
 
 #include "STTypes.h"
@@ -306,7 +307,7 @@ int TDStretch::seekBestOverlapPositionStereo(const SAMPLETYPE *refPos)
     // Slopes the amplitudes of the 'midBuffer' samples
     precalcCorrReferenceStereo();
 
-    bestCorr = INT_MIN;
+    bestCorr = FLT_MIN;
     bestOffs = 0;
 
     // Scans for the best correlation value by testing each possible position
@@ -350,8 +351,8 @@ int TDStretch::seekBestOverlapPositionStereoQuick(const SAMPLETYPE *refPos)
     // Slopes the amplitude of the 'midBuffer' samples
     precalcCorrReferenceStereo();
 
-    bestCorr = INT_MIN;
-    bestOffs = 0;
+    bestCorr = FLT_MIN;
+    bestOffs = _scanOffsets[0][0];
     corrOffset = 0;
     tempOffset = 0;
 
@@ -410,7 +411,7 @@ int TDStretch::seekBestOverlapPositionMono(const SAMPLETYPE *refPos)
     // Slopes the amplitude of the 'midBuffer' samples
     precalcCorrReferenceMono();
 
-    bestCorr = INT_MIN;
+    bestCorr = FLT_MIN;
     bestOffs = 0;
 
     // Scans for the best correlation value by testing each possible position
@@ -456,8 +457,8 @@ int TDStretch::seekBestOverlapPositionMonoQuick(const SAMPLETYPE *refPos)
     // Slopes the amplitude of the 'midBuffer' samples
     precalcCorrReferenceMono();
 
-    bestCorr = INT_MIN;
-    bestOffs = 0;
+    bestCorr = FLT_MIN;
+    bestOffs = _scanOffsets[0][0];
     corrOffset = 0;
     tempOffset = 0;
 
