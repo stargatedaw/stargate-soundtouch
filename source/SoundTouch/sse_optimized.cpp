@@ -140,18 +140,18 @@ double TDStretchSSE::calcCrossCorrStereo(const float *pV1, const float *pV2) con
 
     // return value = vSum[0] + vSum[1] + vSum[2] + vSum[3]
     float *pvNorm = (float*)&vNorm;
-    double norm = sqrt(vNorm.m128_f32[0] + vNorm.m128_f32[1] + vNorm.m128_f32[2] + vNorm.m128_f32[3]);
+    double norm = sqrt(pvNorm[0] + pvNorm[1] + pvNorm[2] + pvNorm[3]);
     if (norm < 1e-9) norm = 1.0;    // to avoid div by zero
 
     float *pvSum = (float*)&vSum;
-    return (double)(vSum.m128_f32[0] + vSum.m128_f32[1] + vSum.m128_f32[2] + vSum.m128_f32[3]) / norm;
+    return (double)(pvSum[0] + pvSum[1] + pvSum[2] + pvSum[3]) / norm;
 
-    /* This is approximately corresponding routine in C-language:
-    double corr;
+    /* This is approximately corresponding routine in C-language yet without normalization:
+    double corr, norm;
     uint i;
 
     // Calculates the cross-correlation value between 'pV1' and 'pV2' vectors
-    corr = 0.0;
+    corr = norm = 0.0;
     for (i = 0; i < overlapLength / 8; i ++) 
     {
         corr += pV1[0] * pV2[0] +
@@ -171,13 +171,16 @@ double TDStretchSSE::calcCrossCorrStereo(const float *pV1, const float *pV2) con
                 pV1[14] * pV2[14] +
                 pV1[15] * pV2[15];
 
+	for (j = 0; j < 15; j ++) norm += pV1[j] * pV1[j];
+
         pV1 += 16;
         pV2 += 16;
     }
+    return corr / sqrt(norm);
     */
 
-    /* This is corresponding routine in assembler. This may be teeny-weeny bit faster
-       than intrinsic version, but more difficult to maintain & get compiled on multiple
+    /* This is a bit outdated, corresponding routine in assembler. This may be teeny-weeny bit
+       faster than intrinsic version, but more difficult to maintain & get compiled on multiple
        platforms.
 
     uint overlapLengthLocal = overlapLength;
