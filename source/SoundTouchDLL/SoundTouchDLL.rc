@@ -65,8 +65,8 @@ LANGUAGE LANG_FINNISH, SUBLANG_DEFAULT
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,4,1,0
- PRODUCTVERSION 1,4,1,0
+ FILEVERSION 1,5,0,0
+ PRODUCTVERSION 1,5,0,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -82,12 +82,12 @@ BEGIN
         BLOCK "000004b0"
         BEGIN
             VALUE "FileDescription", "SoundTouch Dynamic Link Library"
-            VALUE "FileVersion", "1, 4, 1, 0"
+            VALUE "FileVersion", "1, 5, 0, 0"
             VALUE "InternalName", "SoundTouch"
-            VALUE "LegalCopyright", "Copyright (C) Olli Parviainen 2001-2009"
+            VALUE "LegalCopyright", "Copyright (C) Olli Parviainen 1999-2009"
             VALUE "OriginalFilename", "SoundTouch.dll"
             VALUE "ProductName", " SoundTouch Dynamic Link Library"
-            VALUE "ProductVersion", "1, 4, 1, 0"
+            VALUE "ProductVersion", "1, 5, 0, 0"
         END
     END
     BLOCK "VarFileInfo"

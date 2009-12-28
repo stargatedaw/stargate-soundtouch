@@ -18,7 +18,7 @@
 </head>
 <body class="normal">
 <hr>
-<h1>SoundTouch audio processing library v1.4.1pre
+<h1>SoundTouch audio processing library v1.5.0
 </h1>
 <p class="normal">SoundTouch library Copyright (c) Olli
 Parviainen 2002-2009 </p>
@@ -61,9 +61,8 @@ and perform a search with keywords &quot;processor pack&quot;. </p>
 <p>To build the binaries with Visual C++
 compiler, either run &quot;make-win.bat&quot; script, or open the
 appropriate project files in source code directories with Visual
-Studio. The final executable will appear under the "SoundTouch\bin"
-directory. If using the Visual Studio IDE instead of the
-make-win.bat script, directories bin and
+Studio. The final executable will appear under the &quot;SoundTouch\bin&quot;
+directory. If using the Visual Studio IDE instead of the make-win.bat script, directories bin and
 lib may need to be created manually to the SoundTouch
 package root for the final executables. The make-win.bat script
 creates these directories automatically.
@@ -117,7 +116,8 @@ to compile in GNU/Linux platform. However, in past it's happened that
 new
 gcc versions aren't necessarily compatible with the assembler setttings
 used in the optimized routines. <b>If you have problems getting the
-SoundTouch library compiled, try the workaround of disabling the optimizations</b> by editing the file "include/STTypes.h" and removing
+SoundTouch library compiled, try the workaround of disabling the optimizations</b> by editing the file
+&quot;include/STTypes.h&quot; and removing
 the following definition there:</p>
 <blockquote>
   <pre>#define ALLOW_OPTIMIZATIONS 1</pre>
@@ -537,6 +537,30 @@ estimates the BPM rate:</p>
 <hr>
 <h2>5. Change History</h2>
 <h3>5.1. SoundTouch library Change History </h3>
+
+<p><strong>1.5.0:</strong></p>
+<ul>
+<li>Added normalization to correlation calculation and improvement automatic seek/sequence parameter calculation to improve sound quality</li>
+
+<li>Bugfixes:&nbsp;
+  <ul>
+    <li>Fixed negative array indexing in quick seek algorithm</li>
+    <li>FIR autoalias filter running too far in processing buffer</li>
+    <li>Check against zero sample count in rate transposing</li>
+    <li>Fix for x86-64 support: Removed pop/push instructions from the cpu detection algorithm.&nbsp;</li>
+    <li>Check against empty buffers in FIFOSampleBuffer</li>
+    <li>Other minor fixes &amp; code cleanup</li>
+  </ul>
+</li>
+
+<li>Fixes in compilation scripts for non-Intel platforms</li>
+<li>Added Dynamic-Link-Library (DLL) version of SoundTouch library build,
+  provided with Delphi/Pascal wrapper for calling the dll routines</li>
+<li>Added #define PREVENT_CLICK_AT_RATE_CROSSOVER that prevents a click artifact
+  when crossing the nominal pitch from either positive to negative side or vice
+  versa</li>
+
+</ul>
 
 <p><strong>1.4.1:</strong></p>
 <ul>
