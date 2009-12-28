@@ -64,7 +64,7 @@ using namespace std;
 
 static const char _helloText[] = 
     "\n"
-    "   SoundStretch v%s -  Written by Olli Parviainen 2001 - 2008\n"
+    "   SoundStretch v%s -  Written by Olli Parviainen 2001 - 2009\n"
     "==================================================================\n"
     "author e-mail: <oparviai"
     "@"
