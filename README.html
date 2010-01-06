@@ -18,7 +18,7 @@
 </head>
 <body class="normal">
 <hr>
-<h1>SoundTouch audio processing library v1.5.0
+<h1>SoundTouch audio processing library v1.5.1pre
 </h1>
 <p class="normal">SoundTouch library Copyright &copy; Olli
 Parviainen 2001-2009 </p>
@@ -536,6 +536,13 @@ estimates the BPM rate:</p>
 <h2>5. Change History</h2>
 <h3>5.1. SoundTouch library Change History </h3>
 
+<p><b>1.5.1pre:</b></p>
+<ul>
+<li>Added automatic cutoff threshold adaptation to beat detection routine to
+  better adapt BPM calculation&nbsp; to different types of music</li>
+
+</ul>
+
 <p><strong>1.5.0:</strong></p>
 <ul>
 <li>Added normalization to correlation calculation and improvement automatic seek/sequence parameter calculation to improve sound quality</li>
@@ -657,7 +664,15 @@ files. </li>
 <h3>5.2. SoundStretch application Change
 History </h3>
 
-<p><strong>1.4.0:</strong></p>
+<p><b>v1.5.0:</b></p>
+<ul>
+<li>Added &quot;-speech&quot; switch to activate algorithm parameters more
+  suitable for speech processing than the default parameters tuned for music
+  processing.</li>
+
+</ul>
+
+<p><strong>v1.4.0:</strong></p>
 <ul>
 <li>Moved BPM detection routines from SoundStretch application into SoundTouch
   library</li>

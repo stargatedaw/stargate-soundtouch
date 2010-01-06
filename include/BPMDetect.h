@@ -78,10 +78,19 @@ protected:
     float *xcorr;
     
     /// Amplitude envelope sliding average approximation level accumulator
-    float envelopeAccu;
+    double envelopeAccu;
 
     /// RMS volume sliding average approximation level accumulator
-    float RMSVolumeAccu;
+    double RMSVolumeAccu;
+
+    /// Level below which to cut off signals
+    double cutCoeff;
+
+    /// Accumulator for accounting what proportion of samples exceed cutCoeff level
+    double aboveCutAccu;
+
+    /// Accumulator for total samples to calculate proportion of samples that exceed cutCoeff level
+    double totalAccu;
 
     /// Sample average counter.
     int decimateCount;
