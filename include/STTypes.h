@@ -128,11 +128,7 @@ namespace soundtouch
         typedef double LONG_SAMPLETYPE;
 
         #ifdef ALLOW_X86_OPTIMIZATIONS
-                // Allow 3DNow! and SSE optimizations
-            #if WIN32
-                #define ALLOW_3DNOW     1
-            #endif
-
+            // Allow SSE optimizations
             #define ALLOW_SSE       1
         #endif
 

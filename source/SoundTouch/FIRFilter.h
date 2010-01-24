@@ -122,25 +122,6 @@ public:
 #endif // ALLOW_MMX
 
 
-#ifdef ALLOW_3DNOW
-
-    /// Class that implements 3DNow! optimized functions exclusive for floating point samples type.
-    class FIRFilter3DNow : public FIRFilter
-    {
-    protected:
-        float *filterCoeffsUnalign;
-        float *filterCoeffsAlign;
-
-        virtual uint evaluateFilterStereo(float *dest, const float *src, uint numSamples) const;
-    public:
-        FIRFilter3DNow();
-        ~FIRFilter3DNow();
-        virtual void setCoefficients(const float *coeffs, uint newLength, uint uResultDivFactor);
-    };
-
-#endif  // ALLOW_3DNOW
-
-
 #ifdef ALLOW_SSE
     /// Class that implements SSE optimized functions exclusive for floating point samples type.
     class FIRFilterSSE : public FIRFilter

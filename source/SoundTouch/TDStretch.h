@@ -251,16 +251,6 @@ public:
 #endif /// ALLOW_MMX
 
 
-#ifdef ALLOW_3DNOW
-    /// Class that implements 3DNow! optimized routines for floating point samples type.
-    class TDStretch3DNow : public TDStretch
-    {
-    protected:
-        double calcCrossCorrStereo(const float *mixingPos, const float *compare) const;
-    };
-#endif /// ALLOW_3DNOW
-
-
 #ifdef ALLOW_SSE
     /// Class that implements SSE optimized routines for floating point samples type.
     class TDStretchSSE : public TDStretch
