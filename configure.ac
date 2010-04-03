@@ -129,7 +129,7 @@ AC_CONFIG_FILES([
 ])
 
 AC_OUTPUT(
-	soundtouch-1.4.pc
+	soundtouch.pc
 )
 
 dnl use 'echo' to put stuff here if you want a message to the builder

@@ -52,7 +52,7 @@ EXTRA_DIST=                  \
        README.html
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = soundtouch-1.4.pc
+pkgconfig_DATA = soundtouch.pc
 
 ## This removes stuff from the distribution which may be present
 ## from a cvs checkout or other build reasons
