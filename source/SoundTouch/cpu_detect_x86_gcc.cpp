@@ -78,8 +78,11 @@ uint detectCPUextensions(void)
     if (_dwDisabledISA == 0xffffffff) return 0;
 
     asm volatile(
+#ifndef __x86_64__
+        // Check if 'cpuid' instructions is available by toggling eflags bit 21.
+        // Skip this for x86-64 as they always have cpuid while stack manipulation
+        // differs from 16/32bit ISA.
         "\n\txor     %%esi, %%esi"       // clear %%esi = result register
-        // check if 'cpuid' instructions is available by toggling eflags bit 21
 
         "\n\tpushf"                      // save eflags to stack
         "\n\tmovl    (%%esp), %%eax"     // load eax from stack (with eflags)
@@ -93,6 +96,8 @@ uint detectCPUextensions(void)
         "\n\txor     %%edx, %%edx"       // clear edx for defaulting no mmx
         "\n\tcmp     %%ecx, %%eax"       // compare to original eflags values
         "\n\tjz      end"                // jumps to 'end' if cpuid not present
+#endif // __x86_64__
+
         // cpuid instruction available, test for presence of mmx instructions
 
         "\n\tmovl    $1, %%eax"
