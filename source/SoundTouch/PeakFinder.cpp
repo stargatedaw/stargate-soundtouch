@@ -164,7 +164,7 @@ double PeakFinder::getPeakCenter(const float *data, int peakpos) const
     groundLevel = max(data[gp1], data[gp2]);
     peakLevel = data[peakpos];
 
-    if (groundLevel < 1e-6) return 0;                // ground level too small => detection failed
+    if (groundLevel < 1e-9) return 0;                // ground level too small => detection failed
     if ((peakLevel / groundLevel) < 1.3) return 0;   // peak less than 30% of the ground level => no good peak detected
 
     // calculate 70%-level of the peak
