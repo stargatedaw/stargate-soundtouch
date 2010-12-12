@@ -35,6 +35,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <windows.h>
+#include <string.h>
 #include "SoundTouchDLL.h"
 #include "soundtouch.h"
 
@@ -112,7 +113,8 @@ SOUNDTOUCHDLL_API const char *__stdcall soundtouch_getVersionString()
 /// environments that can't properly handle character string as return value
 SOUNDTOUCHDLL_API void __stdcall soundtouch_getVersionString2(char* versionString, int bufferSize)
 {
-    strcpy_s(versionString, bufferSize, SoundTouch::getVersionString());
+    strncpy(versionString, SoundTouch::getVersionString(), bufferSize - 1);
+    versionString[bufferSize - 1] = 0;
 }
 
 
