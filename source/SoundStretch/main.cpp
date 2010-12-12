@@ -55,7 +55,7 @@ using namespace std;
     #include <fcntl.h>
 
     // Macro for Win32 standard input/output stream support: Sets a file stream into binary mode
-    #define SET_STREAM_TO_BIN_MODE(f) (_setmode(fileno(f), _O_BINARY))
+    #define SET_STREAM_TO_BIN_MODE(f) (_setmode(_fileno(f), _O_BINARY))
 #else
     // Not needed for GNU environment... 
     #define SET_STREAM_TO_BIN_MODE(f) {}
