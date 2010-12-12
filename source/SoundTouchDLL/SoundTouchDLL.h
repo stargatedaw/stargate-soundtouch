@@ -58,6 +58,10 @@ SOUNDTOUCHDLL_API void __stdcall soundtouch_destroyInstance(HANDLE h);
 /// Get SoundTouch library version string
 SOUNDTOUCHDLL_API const char *__stdcall soundtouch_getVersionString();
 
+/// Get SoundTouch library version string - alternative function for 
+/// environments that can't properly handle character string as return value
+SOUNDTOUCHDLL_API void __stdcall soundtouch_getVersionString2(char* versionString, int bufferSize);
+
 /// Get SoundTouch library version Id
 SOUNDTOUCHDLL_API unsigned int __stdcall soundtouch_getVersionId();
 
