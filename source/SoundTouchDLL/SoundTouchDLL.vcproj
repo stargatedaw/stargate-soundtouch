@@ -27,13 +27,14 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
-				DebugInformationFormat="4"/>
+				DebugInformationFormat="3"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)/SoundTouchD.dll"
 				LinkIncremental="2"
+				IgnoreDefaultLibraryNames="libcd"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/SoundTouchD.pdb"
 				SubSystem="2"
@@ -87,6 +88,7 @@ copy $(OutDir)\*.lib ..\..\lib
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)/SoundTouch.dll"
 				LinkIncremental="1"
+				IgnoreDefaultLibraryNames="libc"
 				GenerateDebugInformation="FALSE"
 				GenerateMapFile="TRUE"
 				SubSystem="2"
