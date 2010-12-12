@@ -15,7 +15,8 @@
         <hr>
         <h1>SoundTouch audio processing library v1.5.1pre
         </h1>
-        <p class="normal">SoundTouch library Copyright © Olli Parviainen 2001-2009
+        <p class="normal">SoundTouch library Copyright © Olli Parviainen
+        2001-2010
         </p>
         <hr>
         <h2>1. Introduction
@@ -356,7 +357,7 @@
         <h2><a name="SoundStretch"></a>4. SoundStretch audio processing utility
         </h2>
         <p>SoundStretch audio processing utility<br>
-            Copyright (c) Olli Parviainen 2002-2009</p>
+            Copyright (c) Olli Parviainen 2002-2010</p>
         <p>SoundStretch is a simple command-line application that can change tempo, pitch 
             and playback rates of WAV sound files. This program is intended primarily to 
             demonstrate how the "SoundTouch" library can be used to process sound in your 
@@ -372,7 +373,7 @@
             <tbody>
                 <tr>
                     <td valign="top">
-                        <pre>"infilename"</pre>
+                        <pre>&quot;infilename&quot;</pre>
                     </td>
                     <td valign="top">Name of the input sound data file (in .WAV audio file format). 
                         Give "stdin" as filename to use standard input pipe.
@@ -380,7 +381,7 @@
                 </tr>
                 <tr>
                     <td valign="top">
-                        <pre>"outfilename"</pre>
+                        <pre>&quot;outfilename&quot;</pre>
                     </td>
                     <td valign="top">Name of the output sound file where the resulting sound is saved 
                         (in .WAV audio file format). This parameter may be omitted if you&nbsp; don't 
@@ -518,7 +519,12 @@
             adapt BPM calculation&nbsp; to different types of music
             <LI>
                 Retired 3DNow! optimization support as 3DNow! is nowadays obsolete and 
-                assembler code is nuisance to maintain.</LI></UL>
+                assembler code is nuisance to maintain.</LI>
+            <LI>
+                Updated windows build scripts &amp; project files for Visual
+                Studio 2008 support</LI>
+            <LI>
+                Updated SoundTouch.dll API for .NET compatibility</LI></UL>
         <p><strong>1.5.0:</strong></p>
         <ul>
             <li>
@@ -767,6 +773,8 @@
             Jason Garland
             <li>
             Takashi Iwai
+            <li>
+            Yuval Naveh
             <li>
             Paulo Pizarro
             <li>
