@@ -33,9 +33,14 @@ md lib
 devenv source\SoundTouch\SoundTouch.vcproj /upgrade
 devenv source\SoundTouch\SoundTouch.vcproj /build debug
 devenv source\SoundTouch\SoundTouch.vcproj /build release
+
 devenv source\SoundStretch\SoundStretch.vcproj /upgrade
 devenv source\SoundStretch\SoundStretch.vcproj /build debug
 devenv source\SoundStretch\SoundStretch.vcproj /build release
+
+devenv source\SoundTouchDll\SoundTouchDll.vcproj /upgrade
+devenv source\SoundTouchDll\SoundTouchDll.vcproj /build debug
+devenv source\SoundTouchDll\SoundTouchDll.vcproj /build release
 
 @goto end
 
