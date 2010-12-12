@@ -30,8 +30,10 @@ goto end
 
 md bin
 md lib
+devenv source\SoundTouch\SoundTouch.vcproj /upgrade
 devenv source\SoundTouch\SoundTouch.vcproj /build debug
 devenv source\SoundTouch\SoundTouch.vcproj /build release
+devenv source\SoundStretch\SoundStretch.vcproj /upgrade
 devenv source\SoundStretch\SoundStretch.vcproj /build debug
 devenv source\SoundStretch\SoundStretch.vcproj /build release
 
