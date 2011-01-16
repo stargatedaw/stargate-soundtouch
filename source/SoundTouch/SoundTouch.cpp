@@ -448,7 +448,13 @@ int SoundTouch::getSetting(int settingId) const
             pTDStretch->getParameters(NULL, NULL, NULL, &temp);
             return temp;
 
-        default :
+		case SETTING_NOMINAL_INPUT_SEQUENCE :
+			return pTDStretch->getInputSampleReq();
+
+		case SETTING_NOMINAL_OUTPUT_SEQUENCE :
+			return pTDStretch->getOutputBatchSize();
+
+		default :
             return 0;
     }
 }
