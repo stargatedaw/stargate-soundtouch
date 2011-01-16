@@ -646,7 +646,6 @@ void TDStretch::processSamples()
 
     // Process samples as long as there are enough samples in 'inputBuffer'
     // to form a processing frame.
-//    while ((int)inputBuffer.numSamples() >= sampleReq - (outDebt / 4)) 
     while ((int)inputBuffer.numSamples() >= sampleReq) 
     {
         // If tempo differs from the normal ('SCALE'), scan for the best overlapping
@@ -661,16 +660,8 @@ void TDStretch::processSamples()
         outputBuffer.putSamples((uint)overlapLength);
 
         // ... then copy sequence samples from 'inputBuffer' to output:
-        temp = (seekLength / 2 - offset);
-
-        // compensate cumulated output length diff vs. ideal output
-//        temp -= outDebt / 4;
-
-        // update ideal vs. true output difference 
-//        outDebt += temp;
 
         // length of sequence
-//        temp += (seekWindowLength - 2 * overlapLength);
         temp = (seekWindowLength - 2 * overlapLength);
 
         // crosscheck that we don't have buffer overflow...
