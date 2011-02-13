@@ -115,7 +115,7 @@ void * RateTransposer::operator new(size_t s)
 
 RateTransposer *RateTransposer::newInstance()
 {
-#ifdef INTEGER_SAMPLES
+#ifdef SOUNDTOUCH_INTEGER_SAMPLES
     return ::new RateTransposerInteger;
 #else
     return ::new RateTransposerFloat;

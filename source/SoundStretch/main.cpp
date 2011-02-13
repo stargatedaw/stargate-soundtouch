@@ -146,10 +146,10 @@ static void setup(SoundTouch *pSoundTouch, const WavInFile *inFile, const RunPar
     // print processing information
     if (params->outFileName)
     {
-#ifdef INTEGER_SAMPLES
+#ifdef SOUNDTOUCH_INTEGER_SAMPLES
         fprintf(stderr, "Uses 16bit integer sample type in processing.\n\n");
 #else
-    #ifndef FLOAT_SAMPLES
+    #ifndef SOUNDTOUCH_FLOAT_SAMPLES
         #error "Sampletype not defined"
     #endif
         fprintf(stderr, "Uses 32bit floating point sample type in processing.\n\n");

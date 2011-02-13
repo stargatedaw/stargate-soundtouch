@@ -102,7 +102,7 @@ public:
 
 // Optional subclasses that implement CPU-specific optimizations:
 
-#ifdef ALLOW_MMX
+#ifdef SOUNDTOUCH_ALLOW_MMX
 
 /// Class that implements MMX optimized functions exclusive for 16bit integer samples type.
     class FIRFilterMMX : public FIRFilter
@@ -119,10 +119,10 @@ public:
         virtual void setCoefficients(const short *coeffs, uint newLength, uint uResultDivFactor);
     };
 
-#endif // ALLOW_MMX
+#endif // SOUNDTOUCH_ALLOW_MMX
 
 
-#ifdef ALLOW_SSE
+#ifdef SOUNDTOUCH_ALLOW_SSE
     /// Class that implements SSE optimized functions exclusive for floating point samples type.
     class FIRFilterSSE : public FIRFilter
     {
@@ -138,7 +138,7 @@ public:
         virtual void setCoefficients(const float *coeffs, uint newLength, uint uResultDivFactor);
     };
 
-#endif // ALLOW_SSE
+#endif // SOUNDTOUCH_ALLOW_SSE
 
 }
 

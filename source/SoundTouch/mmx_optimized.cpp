@@ -50,7 +50,7 @@
 
 #include "STTypes.h"
 
-#ifdef ALLOW_MMX
+#ifdef SOUNDTOUCH_ALLOW_MMX
 // MMX routines available only with integer sample type
 
 #if !(WIN32 || __i386__ || __x86_64__)
@@ -317,4 +317,4 @@ uint FIRFilterMMX::evaluateFilterStereo(short *dest, const short *src, uint numS
     return (numSamples & 0xfffffffe) - length;
 }
 
-#endif  // ALLOW_MMX
+#endif  // SOUNDTOUCH_ALLOW_MMX
