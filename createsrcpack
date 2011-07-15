@@ -11,5 +11,5 @@ rm createsrcpack
 chmod u+x bootstrap
 cd ..
 zip -r9 soundtouch.zip soundtouch
-tar -cfh soundtouch.tar soundtouch
+tar -chf soundtouch.tar soundtouch
 gzip soundtouch.tar
