@@ -250,7 +250,7 @@ int WavInFile::read(char *buffer, int maxElems)
     }
 
     assert(buffer);
-    numBytes = fread(buffer, 1, numBytes, fptr);
+    numBytes = (int)fread(buffer, 1, numBytes, fptr);
     dataRead += numBytes;
 
     return numBytes;
@@ -300,7 +300,7 @@ int WavInFile::read(short *buffer, int maxElems)
             assert(numBytes >= 0);
         }
 
-        numBytes = fread(buffer, 1, numBytes, fptr);
+        numBytes = (int)fread(buffer, 1, numBytes, fptr);
         dataRead += numBytes;
         numElems = numBytes / 2;
 
@@ -652,7 +652,7 @@ void WavOutFile::writeHeader()
 
     // write the supplemented header in the beginning of the file
     fseek(fptr, 0, SEEK_SET);
-    res = fwrite(&hdrTemp, sizeof(hdrTemp), 1, fptr);
+    res = (int)fwrite(&hdrTemp, sizeof(hdrTemp), 1, fptr);
     if (res != 1)
     {
         throw runtime_error("Error while writing to a wav file.");
@@ -674,7 +674,7 @@ void WavOutFile::write(const char *buffer, int numElems)
     }
     assert(sizeof(char) == 1);
 
-    res = fwrite(buffer, 1, numElems, fptr);
+    res = (int)fwrite(buffer, 1, numElems, fptr);
     if (res != numElems) 
     {
         throw runtime_error("Error while writing to a wav file.");
@@ -721,7 +721,7 @@ void WavOutFile::write(const short *buffer, int numElems)
         memcpy(pTemp, buffer, numElems * 2);
         _swap16Buffer(pTemp, numElems);
 
-        res = fwrite(pTemp, 2, numElems, fptr);
+        res = (int)fwrite(pTemp, 2, numElems, fptr);
 
         delete[] pTemp;
 
