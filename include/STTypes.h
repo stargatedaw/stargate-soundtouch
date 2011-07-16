@@ -60,32 +60,31 @@ typedef unsigned long   ulong;
 
 namespace soundtouch
 {
+    /// Activate these undef's to overrule the possible sampletype 
+    /// setting inherited from some other header file:
+    //#undef SOUNDTOUCH_INTEGER_SAMPLES
+    //#undef SOUNDTOUCH_FLOAT_SAMPLES
 
-/// Activate these undef's to overrule the possible sampletype 
-/// setting inherited from some other header file:
-//#undef SOUNDTOUCH_INTEGER_SAMPLES
-//#undef SOUNDTOUCH_FLOAT_SAMPLES
-
-#if !(SOUNDTOUCH_INTEGER_SAMPLES || SOUNDTOUCH_FLOAT_SAMPLES)
-   
-    /// Choose either 32bit floating point or 16bit integer sampletype
-    /// by choosing one of the following defines, unless this selection 
-    /// has already been done in some other file.
-    ////
-    /// Notes:
-    /// - In Windows environment, choose the sample format with the
-    ///   following defines.
-    /// - In GNU environment, the floating point samples are used by 
-    ///   default, but integer samples can be chosen by giving the 
-    ///   following switch to the configure script:
-    ///       ./configure --enable-integer-samples
-    ///   However, if you still prefer to select the sample format here 
-    ///   also in GNU environment, then please #undef the INTEGER_SAMPLE
-    ///   and FLOAT_SAMPLE defines first as in comments above.
-    //#define SOUNDTOUCH_INTEGER_SAMPLES     1    //< 16bit integer samples
-    #define SOUNDTOUCH_FLOAT_SAMPLES       1    //< 32bit float samples
- 
- #endif
+    #if !(SOUNDTOUCH_INTEGER_SAMPLES || SOUNDTOUCH_FLOAT_SAMPLES)
+       
+        /// Choose either 32bit floating point or 16bit integer sampletype
+        /// by choosing one of the following defines, unless this selection 
+        /// has already been done in some other file.
+        ////
+        /// Notes:
+        /// - In Windows environment, choose the sample format with the
+        ///   following defines.
+        /// - In GNU environment, the floating point samples are used by 
+        ///   default, but integer samples can be chosen by giving the 
+        ///   following switch to the configure script:
+        ///       ./configure --enable-integer-samples
+        ///   However, if you still prefer to select the sample format here 
+        ///   also in GNU environment, then please #undef the INTEGER_SAMPLE
+        ///   and FLOAT_SAMPLE defines first as in comments above.
+        //#define SOUNDTOUCH_INTEGER_SAMPLES     1    //< 16bit integer samples
+        #define SOUNDTOUCH_FLOAT_SAMPLES       1    //< 32bit float samples
+     
+    #endif
 
     #if (WIN32 || __i386__ || __x86_64__)
         /// Define this to allow X86-specific assembler/intrinsic optimizations. 
