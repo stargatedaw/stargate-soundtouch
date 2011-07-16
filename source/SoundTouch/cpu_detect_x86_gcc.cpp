@@ -68,7 +68,7 @@ void disableExtensions(uint dwDisableMask)
 /// Checks which instruction set extensions are supported by the CPU.
 uint detectCPUextensions(void)
 {
-#if (!(ALLOW_X86_OPTIMIZATIONS) || !(__GNUC__))
+#if (!(SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS) || !(__GNUC__))
 
     return 0; // always disable extensions on non-x86 platforms.
 
