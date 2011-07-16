@@ -281,7 +281,14 @@ int WavInFile::read(short *buffer, int maxElems)
     else
     {
         // 16 bit format
-        assert(header.format.bits_per_sample == 16);
+        if (header.format.bits_per_sample != 16)
+        {
+            string msg = "WAV file bits per sample format not supported: ";
+            msg += (int)header.format.bits_per_sample;
+            msg += " bits per sample.";
+            throw runtime_error(msg);
+        }
+
         assert(sizeof(short) == 2);
 
         numBytes = maxElems * 2;
@@ -702,7 +709,13 @@ void WavOutFile::write(const short *buffer, int numElems)
         // 16bit format
         unsigned short *pTemp = new unsigned short[numElems];
 
-        assert(header.format.bits_per_sample == 16);
+        if (header.format.bits_per_sample != 16)
+        {
+            string msg = "WAV file bits per sample format not supported: ";
+            msg += (int)header.format.bits_per_sample;
+            msg += " bits per sample.";
+            throw runtime_error(msg);
+        }
 
         // allocate temp buffer to swap byte order if necessary
         memcpy(pTemp, buffer, numElems * 2);
