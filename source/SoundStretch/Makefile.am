@@ -43,8 +43,9 @@ soundstretch_SOURCES=main.cpp RunParameters.cpp WavFile.cpp
 ## linker. 
 soundstretch_LDADD=../SoundTouch/libSoundTouch.la -lm
 
-## linker flags
-soundstretch_LDFLAGS=-s
+## linker flags. 
+# OP 2011-7-17 Linker flags disabled to prevent stripping symbols by default
+# soundstretch_LDFLAGS=-s
 
 ## additional compiler flags
 soundstretch_CXXFLAGS=-O3
