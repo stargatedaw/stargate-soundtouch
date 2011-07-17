@@ -15,7 +15,7 @@
 </head>
 <body class="normal">
 <hr>
-<h1>SoundTouch audio processing library v1.6.0 </h1>
+<h1>SoundTouch audio processing library v1.6.1pre </h1>
 <p class="normal">SoundTouch library Copyright © Olli Parviainen
 2001-2011 </p>
 <hr>
@@ -71,8 +71,8 @@ version. Assembler-level performance optimizations for GNU platform are
 currently available in x86 platforms only, and they are automatically
 disabled and replaced with standard C routines in other processor
 platforms.</p>
-<p>To build and install the binaries, run the following commands in the
-SoundTouch/ directory:</p>
+<p>To build and install the binaries, run the following commands in 
+/soundtouch directory:</p>
 <table border="0" cellpadding="0" cellspacing="4">
   <tbody>
     <tr>
@@ -128,33 +128,19 @@ these with the following command:</p>
 <pre><b>sudo apt-get install automake autoconf libtool build-essential</b></pre>
 <h4><b>2.2.2 Problems with GCC compiler compatibility</b></h4>
 <p>At the release time the SoundTouch package has been tested to
-compile in GNU/Linux platform. However, in past it's happened that new
-gcc versions aren't necessarily compatible with the assembler settings
-used in the optimized routines. <b>If you have problems getting the
-SoundTouch library compiled, try disabling the optimizations as a </b><b>workaround</b>
-by editing the file "include/STTypes.h" and removing the following
-definition there:</p>
+compile in GNU/Linux platform. However, If you have problems getting the
+SoundTouch library compiled, try disabling optimizations that are specific for 
+x86 processors by running <b>./configure</b> script with switch
 <blockquote>
-  <pre>#define ALLOW_OPTIMIZATIONS 1</pre>
+<pre>--enable-x86-optimizations=no</pre>
 </blockquote>
-<h4><b>2.2.3 Problems with configure script or build process</b>&nbsp;</h4>
-<p>Incompatibilities between various GNU toolchain versions may cause
-errors when running the "configure" script or building the source
-codes, if your GNU tool versions are not compatible with the versions
-used for preparing the SoundTouch kit.&nbsp;</p>
-<p>To resolve the issue, regenerate the configure scripts with your
-local tool set by running the "<b>./bootstrap</b>" script included in
-the SoundTouch source code kit. After that, run the <b>configure</b>
-script and <b>make</b> as usually.</p>
-<h4><b>2.2.4 Compiler issues with non-x86 processors</b></h4>
-<p>SoundTouch library works also on non-x86 processors.</p>
-<p>However, in case that you get compiler errors when trying to compile
-for non-Intel processor, edit the file "<b>source\SoundTouch\Makefile.am</b>"
-and
-remove the "<b>-msse2</b>" flag on the <b>AM_CXXFLAGS </b>line:</p>
-<pre><b>AM_CXXFLAGS=-O3 -fcheck-new -I../../include&nbsp;&nbsp;&nbsp; # Note: -msse2 flag removed!</b></pre>
-<p>After that, run "<b>./bootstrap</b>" script, and then run <b>configure</b>
-and <b>make</b> again.</p>
+
+Alternatively, if you don't use GNU Configure system, edit file "include/STTypes.h" 
+directly and remove the following definition:</p>
+<blockquote>
+  <pre>#define SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS 1</pre>
+</blockquote>
+
 <hr>
 <h2>3. About implementation &amp; Usage tips</h2>
 <h3>3.1. Supported sample data formats</h3>
@@ -520,6 +506,15 @@ and estimates the BPM rate:</p>
 <hr>
 <h2>5. Change History</h2>
 <h3>5.1. SoundTouch library Change History </h3>
+<p><b>1.6.1:</b></p>
+<ul>
+    <li>Fix bug in Wavfile exception string formatting.
+    </li>
+    <li>Configure script automatically checks if CPU supports mmx & sse compatibility for GNU platform, and
+    the script support now "--enable-x86-optimizations" switch to allow disabling x86-specific optimizations.</li>
+    <li>Revised #define conditions for 32bit/64bit compatibility 
+    </li>
+</ul>
 <p><b>1.6.0:</b></p>
 <ul>
   <li> Added automatic cutoff threshold adaptation to beat detection
@@ -713,6 +708,7 @@ submitted bugfixes since SoundTouch v1.3.1: </p>
   <li> Brian Cameron </li>
   <li> Jason Champion </li>
   <li> Patrick Colis </li>
+  <li> Miquel Colon </li>
   <li> Justin Frankel </li>
   <li> Jason Garland </li>
   <li> Takashi Iwai </li>
