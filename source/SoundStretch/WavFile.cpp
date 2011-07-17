@@ -48,6 +48,7 @@
 #include <stdio.h>
 #include <stdexcept>
 #include <string>
+#include <sstream>
 #include <cstring>
 #include <assert.h>
 #include <limits.h>
@@ -283,10 +284,11 @@ int WavInFile::read(short *buffer, int maxElems)
         // 16 bit format
         if (header.format.bits_per_sample != 16)
         {
-            string msg = "WAV file bits per sample format not supported: ";
-            msg += (int)header.format.bits_per_sample;
-            msg += " bits per sample.";
-            throw runtime_error(msg);
+            stringstream ss;
+            ss << "\nOnly 8/16 bit sample WAV files supported. Can't open WAV file with ";
+            ss << (int)header.format.bits_per_sample;
+            ss << " bit sample format. ";
+            throw runtime_error(ss.str());
         }
 
         assert(sizeof(short) == 2);
@@ -711,10 +713,11 @@ void WavOutFile::write(const short *buffer, int numElems)
 
         if (header.format.bits_per_sample != 16)
         {
-            string msg = "WAV file bits per sample format not supported: ";
-            msg += (int)header.format.bits_per_sample;
-            msg += " bits per sample.";
-            throw runtime_error(msg);
+            stringstream ss;
+            ss << "\nOnly 8/16 bit sample WAV files supported. Can't open WAV file with ";
+            ss << (int)header.format.bits_per_sample;
+            ss << " bit sample format. ";
+            throw runtime_error(ss.str());
         }
 
         // allocate temp buffer to swap byte order if necessary
