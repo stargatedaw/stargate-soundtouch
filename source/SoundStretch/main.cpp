@@ -50,7 +50,7 @@ using namespace std;
 // Processing chunk size
 #define BUFF_SIZE           2048
 
-#if WIN32
+#if _WIN32
     #include <io.h>
     #include <fcntl.h>
 

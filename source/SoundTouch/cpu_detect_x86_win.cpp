@@ -42,9 +42,7 @@
 
 #include "cpu_detect.h"
 
-#ifndef WIN32
-#error wrong platform - this source code file is exclusively for Win32 platform
-#endif
+#include "STTypes.h"
 
 //////////////////////////////////////////////////////////////////////////////
 //
