@@ -2,8 +2,6 @@
 ##
 ## $Id$
 ##
-## Copyright (C) 2003 - David W. Durham
-## 
 ## This file is part of SoundTouch, an audio processing library for pitch/time adjustments
 ## 
 ## SoundTouch is free software; you can redistribute it and/or modify it under the
@@ -30,13 +28,40 @@ noinst_HEADERS=AAFilter.h cpu_detect.h cpu_detect_x86_gcc.cpp FIRFilter.h RateTr
 
 lib_LTLIBRARIES=libSoundTouch.la
 #
-libSoundTouch_la_SOURCES=AAFilter.cpp FIRFilter.cpp FIFOSampleBuffer.cpp mmx_optimized.cpp sse_optimized.cpp RateTransposer.cpp SoundTouch.cpp TDStretch.cpp cpu_detect_x86_gcc.cpp BPMDetect.cpp PeakFinder.cpp
+libSoundTouch_la_SOURCES=AAFilter.cpp FIRFilter.cpp FIFOSampleBuffer.cpp RateTransposer.cpp SoundTouch.cpp TDStretch.cpp cpu_detect_x86_gcc.cpp BPMDetect.cpp PeakFinder.cpp
 
 
-# Note by authore: '-msse2' might not work in non-X86 compilations. If someone can
-# fix this script to automatically check for CPU architecture, please submit a patch 
-# to me.
-AM_CXXFLAGS=-O3 -msse2 -fcheck-new -I../../include
+# Compiler flags
+AM_CXXFLAGS=-O3 -fcheck-new -I../../include
+
+# Compile the files that need MMX and SSE individually.
+libSoundTouch_la_LIBADD=libSoundTouchMMX.la libSoundTouchSSE2.la
+noinst_LTLIBRARIES=libSoundTouchMMX.la libSoundTouchSSE2.la
+libSoundTouchMMX_la_SOURCES=mmx_optimized.cpp
+libSoundTouchSSE2_la_SOURCES=sse_optimized.cpp
+
+# We enable optimizations by default.
+# If MMX is supported compile with -mmmx.
+# Do not assume -msse2 is also supported.
+if HAVE_MMX
+libSoundTouchMMX_la_CXXFLAGS = -mmmx $(AM_CXXFLAGS)
+else
+libSoundTouchMMX_la_CXXFLAGS = $(AM_CXXFLAGS)
+endif
+
+# We enable optimizations by default.
+# If SSE2 is supported compile with -msse2.
+if HAVE_SSE2
+libSoundTouchSSE2_la_CXXFLAGS = -msse2 $(AM_CXXFLAGS)
+else
+libSoundTouchSSE2_la_CXXFLAGS = $(AM_CXXFLAGS)
+endif
+
+# Let the user disable optimizations if he wishes to.
+if !X86_OPTIMIZATIONS
+libSoundTouchMMX_la_CXXFLAGS = $(AM_CXXFLAGS)
+libSoundTouchSSE2_la_CXXFLAGS = $(AM_CXXFLAGS)
+endif
 
 
 # other linking flags to add

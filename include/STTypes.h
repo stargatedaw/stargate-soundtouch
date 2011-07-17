@@ -86,7 +86,7 @@ namespace soundtouch
      
     #endif
 
-    #if (WIN32 || __i386__ || __x86_64__)
+    #if (_WIN32 || __i386__ || __x86_64__ || _M_X64)
         /// Define this to allow X86-specific assembler/intrinsic optimizations. 
         /// Notice that library contains also usual C++ versions of each of these
         /// these routines, so if you're having difficulties getting the optimized 
@@ -94,6 +94,17 @@ namespace soundtouch
         /// to make the library compile.
 
         #define SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS     1
+
+        /// In GNU environment, allow the user to override this setting by
+        /// giving the following switch to the configure script:
+        /// ./configure --disable-x86-optimizations
+        /// ./configure --enable-x86-optimizations=no
+        #ifdef SOUNDTOUCH_DISABLE_X86_OPTIMIZATIONS
+            #undef SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS
+        #endif
+    #else
+        /// Always disable optimizations when not using a x86 systems.
+        #undef SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS
 
     #endif
 

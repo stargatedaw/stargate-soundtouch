@@ -77,7 +77,21 @@ AC_ARG_ENABLE(integer-samples,
 [default=yes]])],,
               [enable_integer_samples=no])
 
-      
+
+# Let the user enable/disable the x86 optimizations.
+# Useful when compiling on non-x86 architectures.
+AC_ARG_ENABLE([x86-optimizations],
+              [AS_HELP_STRING([--enable-x86-optimizations],
+                              [use MMX or SSE2 optimizations
+[default=yes]])],[enable_x86_optimizations="${enableval}"],
+              [enable_x86_optimizations=yes])
+
+# Tell the Makefile.am if the user wants to disable optimizations.
+# Makefile.am will enable them by default if support is available.
+# Note: We check if optimizations are supported a few lines down.
+AM_CONDITIONAL([X86_OPTIMIZATIONS], [test "x$enable_x86_optimizations" = "xyes"])
+
+
 if test "x$enable_integer_samples" = "xyes"; then
         echo "****** Integer sample type enabled ******"
         AC_DEFINE(SOUNDTOUCH_INTEGER_SAMPLES,1,[Use Integer as Sample type])
@@ -86,6 +100,93 @@ else
         AC_DEFINE(SOUNDTOUCH_FLOAT_SAMPLES,1,[Use Float as Sample type])
 fi
 
+
+# Check if optimizations are supported in the system at build time.
+if test "x$enable_x86_optimizations" = "xyes"; then
+        echo "****** x86 optimizations enabled ******"
+
+	original_saved_CXXFLAGS=$CXXFLAGS
+	have_mmx_intrinsics=no
+	OPT_CXXFLAGS="-mmmx -Winline"
+	CXXFLAGS="$OPT_CXXFLAGS $CXXFLAGS"
+
+	# Check if the user can compile MMX code using intrinsics.
+	# GCC supports MMX intrinsics since version 3.3
+	# A more recent GCC (>= 4.3) is recommended.
+	AC_COMPILE_IFELSE([
+	#if defined(__GNUC__) && (__GNUC__ < 3 || (__GNUC__ == 3 && __GNUC_MINOR__ < 3))
+	#error "Need GCC >= 3.3 for MMX intrinsics"
+	#endif
+	#include <mmintrin.h>
+	int main () {
+	    __m64 loop = _mm_cvtsi32_si64 (1);
+	    return _mm_cvtsi64_si32 (loop);
+	}],[have_mmx_intrinsics=yes])
+	CXXFLAGS=$original_saved_CXXFLAGS
+
+	# Inform the user if we did or did not find MMX support.
+	#
+	# If we enable optimization and integer samples we only require MMX.
+	# Disable optimizations in the SSTypes.h file if this is not the case.
+	if test "x$have_mmx_intrinsics" = "xyes" ; then
+		echo "****** MMX support found ******"
+	else
+		echo "****** No MMX support found ******"
+		if test "x$enable_integer_samples" = "xyes"; then
+		        echo "****** Disabling optimizations. Using integer samples with no MMX support ******"
+		        AC_DEFINE([SOUNDTOUCH_DISABLE_X86_OPTIMIZATIONS],[1],[Do not use x86 optimizations])
+		fi
+	fi
+
+
+	have_sse2_intrinsics=no
+	OPT_CXXFLAGS="-msse2 -Winline"
+	CXXFLAGS="$OPT_CXXFLAGS $CXXFLAGS"
+
+	# Check if the user can compile SSE2 code using intrinsics.
+	# GCC supports SSE2 intrinsics since version 3.3
+	# A more recent GCC (>= 4.3) is recommended.
+	AC_COMPILE_IFELSE([
+	#if defined(__GNUC__) && (__GNUC__ < 3 || (__GNUC__ == 3 && __GNUC_MINOR__ < 3))
+	#error "Need GCC >= 3.3 for SSE2 intrinsics"
+	#endif
+	#include <emmintrin.h>
+	int main () {
+	    __m128i loop = _mm_cvtsi32_si128 (1);
+	    return _mm_cvtsi128_si32 (loop);
+	}],[have_sse2_intrinsics=yes])
+	CXXFLAGS=$original_saved_CXXFLAGS
+
+	# Inform the user if we did or did not find SSE2 support.
+	#
+	# If we enable optimization and float samples we only require SSE2.
+	# Disable optimizations in the SSTypes.h file if this is not the case.
+	if test "x$have_sse2_intrinsics" = "xyes" ; then
+		echo "****** SSE2 support found ******"
+	else
+		echo "****** No SSE2 support found ******"
+		if test "x$enable_integer_samples" != "xyes"; then
+		        echo "****** Disabling optimizations. Using float samples with no SSE2 support ******"
+		        AC_DEFINE([SOUNDTOUCH_DISABLE_X86_OPTIMIZATIONS],[1],[Do not use x86 optimizations])
+		fi
+	fi
+
+else
+	# Disable optimizations in SSTypes.h since the user requested it.
+        echo "****** x86 optimizations disabled ******"
+        AC_DEFINE([SOUNDTOUCH_DISABLE_X86_OPTIMIZATIONS],[1],[Do not use x86 optimizations])
+fi
+
+# SSTypes.h by default enables optimizations. Those already got disabled if
+# the user requested for it or if the system does not support them.
+#
+# Now tell the Makefile.am the optimizations that are supported.
+# Note:
+# Makefile.am already knows if the user asked for optimizations. We apply
+# optimizations by default (if support is available) and then disable all of
+# them if the user requested it.
+AM_CONDITIONAL([HAVE_MMX], [test "x$have_mmx_intrinsics" = "xyes"])
+AM_CONDITIONAL([HAVE_SSE2], [test "x$have_sse2_intrinsics" = "xyes"])
 
 
 dnl ############################################################################
