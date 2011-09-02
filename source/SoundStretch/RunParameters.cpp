@@ -36,7 +36,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <stdexcept>
 #include <string>
 #include <stdlib.h>
 
@@ -120,7 +119,7 @@ RunParameters::RunParameters(const int nParams, const char * const paramStr[])
         }
         string msg = whatText;
         msg += usage;
-        throw runtime_error(msg.c_str());
+        ST_THROW_RT_ERROR(msg.c_str());
     }
 
     inFileName = NULL;
@@ -200,14 +199,14 @@ void RunParameters::throwIllegalParamExp(const string &str) const
     msg += str;
     msg += "\".\n\n";
     msg += usage;
-    throw runtime_error(msg.c_str());
+    ST_THROW_RT_ERROR(msg.c_str());
 }
 
 
 
 void RunParameters::throwLicense() const
 {
-    throw runtime_error(licenseText);
+    ST_THROW_RT_ERROR(licenseText);
 }
 
 

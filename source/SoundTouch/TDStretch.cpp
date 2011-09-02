@@ -46,7 +46,6 @@
 #include <assert.h>
 #include <math.h>
 #include <float.h>
-#include <stdexcept>
 
 #include "STTypes.h"
 #include "cpu_detect.h"
@@ -731,8 +730,8 @@ void TDStretch::acceptNewOverlapLength(int newOverlapLength)
 void * TDStretch::operator new(size_t s)
 {
     // Notice! don't use "new TDStretch" directly, use "newInstance" to create a new instance instead!
-    throw std::runtime_error("Error in TDStretch::new: Don't use 'new TDStretch' directly, use 'newInstance' member instead!");
-    return NULL;
+    ST_THROW_RT_ERROR("Error in TDStretch::new: Don't use 'new TDStretch' directly, use 'newInstance' member instead!");
+    return newInstance();
 }
 
 

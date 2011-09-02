@@ -46,7 +46,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <stdio.h>
-#include <stdexcept>
 #include <string>
 #include <sstream>
 #include <cstring>
@@ -54,6 +53,7 @@
 #include <limits.h>
 
 #include "WavFile.h"
+#include "STTypes.h"
 
 using namespace std;
 
@@ -149,7 +149,7 @@ WavInFile::WavInFile(const char *fileName)
         string msg = "Error : Unable to open file \"";
         msg += fileName;
         msg += "\" for reading.";
-        throw runtime_error(msg);
+        ST_THROW_RT_ERROR(msg.c_str());
     }
 
     init();
@@ -164,7 +164,7 @@ WavInFile::WavInFile(FILE *file)
     {
         // didn't succeed
         string msg = "Error : Unable to access input stream for reading";
-        throw runtime_error(msg);
+        ST_THROW_RT_ERROR(msg.c_str());
     }
 
     init();
@@ -185,13 +185,13 @@ void WavInFile::init()
     {
         // Something didn't match in the wav file headers 
         string msg = "Input file is corrupt or not a WAV file";
-        throw runtime_error(msg);
+        ST_THROW_RT_ERROR(msg.c_str());
     }
 
     if (header.format.fixed != 1)
     {
         string msg = "Input file uses unsupported encoding.";
-        throw runtime_error(msg);
+        ST_THROW_RT_ERROR(msg.c_str());
     }
 
     dataRead = 0;
@@ -237,7 +237,7 @@ int WavInFile::read(char *buffer, int maxElems)
     // ensure it's 8 bit format
     if (header.format.bits_per_sample != 8)
     {
-        throw runtime_error("Error: WavInFile::read(char*, int) works only with 8bit samples.");
+        ST_THROW_RT_ERROR("Error: WavInFile::read(char*, int) works only with 8bit samples.");
     }
     assert(sizeof(char) == 1);
 
@@ -288,7 +288,7 @@ int WavInFile::read(short *buffer, int maxElems)
             ss << "\nOnly 8/16 bit sample WAV files supported. Can't open WAV file with ";
             ss << (int)header.format.bits_per_sample;
             ss << " bit sample format. ";
-            throw runtime_error(ss.str());
+            ST_THROW_RT_ERROR(ss.str().c_str());
         }
 
         assert(sizeof(short) == 2);
@@ -556,7 +556,7 @@ WavOutFile::WavOutFile(const char *fileName, int sampleRate, int bits, int chann
         msg += fileName;
         msg += "\" for writing.";
         //pmsg = msg.c_str;
-        throw runtime_error(msg);
+        ST_THROW_RT_ERROR(msg.c_str());
     }
 
     fillInHeader(sampleRate, bits, channels);
@@ -571,7 +571,7 @@ WavOutFile::WavOutFile(FILE *file, int sampleRate, int bits, int channels)
     if (fptr == NULL) 
     {
         string msg = "Error : Unable to access output file stream.";
-        throw runtime_error(msg);
+        ST_THROW_RT_ERROR(msg.c_str());
     }
 
     fillInHeader(sampleRate, bits, channels);
@@ -657,7 +657,7 @@ void WavOutFile::writeHeader()
     res = (int)fwrite(&hdrTemp, sizeof(hdrTemp), 1, fptr);
     if (res != 1)
     {
-        throw runtime_error("Error while writing to a wav file.");
+        ST_THROW_RT_ERROR("Error while writing to a wav file.");
     }
 
     // jump back to the end of the file
@@ -672,14 +672,14 @@ void WavOutFile::write(const char *buffer, int numElems)
 
     if (header.format.bits_per_sample != 8)
     {
-        throw runtime_error("Error: WavOutFile::write(const char*, int) accepts only 8bit samples.");
+        ST_THROW_RT_ERROR("Error: WavOutFile::write(const char*, int) accepts only 8bit samples.");
     }
     assert(sizeof(char) == 1);
 
     res = (int)fwrite(buffer, 1, numElems, fptr);
     if (res != numElems) 
     {
-        throw runtime_error("Error while writing to a wav file.");
+        ST_THROW_RT_ERROR("Error while writing to a wav file.");
     }
 
     bytesWritten += numElems;
@@ -717,7 +717,7 @@ void WavOutFile::write(const short *buffer, int numElems)
             ss << "\nOnly 8/16 bit sample WAV files supported. Can't open WAV file with ";
             ss << (int)header.format.bits_per_sample;
             ss << " bit sample format. ";
-            throw runtime_error(ss.str());
+            ST_THROW_RT_ERROR(ss.str().c_str());
         }
 
         // allocate temp buffer to swap byte order if necessary
@@ -730,7 +730,7 @@ void WavOutFile::write(const short *buffer, int numElems)
 
         if (res != numElems) 
         {
-            throw runtime_error("Error while writing to a wav file.");
+            ST_THROW_RT_ERROR("Error while writing to a wav file.");
         }
         bytesWritten += 2 * numElems;
     }
