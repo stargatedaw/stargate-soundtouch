@@ -536,8 +536,8 @@ uint WavInFile::getLengthMS() const
    numSamples = getNumSamples();
    sampleRate = getSampleRate();
 
-   assert(numSamples < UINT_MAX / 1000);
-   return (1000 * numSamples / sampleRate);
+   assert(numSamples < UINT_MAX / 1000U);
+   return (1000U * numSamples / sampleRate);
 }
 
 
