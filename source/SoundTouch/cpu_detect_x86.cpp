@@ -83,7 +83,8 @@ uint detectCPUextensions(void)
 /// If building for a 64bit system (no Itanium) and the user wants optimizations.
 /// Return the OR of SUPPORT_{MMX,SSE,SSE2}. 11001 or 0x19.
 /// Keep the _dwDisabledISA test (2 more operations, could be eliminated).
-#if defined(__GNUC__) && defined(__x86_64__) \
+#if ((defined(__GNUC__) && defined(__x86_64__)) \
+    || defined(_M_X64))  \
     && defined(SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS)
     return 0x19 & ~_dwDisabledISA;
 
@@ -101,7 +102,9 @@ uint detectCPUextensions(void)
     // GCC version of cpuid. Requires GCC 4.3.0 or later for __cpuid intrinsic support.
     uint eax, ebx, ecx, edx;  // unsigned int is the standard type. uint is defined by the compiler and not guaranteed to be portable.
 
+    // Check if no cpuid support.
     if (!__get_cpuid (1, &eax, &ebx, &ecx, &edx)) return 0; // always disable extensions.
+
     if (edx & bit_MMX)  res = res | SUPPORT_MMX;
     if (edx & bit_SSE)  res = res | SUPPORT_SSE;
     if (edx & bit_SSE2) res = res | SUPPORT_SSE2;

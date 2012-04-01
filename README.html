@@ -16,8 +16,7 @@
 <body class="normal">
 <hr>
 <h1>SoundTouch audio processing library v1.6.1pre </h1>
-<p class="normal">SoundTouch library Copyright © Olli Parviainen
-2001-2011 </p>
+<p class="normal">SoundTouch library Copyright © Olli Parviainen 2001-2012 </p>
 <hr>
 <h2>1. Introduction </h2>
 <p>SoundTouch is an open-source audio processing library that allows
@@ -64,13 +63,7 @@ executables. The make-win.bat script creates these directories
 automatically. </p>
 <h3>2.2. Building in Gnu platforms</h3>
 <p>The SoundTouch library compiles in practically any platform
-supporting GNU compiler (GCC) tools. SoundTouch have been tested with
-gcc version 4.4.5 at latest, but it shouldn't be very specific about
-the gcc
-version. Assembler-level performance optimizations for GNU platform are
-currently available in x86 platforms only, and they are automatically
-disabled and replaced with standard C routines in other processor
-platforms.</p>
+supporting GNU compiler (GCC) tools. SoundTouch requires GCC version 4.3 or later.</p>
 <p>To build and install the binaries, run the following commands in 
 /soundtouch directory:</p>
 <table border="0" cellpadding="0" cellspacing="4">
@@ -136,8 +129,7 @@ x86 processors by running <b>./configure</b> script with switch
 </blockquote>
 
 Alternatively, if you don't use GNU Configure system, edit file "include/STTypes.h" 
-directly and remove the following definition:</p>
-<blockquote>
+directly and remove the following definition:<blockquote>
   <pre>#define SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS 1</pre>
 </blockquote>
 
@@ -357,7 +349,7 @@ from Athlon XP. </li>
 <h2><a name="SoundStretch"></a>4. SoundStretch audio processing utility
 </h2>
 <p>SoundStretch audio processing utility<br>
-Copyright (c) Olli Parviainen 2002-2010</p>
+    Copyright (c) Olli Parviainen 2002-2012</p>
 <p>SoundStretch is a simple command-line application that can change
 tempo, pitch and playback rates of WAV sound files. This program is
 intended primarily to demonstrate how the "SoundTouch" library can be
@@ -508,6 +500,8 @@ and estimates the BPM rate:</p>
 <h3>5.1. SoundTouch library Change History </h3>
 <p><b>1.6.1:</b></p>
 <ul>
+    <li>Sound quality improvements</li>
+    <li>Rewrote x86 cpu feature check to resolve compilation problems</li>
     <li>Fix bug in Wavfile exception string formatting.
     </li>
     <li>Configure script automatically checks if CPU supports mmx & sse compatibility for GNU platform, and
@@ -716,6 +710,7 @@ submitted bugfixes since SoundTouch v1.3.1: </p>
   <li> Paulo Pizarro </li>
   <li> RJ Ryan </li>
   <li> John Sheehy</li>
+    <li> Tim Shuttleworth</li>
 </ul>
 <p>Moral greetings to all other contributors and users also!</p>
 <hr>
