@@ -22,27 +22,27 @@ include $(top_srcdir)/config/am_include.mk
 
 
 # set to something if you want other stuff to be included in the distribution tarball
-EXTRA_DIST=3dnow_win.cpp cpu_detect_x86_win.cpp SoundTouch.dsp SoundTouch.dsw SoundTouch.sln SoundTouch.vcproj
+EXTRA_DIST=3dnow_win.cpp cpu_detect_x86.cpp SoundTouch.dsp SoundTouch.dsw SoundTouch.sln SoundTouch.vcproj
 
-noinst_HEADERS=AAFilter.h cpu_detect.h cpu_detect_x86_gcc.cpp FIRFilter.h RateTransposer.h TDStretch.h PeakFinder.h
+noinst_HEADERS=AAFilter.h cpu_detect.h cpu_detect_x86.cpp FIRFilter.h RateTransposer.h TDStretch.h PeakFinder.h
 
 lib_LTLIBRARIES=libSoundTouch.la
 #
-libSoundTouch_la_SOURCES=AAFilter.cpp FIRFilter.cpp FIFOSampleBuffer.cpp RateTransposer.cpp SoundTouch.cpp TDStretch.cpp cpu_detect_x86_gcc.cpp BPMDetect.cpp PeakFinder.cpp
+libSoundTouch_la_SOURCES=AAFilter.cpp FIRFilter.cpp FIFOSampleBuffer.cpp RateTransposer.cpp SoundTouch.cpp TDStretch.cpp cpu_detect_x86.cpp BPMDetect.cpp PeakFinder.cpp
 
 
 # Compiler flags
 AM_CXXFLAGS=-O3 -fcheck-new -I../../include
 
 # Compile the files that need MMX and SSE individually.
-libSoundTouch_la_LIBADD=libSoundTouchMMX.la libSoundTouchSSE2.la
-noinst_LTLIBRARIES=libSoundTouchMMX.la libSoundTouchSSE2.la
+libSoundTouch_la_LIBADD=libSoundTouchMMX.la libSoundTouchSSE.la
+noinst_LTLIBRARIES=libSoundTouchMMX.la libSoundTouchSSE.la
 libSoundTouchMMX_la_SOURCES=mmx_optimized.cpp
-libSoundTouchSSE2_la_SOURCES=sse_optimized.cpp
+libSoundTouchSSE_la_SOURCES=sse_optimized.cpp
 
 # We enable optimizations by default.
 # If MMX is supported compile with -mmmx.
-# Do not assume -msse2 is also supported.
+# Do not assume -msse is also supported.
 if HAVE_MMX
 libSoundTouchMMX_la_CXXFLAGS = -mmmx $(AM_CXXFLAGS)
 else
@@ -50,17 +50,17 @@ libSoundTouchMMX_la_CXXFLAGS = $(AM_CXXFLAGS)
 endif
 
 # We enable optimizations by default.
-# If SSE2 is supported compile with -msse2.
-if HAVE_SSE2
-libSoundTouchSSE2_la_CXXFLAGS = -msse2 $(AM_CXXFLAGS)
+# If SSE is supported compile with -msse.
+if HAVE_SSE
+libSoundTouchSSE_la_CXXFLAGS = -msse $(AM_CXXFLAGS)
 else
-libSoundTouchSSE2_la_CXXFLAGS = $(AM_CXXFLAGS)
+libSoundTouchSSE_la_CXXFLAGS = $(AM_CXXFLAGS)
 endif
 
 # Let the user disable optimizations if he wishes to.
 if !X86_OPTIMIZATIONS
 libSoundTouchMMX_la_CXXFLAGS = $(AM_CXXFLAGS)
-libSoundTouchSSE2_la_CXXFLAGS = $(AM_CXXFLAGS)
+libSoundTouchSSE_la_CXXFLAGS = $(AM_CXXFLAGS)
 endif
 
 
@@ -68,4 +68,4 @@ endif
 # noinst_LTLIBRARIES = libSoundTouchOpt.la
 # libSoundTouch_la_LIBADD = libSoundTouchOpt.la
 # libSoundTouchOpt_la_SOURCES = mmx_optimized.cpp sse_optimized.cpp 
-# libSoundTouchOpt_la_CXXFLAGS = -O3 -msse2 -fcheck-new -I../../include
+# libSoundTouchOpt_la_CXXFLAGS = -O3 -msse -fcheck-new -I../../include
