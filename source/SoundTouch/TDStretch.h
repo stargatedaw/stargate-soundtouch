@@ -127,8 +127,6 @@ protected:
     FIFOSampleBuffer outputBuffer;
     FIFOSampleBuffer inputBuffer;
     BOOL bQuickSeek;
-//    int outDebt;
-//    BOOL bMidBufferDirty;
 
     int sampleRate;
     int sequenceMs;
@@ -234,17 +232,17 @@ public:
                                                     ///< contains both channels if stereo
             );
 
-	/// return nominal input sample requirement for triggering a processing batch
-	int getInputSampleReq() const
-	{
-		return (int)(nominalSkip + 0.5);
-	}
+    /// return nominal input sample requirement for triggering a processing batch
+    int getInputSampleReq() const
+    {
+        return (int)(nominalSkip + 0.5);
+    }
 
-	/// return nominal output sample amount when running a processing batch
-	int getOutputBatchSize() const
-	{
-		return seekWindowLength - overlapLength;
-	}
+    /// return nominal output sample amount when running a processing batch
+    int getOutputBatchSize() const
+    {
+        return seekWindowLength - overlapLength;
+    }
 };
 
 
