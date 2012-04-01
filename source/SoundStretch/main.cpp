@@ -39,6 +39,7 @@
 #include <stdexcept>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 #include "RunParameters.h"
 #include "WavFile.h"
 #include "SoundTouch.h"
@@ -169,7 +170,6 @@ static void setup(SoundTouch *pSoundTouch, const WavInFile *inFile, const RunPar
 
     fflush(stderr);
 }
-
 
 
 
@@ -309,8 +309,11 @@ int main(const int nParams, const char * const paramStr[])
         // Setup the 'SoundTouch' object for processing the sound
         setup(&soundTouch, inFile, params);
 
+        // clock_t cs = clock();    // for benchmarking processing duration
         // Process the sound
         process(&soundTouch, inFile, outFile);
+        // clock_t ce = clock();    // for benchmarking processing duration
+        // printf("duration: %lf\n", (double)(ce-cs)/CLOCKS_PER_SEC);
 
         // Close WAV file handles & dispose of the objects
         delete inFile;
