@@ -19,7 +19,7 @@ dnl this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 dnl Place - Suite 330, Boston, MA  02111-1307, USA
 # Process this file with autoconf to produce a configure script.
 
-AC_INIT(SoundTouch, 1.6.1, [http://www.surina.net/soundtouch])
+AC_INIT(SoundTouch, 1.7.0, [http://www.surina.net/soundtouch])
 AC_CONFIG_AUX_DIR(config)
 AM_CONFIG_HEADER([include/soundtouch_config.h])
 AM_INIT_AUTOMAKE
