@@ -52,8 +52,9 @@ echo *********************************************************************
 echo **
 echo ** ERROR: Visual Studio path not set.
 echo **
-echo ** Run "vcvars32.bat" from Visual Studio installation directory, e.g. 
-echo ** "\Program Files\Microsoft Visual Studio\VC98\Bin", then try again.
+echo ** Run "vsvars32.bat" or "vcvars32.bat" from Visual Studio installation
+echo ** directory, e.g. "\Program Files\Microsoft Visual Studio\VC98\Bin",
+echo ** then try again.
 echo **
 echo *********************************************************************
 
