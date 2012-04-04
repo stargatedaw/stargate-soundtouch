@@ -56,12 +56,14 @@ dnl ############################################################################
 AC_HEADER_STDC
 #AC_HEADER_SYS_WAIT
 #	add any others you want to check for here
-AC_CHECK_HEADERS([cpuid.h],,[AC_MSG_ERROR([cpuid.h not found, install gcc >= 4.3])])
+AC_CHECK_HEADERS([cpuid.h])
 
-
-
-
-
+if test "x$ac_cv_header_cpuid_h" = "xno"; then
+	AC_MSG_WARN([The cpuid.h file was not found therefore the x86 optimizations will be disabled.])
+	AC_MSG_WARN([If using a x86 architecture and optimizations are desired then please install gcc (>= 4.3).])
+	AC_MSG_WARN([If using a non-x86 architecture then this is expected and can be ignored.])
+fi
+ 
 
 dnl ############################################################################
 dnl # Checks for typedefs, structures, and compiler characteristics            $
@@ -103,7 +105,7 @@ fi
 
 
 # Check if optimizations are supported in the system at build time.
-if test "x$enable_x86_optimizations" = "xyes"; then
+if test "x$enable_x86_optimizations" = "xyes" -a "x$ac_cv_header_cpuid_h" = "xyes"; then
         echo "****** x86 optimizations enabled ******"
 
 	original_saved_CXXFLAGS=$CXXFLAGS
