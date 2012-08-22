@@ -92,8 +92,25 @@ typedef struct
 } WavHeader;
 
 
+/// Base class for processing WAV audio files.
+class WavFileBase
+{
+private:
+    /// Conversion working buffer;
+    void *convBuff;
+    int convBuffSize;
+
+protected:
+    WavFileBase();
+    virtual ~WavFileBase();
+
+    /// Get pointer to conversion buffer of at min. given size
+    void *getConvBuffer(int sizeByte);
+};
+
+
 /// Class for reading WAV audio files.
-class WavInFile
+class WavInFile : protected WavFileBase
 {
 private:
     /// File pointer.
@@ -177,6 +194,7 @@ public:
     /// Reads audio samples from the WAV file to floating point format, converting 
     /// sample values to range [-1,1[. Reads given number of elements from the file
     /// or if end-of-file reached, as many elements as are left in the file.
+    /// Notice that reading in float format supports 8/16/24/32bit sample formats.
     ///
     /// \return Number of elements read from the file.
     int read(float *buffer,     ///< Pointer to buffer where to read data.
@@ -192,7 +210,7 @@ public:
 
 
 /// Class for writing WAV audio files.
-class WavOutFile
+class WavOutFile : protected WavFileBase
 {
 private:
     /// Pointer to the WAV file
