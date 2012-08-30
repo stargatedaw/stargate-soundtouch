@@ -132,7 +132,7 @@ int PeakFinder::findGround(const float *data, int peakpos, int direction) const
         {
             // going uphill, increase climbing counter
             climb_count ++;
-            if (climb_count > 5) break;    // we've been climbing too long => it's next uphill => quit
+            if (climb_count >= 10) break;    // we've been climbing too long => it's next uphill => quit
         }
     }
     return lowpos;
