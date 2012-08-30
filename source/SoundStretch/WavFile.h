@@ -116,8 +116,11 @@ private:
     /// File pointer.
     FILE *fptr;
 
+    /// Position within the audio stream
+    long position;
+
     /// Counter of how many bytes of sample data have been read from the file.
-    uint dataRead;
+    long dataRead;
 
     /// WAV header information
     WavHeader header;
@@ -174,6 +177,11 @@ public:
 
     /// Get the audio file length in milliseconds
     uint getLengthMS() const;
+
+    /// Returns how many milliseconds of audio have so far been read from the file
+    ///
+    /// \return elapsed duration in milliseconds
+    uint getElapsedMS() const;
 
     /// Reads audio samples from the WAV file. This routine works only for 8 bit samples.
     /// Reads given number of elements from the file or if end-of-file reached, as many 

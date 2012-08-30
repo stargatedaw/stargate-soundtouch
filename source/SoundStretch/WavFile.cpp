@@ -651,6 +651,14 @@ uint WavInFile::getLengthMS() const
 }
 
 
+/// Returns how many milliseconds of audio have so far been read from the file
+uint WavInFile::getElapsedMS() const
+{
+    return (uint)(1000.0 * (double)dataRead / (double)header.format.byte_rate);
+}
+
+
+
 //////////////////////////////////////////////////////////////////////////////
 //
 // Class WavOutFile
