@@ -97,7 +97,7 @@ class WavFileBase
 {
 private:
     /// Conversion working buffer;
-    void *convBuff;
+    char *convBuff;
     int convBuffSize;
 
 protected:

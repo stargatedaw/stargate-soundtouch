@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////////
+ ////////////////////////////////////////////////////////////////////////////////
 ///
 /// Classes for easy reading & writing of WAV sound files. 
 ///
@@ -395,7 +395,7 @@ int WavInFile::read(float *buffer, int maxElems)
         case 1:
         {
             char *temp2 = temp;
-            double conv = 1.0 / 128;
+            double conv = 1.0 / 128.0;
             for (int i = 0; i < numElems; i ++)
             {
                 buffer[i] = (float)(temp2[i] * conv);
@@ -406,7 +406,7 @@ int WavInFile::read(float *buffer, int maxElems)
         case 2:
         {
             short *temp2 = (short*)temp;
-            double conv = 1.0 / 32768;
+            double conv = 1.0 / 32768.0;
             for (int i = 0; i < numElems; i ++)
             {
                 short value = temp2[i];
@@ -418,7 +418,7 @@ int WavInFile::read(float *buffer, int maxElems)
         case 3:
         {
             char *temp2 = (char *)temp;
-            double conv = 1.0 / 8388608;
+            double conv = 1.0 / 8388608.0;
             for (int i = 0; i < numElems; i ++)
             {
                 int value = *((int*)temp2);
@@ -433,7 +433,7 @@ int WavInFile::read(float *buffer, int maxElems)
         case 4:
         {
             int *temp2 = (int *)temp;
-            double conv = 1.0 / 2147483648;
+            double conv = 1.0 / 2147483648.0;
             assert(sizeof(int) == 4);
             for (int i = 0; i < numElems; i ++)
             {
