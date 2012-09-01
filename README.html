@@ -508,6 +508,7 @@ and estimates the BPM rate:</p>
     the script support now "--enable-x86-optimizations" switch to allow disabling x86-specific optimizations.</li>
     <li>Revised #define conditions for 32bit/64bit compatibility</li>
     <li>gnu autoconf/automake script compatibility fixes</li>
+    <li>Tuned beat-per-minute detection algorithm</li>
 </ul>
 <p><b>1.6.0:</b></p>
 <ul>
@@ -643,7 +644,7 @@ accessing the FIFOSampleBuffer class from external files. </li>
 <p><b>1.7.0:</b></p>
 <ul>
     <li>Bugfixes in Wavfile: exception string formatting, avoid getLengthMs() integer 
-        precision overflow</li>
+        precision overflow, support WAV files using 24/32bit sample format.</li>
 </ul>
     <p><b>1.5.0:</b></p>
 <ul>
@@ -718,6 +719,7 @@ submitted bugfixes since SoundTouch v1.3.1: </p>
   <li> RJ Ryan </li>
   <li> John Sheehy</li>
     <li> Tim Shuttleworth</li>
+    <li> Katja Vetter</li>
 </ul>
 <p>Moral greetings to all other contributors and users also!</p>
 <hr>
