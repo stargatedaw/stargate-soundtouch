@@ -348,7 +348,7 @@ int WavInFile::read(short *buffer, int maxElems)
         default:
         {
             stringstream ss;
-            ss << "\nOnly 8/16 bit sample WAV files supported. Can't open WAV file with ";
+            ss << "\nOnly 8/16 bit sample WAV files supported in integer compilation. Can't open WAV file with ";
             ss << (int)header.format.bits_per_sample;
             ss << " bit sample format. ";
             ST_THROW_RT_ERROR(ss.str().c_str());
