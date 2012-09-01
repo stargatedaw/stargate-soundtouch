@@ -394,11 +394,11 @@ int WavInFile::read(float *buffer, int maxElems)
     {
         case 1:
         {
-            char *temp2 = temp;
+            unsigned char *temp2 = (unsigned char*)temp;
             double conv = 1.0 / 128.0;
             for (int i = 0; i < numElems; i ++)
             {
-                buffer[i] = (float)(temp2[i] * conv);
+                buffer[i] = (float)(temp2[i] * conv - 1.0);
             }
             break;
         }
@@ -886,10 +886,10 @@ void WavOutFile::write(const float *buffer, int numElems)
     {
         case 1:
         {
-            char *temp2 = (char *)temp;
+            unsigned char *temp2 = (unsigned char *)temp;
             for (int i = 0; i < numElems; i ++)
             {
-                temp2[i] = (char)saturate(buffer[i] * 128.0f, -128.0f, 127.0f);
+                temp2[i] = (unsigned char)saturate(buffer[i] * 128.0f + 128.0f, 0.0f, 255.0f);
             }
             break;
         }
