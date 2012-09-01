@@ -164,7 +164,7 @@ void *WavFileBase::getConvBuffer(int sizeBytes)
     {
         delete[] convBuff;
 
-        convBuffSize = (sizeBytes + 15) & -8;
+        convBuffSize = (sizeBytes + 15) & -8;   // round up to following 8-byte bounday
         convBuff = new char[convBuffSize];
     }
     return convBuff;
@@ -268,7 +268,7 @@ int WavInFile::checkCharTags() const
 }
 
 
-int WavInFile::read(char *buffer, int maxElems)
+int WavInFile::read(unsigned char *buffer, int maxElems)
 {
     int numBytes;
     uint afterDataRead;
@@ -304,23 +304,48 @@ int WavInFile::read(short *buffer, int maxElems)
     int numElems;
 
     assert(buffer);
-    if (header.format.bits_per_sample == 8)
+    switch (header.format.bits_per_sample)
     {
-        // 8 bit format
-        char *temp = (char*)getConvBuffer(maxElems);
-        int i;
-
-        numElems = read(temp, maxElems);
-        // convert from 8 to 16 bit
-        for (i = 0; i < numElems; i ++)
+        case 8:
         {
-            buffer[i] = temp[i] << 8;
+            // 8 bit format
+            unsigned char *temp = (unsigned char*)getConvBuffer(maxElems);
+            int i;
+
+            numElems = read(temp, maxElems);
+            // convert from 8 to 16 bit
+            for (i = 0; i < numElems; i ++)
+            {
+                buffer[i] = (short)(((short)temp[i] - 128) * 256);
+            }
+            break;
         }
-    }
-    else
-    {
-        // 16 bit format
-        if (header.format.bits_per_sample != 16)
+
+        case 16:
+        {
+            // 16 bit format
+
+            assert(sizeof(short) == 2);
+
+            numBytes = maxElems * 2;
+            afterDataRead = dataRead + numBytes;
+            if (afterDataRead > header.data.data_len) 
+            {
+                // Don't read more samples than are marked available in header
+                numBytes = (int)header.data.data_len - (int)dataRead;
+                assert(numBytes >= 0);
+            }
+
+            numBytes = (int)fread(buffer, 1, numBytes, fptr);
+            dataRead += numBytes;
+            numElems = numBytes / 2;
+
+            // 16bit samples, swap byte order if necessary
+            _swap16Buffer((short *)buffer, numElems);
+            break;
+        }
+
+        default:
         {
             stringstream ss;
             ss << "\nOnly 8/16 bit sample WAV files supported. Can't open WAV file with ";
@@ -328,25 +353,7 @@ int WavInFile::read(short *buffer, int maxElems)
             ss << " bit sample format. ";
             ST_THROW_RT_ERROR(ss.str().c_str());
         }
-
-        assert(sizeof(short) == 2);
-
-        numBytes = maxElems * 2;
-        afterDataRead = dataRead + numBytes;
-        if (afterDataRead > header.data.data_len) 
-        {
-            // Don't read more samples than are marked available in header
-            numBytes = (int)header.data.data_len - (int)dataRead;
-            assert(numBytes >= 0);
-        }
-
-        numBytes = (int)fread(buffer, 1, numBytes, fptr);
-        dataRead += numBytes;
-        numElems = numBytes / 2;
-
-        // 16bit samples, swap byte order if necessary
-        _swap16Buffer((short *)buffer, numElems);
-    }
+    };
 
     return numElems;
 }
@@ -718,7 +725,6 @@ void WavOutFile::fillInHeader(uint sampleRate, uint bits, uint channels)
     // copy string 'WAVE' to wave
     memcpy(&(header.riff.wave), waveStr, 4);
 
-
     // fill in the 'format' part..
 
     // copy string 'fmt ' to fmt
@@ -784,7 +790,7 @@ void WavOutFile::writeHeader()
 
 
 
-void WavOutFile::write(const char *buffer, int numElems)
+void WavOutFile::write(const unsigned char *buffer, int numElems)
 {
     int res;
 
@@ -812,46 +818,49 @@ void WavOutFile::write(const short *buffer, int numElems)
     // 16 bit samples
     if (numElems < 1) return;   // nothing to do
 
-    if (header.format.bits_per_sample == 8)
+    switch (header.format.bits_per_sample)
     {
-        int i;
-        char *temp = new char[numElems];
-        // convert from 16bit format to 8bit format
-        for (i = 0; i < numElems; i ++)
+        case 8:
         {
-            temp[i] = buffer[i] >> 8;
+            int i;
+            unsigned char *temp = (unsigned char *)getConvBuffer(numElems);
+            // convert from 16bit format to 8bit format
+            for (i = 0; i < numElems; i ++)
+            {
+                temp[i] = (unsigned char)(buffer[i] / 256 + 128);
+            }
+            // write in 8bit format
+            write(temp, numElems);
+            break;
         }
-        // write in 8bit format
-        write(temp, numElems);
-        delete[] temp;
-    }
-    else
-    {
-        // 16bit format
-        short *pTemp = new short[numElems];
 
-        if (header.format.bits_per_sample != 16)
+        case 16:
+        {
+            // 16bit format
+
+            // use temp buffer to swap byte order if necessary
+            short *pTemp = (short *)getConvBuffer(numElems * sizeof(short));
+            memcpy(pTemp, buffer, numElems * 2);
+            _swap16Buffer(pTemp, numElems);
+
+            res = (int)fwrite(pTemp, 2, numElems, fptr);
+
+            if (res != numElems) 
+            {
+                ST_THROW_RT_ERROR("Error while writing to a wav file.");
+            }
+            bytesWritten += 2 * numElems;
+            break;
+        }
+
+        default:
         {
             stringstream ss;
-            ss << "\nOnly 8/16 bit sample WAV files supported. Can't open WAV file with ";
+            ss << "\nOnly 8/16 bit sample WAV files supported in integer compilation. Can't open WAV file with ";
             ss << (int)header.format.bits_per_sample;
             ss << " bit sample format. ";
             ST_THROW_RT_ERROR(ss.str().c_str());
         }
-
-        // allocate temp buffer to swap byte order if necessary
-        memcpy(pTemp, buffer, numElems * 2);
-        _swap16Buffer(pTemp, numElems);
-
-        res = (int)fwrite(pTemp, 2, numElems, fptr);
-
-        delete[] pTemp;
-
-        if (res != numElems) 
-        {
-            ST_THROW_RT_ERROR("Error while writing to a wav file.");
-        }
-        bytesWritten += 2 * numElems;
     }
 }
 

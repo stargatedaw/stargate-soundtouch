@@ -188,7 +188,7 @@ public:
     /// elements as are left in the file.
     ///
     /// \return Number of 8-bit integers read from the file.
-    int read(char *buffer, int maxElems);
+    int read(unsigned char *buffer, int maxElems);
 
     /// Reads audio samples from the WAV file to 16 bit integer format. Reads given number 
     /// of elements from the file or if end-of-file reached, as many elements as are 
@@ -256,8 +256,8 @@ public:
 
     /// Write data to WAV file. This function works only with 8bit samples. 
     /// Throws a 'runtime_error' exception if writing to file fails.
-    void write(const char *buffer,     ///< Pointer to sample data buffer.
-               int numElems             ///< How many array items are to be written to file.
+    void write(const unsigned char *buffer, ///< Pointer to sample data buffer.
+               int numElems                 ///< How many array items are to be written to file.
                );
 
     /// Write data to WAV file. Throws a 'runtime_error' exception if writing to
