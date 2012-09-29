@@ -133,6 +133,17 @@ directly and remove the following definition:<blockquote>
   <pre>#define SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS 1</pre>
 </blockquote>
 
+<h4><b>2.2.3 Compiling Shared Library / DLL version</b></h4>
+    <p>
+        The GNU compilation does not automatically create a shared-library version of 
+        SoundTouch (.so or .dll). If such is desired, then you can create it as follows 
+        after running the usual compilation:</p>
+    <blockquote>
+  <pre>g++ -shared -static -DDLL_EXPORTS -I../../include -o SoundTouch.dll \
+     SoundTouchDLL.cpp ../SoundTouch/.libs/libSoundTouch.a
+strip SoundTouch.dll</pre>
+</blockquote>
+
 <hr>
 <h2>3. About implementation &amp; Usage tips</h2>
 <h3>3.1. Supported sample data formats</h3>
@@ -710,16 +721,18 @@ submitted bugfixes since SoundTouch v1.3.1: </p>
   <li> David Clark</li>
   <li> Patrick Colis </li>
   <li> Miquel Colon </li>
+  <li> Sandro Cumerlato</li>
   <li> Justin Frankel </li>
   <li> Jason Garland </li>
   <li> Takashi Iwai </li>
+  <li> Mathias Möhl</li>
   <li> Yuval Naveh </li>
   <li> Paulo Pizarro </li>
-    <li> Blaise Potard</li>
+  <li> Blaise Potard</li>
   <li> RJ Ryan </li>
   <li> John Sheehy</li>
-    <li> Tim Shuttleworth</li>
-    <li> Katja Vetter</li>
+  <li> Tim Shuttleworth</li>
+  <li> Katja Vetter</li>
 </ul>
 <p>Moral greetings to all other contributors and users also!</p>
 <hr>
@@ -739,5 +752,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA</p>
 <hr><!--
 $Id$
 -->
+    <p>
+        <i>README.html file updated on 29-Sep-2012</i></p>
 </body>
 </html>
