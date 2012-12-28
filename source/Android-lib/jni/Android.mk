@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# $Id: Android.mk 327 2012-03-25 18:26:07Z olli $
+# $Id$
 
 LOCAL_PATH := $(call my-dir)
 
@@ -21,9 +21,10 @@ include $(CLEAR_VARS)
 # *** Remember: Change -O0 into -O2 in add-applications.mk ***
 
 LOCAL_MODULE    := soundtouch
-LOCAL_SRC_FILES := soundtouch-jni.cpp ../../SoundTouch/AAFilter.cpp \
-                   ../../SoundTouch/FIFOSampleBuffer.cpp ../../SoundTouch/FIRFilter.cpp ../../SoundTouch/cpu_detect_x86.cpp \
-                   ../../SoundTouch/RateTransposer.cpp ../../SoundTouch/SoundTouch.cpp  ../../SoundTouch/TDStretch.cpp
+LOCAL_SRC_FILES := soundtouch-jni.cpp ../../SoundTouch/AAFilter.cpp  ../../SoundTouch/FIFOSampleBuffer.cpp \
+                ../../SoundTouch/FIRFilter.cpp ../../SoundTouch/cpu_detect_x86.cpp \
+                ../../SoundTouch/RateTransposer.cpp ../../SoundTouch/SoundTouch.cpp \
+                ../../SoundTouch/TDStretch.cpp ../../SoundTouch/BPMDetect.cpp ../../SoundTouch/PeakFinder.cpp
 
 # for native audio
 LOCAL_LDLIBS    += -lgcc 
