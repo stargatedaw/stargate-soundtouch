@@ -239,8 +239,6 @@ double PeakFinder::detectPeak(const float *data, int aminPos, int amaxPos)
     // - sometimes the highest peak can be Nth harmonic of the true base peak yet 
     // just a slightly higher than the true base
 
-    int hp = (int)(highPeak + 0.5);
-
     for (i = 3; i < 10; i ++)
     {
         double peaktmp, harmonic;
