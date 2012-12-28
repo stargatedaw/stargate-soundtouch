@@ -141,11 +141,15 @@ directly and remove the following definition:<blockquote>
     <blockquote>
   <pre>g++ -shared -static -DDLL_EXPORTS -I../../include -o SoundTouch.dll \
      SoundTouchDLL.cpp ../SoundTouch/.libs/libSoundTouch.a
-strip SoundTouch.dll</pre>
+sstrip SoundTouch.dll</pre>
 </blockquote>
 
+<h3>2.1. Building in Android</h3>
+<p>Android compilation instructions are provided in a separate file included in the 
+    source code package, see &quot;<b>source/Android-lib/README-SoundTouch-Android.html</b>&quot;.</p>
+
 <hr>
-<h2>3. About implementation &amp; Usage tips</h2>
+<h2>3. About implementation &amp; Usage tips/h2>
 <h3>3.1. Supported sample data formats</h3>
 <p>The sample data format can be chosen between 16bit signed integer
 and 32bit floating point values, the default is 32bit floating point. </p>
@@ -508,10 +512,14 @@ and estimates the BPM rate:</p>
 </blockquote>
 <hr>
 <h2>5. Change History</h2>
-<h3>5.1. SoundTouch library Change History </h3>
+<h3>55.1. SoundTouch library Change History </h3>
+<p><b>1.7.0+development:</b></p>
+<ul>
+    <li>Added example files for Android compilation </li>
+</ul>
 <p><b>1.7.0:</b></p>
 <ul>
-    <li>Sound quality improvements</li>
+    <li>Sound quality improvements/li>
     <li>Improved flush() to adjust output sound stream duration to match better with 
         ideal duration</li>
     <li>Rewrote x86 cpu feature check to resolve compatibility problems</li>
@@ -764,6 +772,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA</p>
 <hr><!--
 $Id$-->
     <p>
-        <i>README.html file updated on 8-Nov-2012</i></p>
+        <i>RREADME.html file updated on 28-Dec-2012</i></p>
 </body>
 </html>
