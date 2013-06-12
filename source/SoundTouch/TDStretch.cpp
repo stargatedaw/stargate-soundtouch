@@ -212,7 +212,7 @@ void TDStretch::overlapMono(SAMPLETYPE *pOutput, const SAMPLETYPE *pInput) const
 
 void TDStretch::clearMidBuffer()
 {
-    memset(pMidBuffer, 0, 2 * sizeof(SAMPLETYPE) * overlapLength);
+    memset(pMidBuffer, 0, channels * sizeof(SAMPLETYPE) * overlapLength);
 }
 
 
@@ -265,13 +265,22 @@ int TDStretch::seekBestOverlapPosition(const SAMPLETYPE *refPos)
 // of 'ovlPos'.
 inline void TDStretch::overlap(SAMPLETYPE *pOutput, const SAMPLETYPE *pInput, uint ovlPos) const
 {
-    if (channels == 2) 
+#ifndef USE_MULTICH_ALWAYS
+    if (channels == 1)
+    {
+        // mono sound.
+        overlapMono(pOutput, pInput + ovlPos);
+    }
+    else if (channels == 2)
     {
         // stereo sound
         overlapStereo(pOutput, pInput + 2 * ovlPos);
-    } else {
-        // mono sound.
-        overlapMono(pOutput, pInput + ovlPos);
+    } 
+    else 
+#endif // USE_MULTICH_ALWAYS
+    {
+        assert(channels > 0);
+        overlapMulti(pOutput, pInput + channels * ovlPos);
     }
 }
 
@@ -458,11 +467,15 @@ void TDStretch::setChannels(int numChannels)
 {
     assert(numChannels > 0);
     if (channels == numChannels) return;
-    assert(numChannels == 1 || numChannels == 2);
+//    assert(numChannels == 1 || numChannels == 2);
 
     channels = numChannels;
     inputBuffer.setChannels(channels);
     outputBuffer.setChannels(channels);
+
+    // re-init overlap/buffer
+    overlapLength=0;
+    setParameters(sampleRate);
 }
 
 
@@ -666,6 +679,27 @@ void TDStretch::overlapStereo(short *poutput, const short *input) const
     }
 }
 
+
+// Overlaps samples in 'midBuffer' with the samples in 'input'. The 'Multi'
+// version of the routine.
+void TDStretch::overlapMulti(SAMPLETYPE *poutput, const SAMPLETYPE *input) const
+{
+    SAMPLETYPE m1=(SAMPLETYPE)0;
+    SAMPLETYPE m2;
+    int i=0;
+
+    for (m2 = (SAMPLETYPE)overlapLength; m2; m2 --)
+    {
+        for (int c = 0; c < channels; c ++)
+        {
+            poutput[i] = (input[i] * m1 + pMidBuffer[i] * m2)  / overlapLength;
+            i++;
+        }
+
+        m1++;
+    }
+}
+
 // Calculates the x having the closest 2^x value for the given value
 static int _getClosest2Power(double value)
 {
@@ -754,6 +788,34 @@ void TDStretch::overlapStereo(float *pOutput, const float *pInput) const
         pOutput[i + 0] = pInput[i + 0] * f1 + pMidBuffer[i + 0] * f2;
         pOutput[i + 1] = pInput[i + 1] * f1 + pMidBuffer[i + 1] * f2;
 
+        f1 += fScale;
+        f2 -= fScale;
+    }
+}
+
+
+// Overlaps samples in 'midBuffer' with the samples in 'input'. 
+void TDStretch::overlapMulti(float *pOutput, const float *pInput) const
+{
+    int i;
+    float fScale;
+    float f1;
+    float f2;
+
+    fScale = 1.0f / (float)overlapLength;
+
+    f1 = 0;
+    f2 = 1.0f;
+
+    i=0;
+    for (int i2 = 0; i2 < overlapLength; i2 ++)
+    {
+        // note: Could optimize this slightly by taking into account that always channels > 2
+        for (int c = 0; c < channels; c ++)
+        {
+            pOutput[i] = pInput[i] * f1 + pMidBuffer[i] * f2;
+            i++;
+        }
         f1 += fScale;
         f2 -= fScale;
     }

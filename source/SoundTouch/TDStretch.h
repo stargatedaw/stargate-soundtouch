@@ -147,6 +147,7 @@ protected:
 
     virtual void overlapStereo(SAMPLETYPE *output, const SAMPLETYPE *input) const;
     virtual void overlapMono(SAMPLETYPE *output, const SAMPLETYPE *input) const;
+    virtual void overlapMulti(SAMPLETYPE *output, const SAMPLETYPE *input) const;
 
     void clearMidBuffer();
     void overlap(SAMPLETYPE *output, const SAMPLETYPE *input, uint ovlPos) const;

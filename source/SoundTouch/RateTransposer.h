@@ -85,13 +85,14 @@ protected:
 
     virtual void resetRegisters() = 0;
 
-    virtual uint transposeStereo(SAMPLETYPE *dest, 
+    virtual int transposeStereo(SAMPLETYPE *dest, 
                          const SAMPLETYPE *src, 
                          uint numSamples) = 0;
-    virtual uint transposeMono(SAMPLETYPE *dest, 
+    virtual int transposeMono(SAMPLETYPE *dest, 
                        const SAMPLETYPE *src, 
                        uint numSamples) = 0;
-    inline uint transpose(SAMPLETYPE *dest, 
+    virtual int transposeMulti(SAMPLETYPE *dest, const SAMPLETYPE *src, uint nSamples) = 0;
+    inline int transpose(SAMPLETYPE *dest, 
                    const SAMPLETYPE *src, 
                    uint numSamples);
 
