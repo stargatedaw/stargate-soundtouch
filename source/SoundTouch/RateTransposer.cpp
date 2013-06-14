@@ -394,9 +394,9 @@ RateTransposerInteger::~RateTransposerInteger()
 void RateTransposerInteger::resetRegisters()
 {
     iSlopeCount = 0;
-    if (sPrevSample) delete[] sPrevSample;
+    delete[] sPrevSample;
     sPrevSample = new SAMPLETYPE[numChannels];
-    memset(sPrevSample, 0, numChannels*sizeof(*sPrevSample));
+    memset(sPrevSample, 0, numChannels * sizeof(SAMPLETYPE));
 }
 
 
@@ -579,7 +579,7 @@ RateTransposerFloat::RateTransposerFloat() : RateTransposer()
 {
     // Notice: use local function calling syntax for sake of clarity, 
     // to indicate the fact that C++ constructor can't call virtual functions.
-    sPrevSample=0;
+    sPrevSample = NULL;
     RateTransposerFloat::resetRegisters();
     RateTransposerFloat::setRate(1.0f);
 }
@@ -587,16 +587,16 @@ RateTransposerFloat::RateTransposerFloat() : RateTransposer()
 
 RateTransposerFloat::~RateTransposerFloat()
 {
-    if (sPrevSample) delete[] sPrevSample;
+    delete[] sPrevSample;
 }
 
 
 void RateTransposerFloat::resetRegisters()
 {
     fSlopeCount = 0;
-    if (sPrevSample) delete[] sPrevSample;
+    delete[] sPrevSample;
     sPrevSample = new SAMPLETYPE[numChannels];
-    memset(sPrevSample, 0, numChannels*sizeof(*sPrevSample));
+    memset(sPrevSample, 0, numChannels * sizeof(SAMPLETYPE));
 }
 
 

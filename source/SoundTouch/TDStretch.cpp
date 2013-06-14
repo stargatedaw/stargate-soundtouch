@@ -51,8 +51,6 @@
 #include "cpu_detect.h"
 #include "TDStretch.h"
 
-#include <stdio.h>
-
 using namespace soundtouch;
 
 #define max(x, y) (((x) > (y)) ? (x) : (y))
@@ -159,7 +157,6 @@ void TDStretch::setParameters(int aSampleRate, int aSequenceMS,
 
     // set tempo to recalculate 'sampleReq'
     setTempo(tempo);
-
 }
 
 
@@ -511,7 +508,6 @@ void TDStretch::processNominalTempo()
 }
 */
 
-#include <stdio.h>
 
 // Processes as many processing frames of the samples 'inputBuffer', store
 // the result into 'outputBuffer'
@@ -601,7 +597,7 @@ void TDStretch::acceptNewOverlapLength(int newOverlapLength)
     {
         delete[] pMidBufferUnaligned;
 
-        pMidBufferUnaligned = new SAMPLETYPE[overlapLength * 2 + 16 / sizeof(SAMPLETYPE)];
+        pMidBufferUnaligned = new SAMPLETYPE[overlapLength * channels + 16 / sizeof(SAMPLETYPE)];
         // ensure that 'pMidBuffer' is aligned to 16 byte boundary for efficiency
         pMidBuffer = (SAMPLETYPE *)SOUNDTOUCH_ALIGN_POINTER_16(pMidBufferUnaligned);
 

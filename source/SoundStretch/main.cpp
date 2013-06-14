@@ -48,8 +48,8 @@
 using namespace soundtouch;
 using namespace std;
 
-// Processing chunk size
-#define BUFF_SIZE           2048
+// Processing chunk size (size chosen to be divisible by 2, 4, 6, 8, 10, 12, 14, 16 channels ...)
+#define BUFF_SIZE           6720
 
 #if _WIN32
     #include <io.h>
