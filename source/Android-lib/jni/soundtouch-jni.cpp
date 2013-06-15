@@ -14,12 +14,8 @@
 
 #include <jni.h>
 #include <android/log.h>
-//#include <string.h>
-//#include <stdio.h>
-//#include <dlfcn.h>
 
 #include "../../../include/SoundTouch.h"
-//#include "TimeShiftEffect.h"
 
 #define LOGV(...)   __android_log_print((int)ANDROID_LOG_INFO, "SOUNDTOUCH", __VA_ARGS__)
 //#define LOGV(...)
@@ -29,11 +25,11 @@
 
 using namespace soundtouch;
 
-extern "C" DLL_PUBLIC jstring Java_net_surina_soundtouch_getVersionString(JNIEnv *env, jobject thiz)
+extern "C" DLL_PUBLIC jstring Java_net_surina_soundtouch_SoundTouch_getVersionString(JNIEnv *env, jobject thiz)
 {
     const char *verStr;
 
-    LOGV("JNI call soundtouch.getVersionString");
+    LOGV("JNI call SoundTouch.getVersionString");
 
     // Call example SoundTouch routine
     verStr = SoundTouch::getVersionString();
