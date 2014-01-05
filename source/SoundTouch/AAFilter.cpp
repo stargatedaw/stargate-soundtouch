@@ -52,6 +52,30 @@ using namespace soundtouch;
 #define PI        3.141592655357989
 #define TWOPI    (2 * PI)
 
+// define this to save AA filter coefficients to a file
+// #define _DEBUG_SAVE_AAFILTER_COEFFICIENTS   1
+
+#ifdef _DEBUG_SAVE_AAFILTER_COEFFICIENTS
+    #include <stdio.h>
+
+    static void _DEBUG_SAVE_AAFIR_COEFFS(SAMPLETYPE *coeffs, int len)
+    {
+        FILE *fptr = fopen("aa_filter_coeffs.txt", "wt");
+        if (fptr == NULL) return;
+
+        for (int i = 0; i < len; i ++)
+        {
+            double temp = coeffs[i];
+            fprintf(fptr, "%lf\n", temp);
+        }
+        fclose(fptr);
+    }
+
+#else
+    #define _DEBUG_SAVE_AAFIR_COEFFS(x, y) ()
+#endif
+
+
 /*****************************************************************************
  *
  * Implementation of the class 'AAFilter'
@@ -112,8 +136,7 @@ void AAFilter::calculateCoeffs()
     work = new double[length];
     coeffs = new SAMPLETYPE[length];
 
-    fc2 = 2.0 * cutoffFreq; 
-    wc = PI * fc2;
+    wc = 2.0 * PI * cutoffFreq;
     tempCoeff = TWOPI / (double)length;
 
     sum = 0;
@@ -124,7 +147,7 @@ void AAFilter::calculateCoeffs()
         temp = cntTemp * wc;
         if (temp != 0) 
         {
-            h = fc2 * sin(temp) / temp;                     // sinc function
+            h = sin(temp) / temp;                     // sinc function
         } 
         else 
         {
@@ -153,16 +176,20 @@ void AAFilter::calculateCoeffs()
 
     for (i = 0; i < length; i ++) 
     {
-        // scale & round to nearest integer
         temp = work[i] * scaleCoeff;
+//#if SOUNDTOUCH_INTEGER_SAMPLES
+        // scale & round to nearest integer
         temp += (temp >= 0) ? 0.5 : -0.5;
         // ensure no overfloods
         assert(temp >= -32768 && temp <= 32767);
+//#endif
         coeffs[i] = (SAMPLETYPE)temp;
     }
 
     // Set coefficients. Use divide factor 14 => divide result by 2^14 = 16384
     pFIR->setCoefficients(coeffs, length, 14);
+
+    _DEBUG_SAVE_AAFIR_COEFFS(coeffs, length);
 
     delete[] work;
     delete[] coeffs;
