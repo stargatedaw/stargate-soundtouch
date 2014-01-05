@@ -97,7 +97,7 @@ SoundTouch::SoundTouch()
 {
     // Initialize rate transposer and tempo changer instances
 
-    pRateTransposer = RateTransposer::newInstance();
+    pRateTransposer = new RateTransposer();
     pTDStretch = TDStretch::newInstance();
 
     setOutPipe(pTDStretch);
@@ -255,7 +255,7 @@ void SoundTouch::calcEffectiveRateAndTempo()
             tempoOut = pTDStretch->getOutput();
             tempoOut->moveSamples(*output);
             // move samples in pitch transposer's store buffer to tempo changer's input
-            pTDStretch->moveSamples(*pRateTransposer->getStore());
+            // deprecated : pTDStretch->moveSamples(*pRateTransposer->getStore());
 
             output = pTDStretch;
         }

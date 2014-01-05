@@ -162,6 +162,12 @@ public:
     /// Sets number of channels, 1 = mono, 2 = stereo.
     void setChannels(int numChannels);
 
+    /// Get number of channels
+    int getChannels() 
+    {
+        return channels;
+    }
+
     /// Returns nonzero if there aren't any samples available for outputting.
     virtual int isEmpty() const;
 

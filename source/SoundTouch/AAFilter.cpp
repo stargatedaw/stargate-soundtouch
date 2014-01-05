@@ -205,6 +205,31 @@ uint AAFilter::evaluate(SAMPLETYPE *dest, const SAMPLETYPE *src, uint numSamples
 }
 
 
+/// Applies the filter to the given src & dest pipes, so that processed amount of
+/// samples get removed from src, and produced amount added to dest 
+/// Note : The amount of outputted samples is by value of 'filter length' 
+/// smaller than the amount of input samples.
+uint AAFilter::evaluate(FIFOSampleBuffer &dest, FIFOSampleBuffer &src) const
+{
+    SAMPLETYPE *pdest;
+    const SAMPLETYPE *psrc;
+    uint numSrcSamples;
+    uint result;
+    int numChannels = src.getChannels();
+
+    assert(numChannels == dest.getChannels());
+
+    numSrcSamples = src.numSamples();
+    psrc = src.ptrBegin();
+    pdest = dest.ptrEnd(numSrcSamples);
+    result = pFIR->evaluate(pdest, psrc, numSrcSamples, numChannels);
+    src.receiveSamples(result);
+    dest.putSamples(result);
+
+    return result;
+}
+
+
 uint AAFilter::getLength() const
 {
     return pFIR->getLength();
