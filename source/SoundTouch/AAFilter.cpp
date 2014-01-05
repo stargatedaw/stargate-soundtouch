@@ -72,7 +72,7 @@ using namespace soundtouch;
     }
 
 #else
-    #define _DEBUG_SAVE_AAFIR_COEFFS(x, y) ()
+    #define _DEBUG_SAVE_AAFIR_COEFFS(x, y)
 #endif
 
 
@@ -123,7 +123,7 @@ void AAFilter::calculateCoeffs()
 {
     uint i;
     double cntTemp, temp, tempCoeff,h, w;
-    double fc2, wc;
+    double wc;
     double scaleCoeff, sum;
     double *work;
     SAMPLETYPE *coeffs;
