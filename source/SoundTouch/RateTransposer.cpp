@@ -608,8 +608,8 @@ int RateTransposerFloat::transposeMono(SAMPLETYPE *dest, const SAMPLETYPE *src, 
 {
     int i, remain;
 
-    remain = 0;
-    i = 0;
+	remain = nSamples - 1;
+	i = 0;
 
     // Process the last sample saved from the previous call first...
     while (fSlopeCount <= 1.0f) 
