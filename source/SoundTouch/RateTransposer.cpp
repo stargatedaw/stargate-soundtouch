@@ -50,15 +50,17 @@
 
 using namespace soundtouch;
 
+// Define default interpolation algorithm here
+TransposerBase::ALGORITHM TransposerBase::algorithm = TransposerBase::CUBIC;
+
 
 // Constructor
 RateTransposer::RateTransposer() : FIFOProcessor(&outputBuffer)
 {
     bUseAAFilter = TRUE;
 
-    // Instantiates the anti-alias filter with default tap length
-    // of 32
-    pAAFilter = new AAFilter(32);
+    // Instantiates the anti-alias filter
+    pAAFilter = new AAFilter(64);
     pTransposer = TransposerBase::newInstance();
 }
 
@@ -210,10 +212,6 @@ int RateTransposer::isEmpty() const
 //
 // TransposerBase - Base class for interpolation
 // 
-
-// Initialize default algorithm
-TransposerBase::ALGORITHM TransposerBase::algorithm = TransposerBase::CUBIC;
-
 
 // static function to set interpolation algorithm
 void TransposerBase::setAlgorithm(TransposerBase::ALGORITHM a)
