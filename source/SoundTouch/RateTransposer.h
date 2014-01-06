@@ -58,8 +58,27 @@ namespace soundtouch
 /// Abstract base class for transposer implementations (linear, advanced vs integer, float etc)
 class TransposerBase
 {
+public:
+        enum ALGORITHM {
+        LINEAR = 0,
+        CUBIC,
+        SHANNON
+    };
+
 protected:
     virtual void resetRegisters() = 0;
+
+    virtual int transposeMono(SAMPLETYPE *dest, 
+                        const SAMPLETYPE *src, 
+                        int &srcSamples)  = 0;
+    virtual int transposeStereo(SAMPLETYPE *dest, 
+                        const SAMPLETYPE *src, 
+                        int &srcSamples) = 0;
+    virtual int transposeMulti(SAMPLETYPE *dest, 
+                        const SAMPLETYPE *src, 
+                        int &srcSamples) = 0;
+
+    static ALGORITHM algorithm;
 
 public:
     float rate;
@@ -68,10 +87,15 @@ public:
     TransposerBase();
     virtual ~TransposerBase();
 
-    virtual int transpose(FIFOSampleBuffer &dest, FIFOSampleBuffer &src) = 0;
+    virtual int transpose(FIFOSampleBuffer &dest, FIFOSampleBuffer &src);
     virtual void setRate(float newRate);
     virtual void setChannels(int channels);
+
+    // static factory function
     static TransposerBase *newInstance();
+
+    // static function to set interpolation algorithm
+    static void setAlgorithm(ALGORITHM a);
 };
 
 

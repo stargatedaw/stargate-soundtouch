@@ -4,6 +4,7 @@
 	Version="9.00"
 	Name="soundstretch"
 	ProjectGUID="{5AACDFFA-D491-44B8-A332-DA7ACCAAF2AF}"
+	RootNamespace="soundstretch"
 	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
@@ -49,6 +50,7 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				StructMemberAlignment="5"
+				FloatingPointModel="2"
 				PrecompiledHeaderFile=".\Debug/soundstretch.pch"
 				AssemblerListingLocation=".\Debug/"
 				ObjectFile=".\Debug/"
@@ -147,6 +149,7 @@
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
+				FloatingPointModel="2"
 				PrecompiledHeaderFile=".\Release/soundstretch.pch"
 				AssemblerListingLocation=".\Release/"
 				ObjectFile=".\Release/"

@@ -28,8 +28,10 @@ noinst_HEADERS=AAFilter.h cpu_detect.h cpu_detect_x86.cpp FIRFilter.h RateTransp
 
 lib_LTLIBRARIES=libSoundTouch.la
 #
-libSoundTouch_la_SOURCES=AAFilter.cpp FIRFilter.cpp FIFOSampleBuffer.cpp RateTransposer.cpp SoundTouch.cpp TDStretch.cpp cpu_detect_x86.cpp BPMDetect.cpp PeakFinder.cpp
-
+libSoundTouch_la_SOURCES=AAFilter.cpp FIRFilter.cpp FIFOSampleBuffer.cpp    \
+    RateTransposer.cpp SoundTouch.cpp TDStretch.cpp cpu_detect_x86.cpp      \
+    BPMDetect.cpp PeakFinder.cpp InterpolateLinear.cpp InterpolateCubic.cpp \
+    InterpolateShannon.cpp
 
 # Compiler flags
 AM_CXXFLAGS=-O3 -fcheck-new -I../../include

@@ -49,6 +49,7 @@
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
+				FloatingPointModel="2"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Release/SoundTouch.pch"
 				AssemblerListingLocation=".\Release/"
@@ -124,6 +125,7 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
+				FloatingPointModel="2"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Debug/SoundTouch.pch"
 				AssemblerListingLocation=".\Debug/"
@@ -257,6 +259,28 @@
 						BrowseInformation="1"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="debug release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						Optimization="2"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\InterpolateCubic.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\InterpolateLinear.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\InterpolateShannon.cpp"
+				>
 			</File>
 			<File
 				RelativePath=".\mmx_optimized.cpp"
@@ -383,6 +407,18 @@
 			</File>
 			<File
 				RelativePath="FIRFilter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\InterpolateCubic.h"
+				>
+			</File>
+			<File
+				RelativePath=".\InterpolateLinear.h"
+				>
+			</File>
+			<File
+				RelativePath=".\InterpolateShannon.h"
 				>
 			</File>
 			<File
