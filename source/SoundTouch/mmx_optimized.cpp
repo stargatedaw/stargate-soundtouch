@@ -93,19 +93,19 @@ double TDStretchMMX::calcCrossCorr(const short *pV1, const short *pV2) const
         // _mm_add_pi32 : 2*32bit add
         // _m_psrad     : 32bit right-shift
 
-        temp = _mm_add_pi32(_mm_madd_pi16(pVec1[0], pVec2[0]),
-                            _mm_madd_pi16(pVec1[1], pVec2[1]));
-        temp2 = _mm_add_pi32(_mm_madd_pi16(pVec1[0], pVec1[0]),
-                             _mm_madd_pi16(pVec1[1], pVec1[1]));
-        accu = _mm_add_pi32(accu, _mm_sra_pi32(temp, shifter));
-        normaccu = _mm_add_pi32(normaccu, _mm_sra_pi32(temp2, shifter));
+        temp = _mm_add_pi32(_mm_sra_pi32(_mm_madd_pi16(pVec1[0], pVec2[0]), shifter),
+                            _mm_sra_pi32(_mm_madd_pi16(pVec1[1], pVec2[1]), shifter));
+        temp2 = _mm_add_pi32(_mm_sra_pi32(_mm_madd_pi16(pVec1[0], pVec1[0]), shifter),
+                            _mm_sra_pi32(_mm_madd_pi16(pVec1[1], pVec1[1]), shifter));
+        accu = _mm_add_pi32(accu, temp);
+        normaccu = _mm_add_pi32(normaccu, temp2);
 
-        temp = _mm_add_pi32(_mm_madd_pi16(pVec1[2], pVec2[2]),
-                            _mm_madd_pi16(pVec1[3], pVec2[3]));
-        temp2 = _mm_add_pi32(_mm_madd_pi16(pVec1[2], pVec1[2]),
-                             _mm_madd_pi16(pVec1[3], pVec1[3]));
-        accu = _mm_add_pi32(accu, _mm_sra_pi32(temp, shifter));
-        normaccu = _mm_add_pi32(normaccu, _mm_sra_pi32(temp2, shifter));
+        temp = _mm_add_pi32(_mm_sra_pi32(_mm_madd_pi16(pVec1[2], pVec2[2]), shifter),
+                            _mm_sra_pi32(_mm_madd_pi16(pVec1[3], pVec2[3]), shifter));
+        temp2 = _mm_add_pi32(_mm_sra_pi32(_mm_madd_pi16(pVec1[2], pVec1[2]), shifter),
+                            _mm_sra_pi32(_mm_madd_pi16(pVec1[3], pVec1[3]), shifter));
+        accu = _mm_add_pi32(accu, temp);
+        normaccu = _mm_add_pi32(normaccu, temp2);
 
         pVec1 += 4;
         pVec2 += 4;
