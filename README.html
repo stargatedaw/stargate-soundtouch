@@ -40,19 +40,11 @@ same time </li>
 if it's desirable to use floating point sample data instead of 16bit
 integers. See section "sample data format" for more information.</p>
 <h3>2.1. Building in Microsoft Windows</h3>
-<p>Project files for Microsoft Visual C++ 6.0 and Visual C++ .NET are
-supplied with the source code package.<br>
+<p>Project files for Microsoft Visual C++ are supplied with the source 
+code package. Go to Microsoft WWW page to download 
+<a href="http://www.visualstudio.com/en-US/products/visual-studio-express-vs">
+Microsoft Visual Studio Express version for free</a>.
 </p>
-<p> Please notice that SoundTouch library uses processor-specific
-optimizations for Pentium III and AMD processors. Visual Studio .NET
-and later versions supports the required instructions by default, but
-Visual Studio 6.0 requires a processor pack upgrade to be installed in
-order to support these optimizations. The processor pack upgrade can be
-downloaded from Microsoft site at this URL:</p>
-<p><a href="http://msdn.microsoft.com/en-us/vstudio/aa718349.aspx">http://msdn.microsoft.com/en-us/vstudio/aa718349.aspx</a></p>
-<p>If the above URL is unavailable or removed, go to <a
- href="http://msdn.microsoft.com/"> http://msdn.microsoft.com</a> and
-perform a search with keywords "processor pack". </p>
 <p>To build the binaries with Visual C++ compiler, either run
 "make-win.bat" script, or open the appropriate project files in source
 code directories with Visual Studio. The final executable will appear
