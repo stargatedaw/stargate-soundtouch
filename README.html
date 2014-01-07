@@ -15,8 +15,8 @@
 </head>
 <body class="normal">
 <hr>
-<h1>SoundTouch audio processing library v1.7.2 (developing)</h1>
-<p class="normal">SoundTouch library Copyright © Olli Parviainen 2001-2013 </p>
+<h1>SoundTouch audio processing library v1.8.0</h1>
+<p class="normal">SoundTouch library Copyright © Olli Parviainen 2001-2014</p>
 <hr>
 <h2>1. Introduction </h2>
 <p>SoundTouch is an open-source audio processing library that allows
@@ -33,7 +33,7 @@ same time </li>
 </ul>
 <h3>1.1 Contact information </h3>
 <p>Author email: oparviai 'at' iki.fi </p>
-<p>SoundTouch WWW page: <a href="http://www.surina.net/soundtouch">http://www.surina.net/soundtouch</a></p>
+<p>SoundTouch WWW page: <a href="http://soundtouch.surina.net">http://soundtouch.surina.net</a></p>
 <hr>
 <h2>2. Compiling SoundTouch</h2>
 <p>Before compiling, notice that you can choose the sample data format
@@ -513,9 +513,17 @@ and estimates the BPM rate:</p>
 <hr>
 <h2>5. Change History</h2>
 <h3>5.1. SoundTouch library Change History </h3>
-<p><b>1.7.2 (under work):</b></p>
+<p><b>1.8.0:</b></p>
 <ul>
-    <li>Added support for multi-channel audio processing
+    <li>Added support for multi-channel audio processing</li>
+    <li>Added support for <b>cubic</b> and <b>shannon</b> interpolation for rate and pitch shift effects besides 
+        the original <b>linear</b> interpolation, to reduce aliasing at high frequencies due to interpolation.
+        Cubic interpolation is used as default for floating point processing, and linear interpolation for integer 
+        processing.</li>
+    <li>Fixed bug in anti-alias filtering that limited stop-band attenuation to -10 dB instead of <-50dB, and
+        increased filter length from 32 to 64 taps to further reduce aliasing due to frequency folding.</li>
+    <li>Performance improvements in cross-correlation algorithm</li>
+    <li>Other bug and compatibility fixes</li>
 </ul>
 <p><b>1.7.1:</b></p>
 <ul>
@@ -778,6 +786,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA</p>
 <hr><!--
 $Id$-->
     <p>
-        <i>RREADME.html file updated on 28-Dec-2012</i></p>
+        <i>RREADME.html file updated on 7-Jan-2014</i></p>
 </body>
 </html>
