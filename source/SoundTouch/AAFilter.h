@@ -90,8 +90,8 @@ public:
     /// samples get removed from src, and produced amount added to dest 
     /// Note : The amount of outputted samples is by value of 'filter length' 
     /// smaller than the amount of input samples.
-    uint AAFilter::evaluate(FIFOSampleBuffer &dest, 
-                            FIFOSampleBuffer &src) const;
+    uint evaluate(FIFOSampleBuffer &dest, 
+                  FIFOSampleBuffer &src) const;
 
 };
 
