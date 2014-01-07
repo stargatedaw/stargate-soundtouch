@@ -139,7 +139,8 @@ protected:
     virtual void clearCrossCorrState();
     void calculateOverlapLength(int overlapMs);
 
-    virtual double calcCrossCorr(const SAMPLETYPE *mixingPos, const SAMPLETYPE *compare) const;
+    virtual double calcCrossCorr(const SAMPLETYPE *mixingPos, const SAMPLETYPE *compare, double &norm) const;
+    virtual double calcCrossCorrAccumulate(const SAMPLETYPE *mixingPos, const SAMPLETYPE *compare, double &norm) const;
 
     virtual int seekBestOverlapPositionFull(const SAMPLETYPE *refPos);
     virtual int seekBestOverlapPositionQuick(const SAMPLETYPE *refPos);
@@ -248,7 +249,8 @@ public:
     class TDStretchMMX : public TDStretch
     {
     protected:
-        double calcCrossCorr(const short *mixingPos, const short *compare) const;
+        double calcCrossCorr(const short *mixingPos, const short *compare, double &norm) const;
+        double calcCrossCorrAccumulate(const short *mixingPos, const short *compare, double &norm) const;
         virtual void overlapStereo(short *output, const short *input) const;
         virtual void clearCrossCorrState();
     };
@@ -260,7 +262,8 @@ public:
     class TDStretchSSE : public TDStretch
     {
     protected:
-        double calcCrossCorr(const float *mixingPos, const float *compare) const;
+        double calcCrossCorr(const float *mixingPos, const float *compare, double &norm) const;
+        double calcCrossCorrAccumulate(const float *mixingPos, const float *compare, double &norm) const;
     };
 
 #endif /// SOUNDTOUCH_ALLOW_SSE
