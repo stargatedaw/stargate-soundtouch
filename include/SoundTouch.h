@@ -160,7 +160,7 @@ private:
     float virtualPitch;
 
     /// Flag: Has sample rate been set?
-    BOOL  bSrateSet;
+    bool  bSrateSet;
 
     /// Calculates effective rate & tempo valuescfrom 'virtualRate', 'virtualTempo' and 
     /// 'virtualPitch' parameters.
@@ -247,8 +247,8 @@ public:
     /// Changes a setting controlling the processing system behaviour. See the
     /// 'SETTING_...' defines for available setting ID's.
     /// 
-    /// \return 'TRUE' if the setting was succesfully changed
-    BOOL setSetting(int settingId,   ///< Setting ID number. see SETTING_... defines.
+    /// \return 'true' if the setting was succesfully changed
+    bool setSetting(int settingId,   ///< Setting ID number. see SETTING_... defines.
                     int value        ///< New setting value.
                     );
 

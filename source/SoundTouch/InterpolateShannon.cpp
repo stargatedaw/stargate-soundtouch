@@ -180,6 +180,6 @@ int InterpolateShannon::transposeMulti(SAMPLETYPE *pdest,
                     int &srcSamples)
 {
     // not implemented
-    assert(FALSE);
+    assert(false);
     return 0;
 }

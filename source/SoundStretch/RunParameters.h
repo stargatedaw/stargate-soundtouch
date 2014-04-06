@@ -63,8 +63,8 @@ public:
     int   quick;
     int   noAntiAlias;
     float goalBPM;
-    BOOL  detectBPM;
-    BOOL  speech;
+    bool  detectBPM;
+    bool  speech;
 
     RunParameters(const int nParams, const char * const paramStr[]);
 };

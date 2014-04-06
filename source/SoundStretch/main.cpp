@@ -299,7 +299,7 @@ int main(const int nParams, const char * const paramStr[])
         // Open input & output files
         openFiles(&inFile, &outFile, params);
 
-        if (params->detectBPM == TRUE)
+        if (params->detectBPM == true)
         {
             // detect sound BPM (and adjust processing parameters
             //  accordingly if necessary)

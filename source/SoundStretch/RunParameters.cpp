@@ -130,8 +130,8 @@ RunParameters::RunParameters(const int nParams, const char * const paramStr[])
     quick = 0;
     noAntiAlias = 0;
     goalBPM = 0;
-    speech = FALSE;
-    detectBPM = FALSE;
+    speech = false;
+    detectBPM = false;
 
     // Get input & output file names
     inFileName = (char*)paramStr[1];
@@ -262,7 +262,7 @@ void RunParameters::parseSwitchParam(const string &str)
 
         case 'b' :
             // switch '-bpm=xx'
-            detectBPM = TRUE;
+            detectBPM = true;
             try
             {
                 goalBPM = parseSwitchValue(str);
@@ -291,7 +291,7 @@ void RunParameters::parseSwitchParam(const string &str)
 
         case 's' :
             // switch '-speech'
-            speech = TRUE;
+            speech = true;
             break;
 
         default:
