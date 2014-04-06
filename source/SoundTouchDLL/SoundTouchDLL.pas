@@ -5,7 +5,9 @@ unit SoundTouchDLL;
 // SoundTouch.dll wrapper for accessing SoundTouch routines from Delphi/Pascal
 //
 //  Module Author : Christian Budde
-//  
+//
+//  2014-01-12 fixes by Sandro Cumerlato <sandro.cumerlato 'at' gmail.com>
+//
 ////////////////////////////////////////////////////////////////////////////////
 //
 // $Id$
@@ -42,51 +44,53 @@ type
   TSoundTouchHandle = THandle;
 
   // Create a new instance of SoundTouch processor.
-  TSoundTouchCreateInstance = function : TSoundTouchHandle; stdcall;
+  TSoundTouchCreateInstance = function : TSoundTouchHandle; cdecl;
 
   // Destroys a SoundTouch processor instance.
-  TSoundTouchDestroyInstance = procedure (Handle: TSoundTouchHandle); stdcall;
+  TSoundTouchDestroyInstance = procedure (Handle: TSoundTouchHandle); cdecl;
 
   // Get SoundTouch library version string
-  TSoundTouchGetVersionString = function : PChar; stdcall;
+  TSoundTouchGetVersionString = function : PAnsiChar; cdecl;
 
+  // Get SoundTouch library version string 2
+  TSoundTouchGetVersionString2 = procedure(VersionString : PAnsiChar; BufferSize : Integer); cdecl;
+  
   // Get SoundTouch library version Id
-  TSoundTouchGetVersionId = function : Cardinal; stdcall;
+  TSoundTouchGetVersionId = function : Cardinal; cdecl;
 
   // Sets new rate control value. Normal rate = 1.0, smaller values
   // represent slower rate, larger faster rates.
-  TSoundTouchSetRate = procedure (Handle: TSoundTouchHandle; newRate: Single); stdcall;
+  TSoundTouchSetRate = procedure (Handle: TSoundTouchHandle; NewRate: Single); cdecl;
 
   // Sets new tempo control value. Normal tempo = 1.0, smaller values
   // represent slower tempo, larger faster tempo.
-  TSoundTouchSetTempo = procedure (Handle: TSoundTouchHandle; newTempo: Single); stdcall;
+  TSoundTouchSetTempo = procedure (Handle: TSoundTouchHandle; NewTempo: Single); cdecl;
 
   // Sets new rate control value as a difference in percents compared
   // to the original rate (-50 .. +100 %);
-  TSoundTouchSetRateChange = procedure (Handle: TSoundTouchHandle; newRate: Single); stdcall;
+  TSoundTouchSetRateChange = procedure (Handle: TSoundTouchHandle; NewRate: Single); cdecl;
 
   // Sets new tempo control value as a difference in percents compared
   // to the original tempo (-50 .. +100 %);
-  TSoundTouchSetTempoChange = procedure (Handle: TSoundTouchHandle; newTempo: Single); stdcall;
+  TSoundTouchSetTempoChange = procedure (Handle: TSoundTouchHandle; NewTempo: Single); cdecl;
 
   // Sets new pitch control value. Original pitch = 1.0, smaller values
   // represent lower pitches, larger values higher pitch.
-  TSoundTouchSetPitch = procedure (Handle: TSoundTouchHandle; newPitch: Single); stdcall;
+  TSoundTouchSetPitch = procedure (Handle: TSoundTouchHandle; NewPitch: Single); cdecl;
 
   // Sets pitch change in octaves compared to the original pitch
   // (-1.00 .. +1.00);
-  TSoundTouchSetPitchOctaves = procedure (Handle: TSoundTouchHandle; newPitch: Single); stdcall;
+  TSoundTouchSetPitchOctaves = procedure (Handle: TSoundTouchHandle; NewPitch: Single); cdecl;
 
   // Sets pitch change in semi-tones compared to the original pitch
   // (-12 .. +12);
-  TSoundTouchSetPitchSemiTones = procedure (Handle: TSoundTouchHandle; newPitch: Single); stdcall;
-
+  TSoundTouchSetPitchSemiTones = procedure (Handle: TSoundTouchHandle; NewPitch: Single); cdecl;
 
   // Sets the number of channels, 1 = mono, 2 = stereo
-  TSoundTouchSetChannels = procedure (Handle: TSoundTouchHandle; numChannels: Cardinal); stdcall;
+  TSoundTouchSetChannels = procedure (Handle: TSoundTouchHandle; NumChannels: Cardinal); cdecl;
 
   // Sets sample rate.
-  TSoundTouchSetSampleRate = procedure (Handle: TSoundTouchHandle; SampleRate: Cardinal); stdcall;
+  TSoundTouchSetSampleRate = procedure (Handle: TSoundTouchHandle; SampleRate: Cardinal); cdecl;
 
   // Flushes the last samples from the processing pipeline to the output.
   // Clears also the internal processing buffers.
@@ -95,7 +99,7 @@ type
   // stream. This function may introduce additional blank samples in the end
   // of the sound stream, and thus it
   // in the middle of a sound stream.
-  TSoundTouchFlush = procedure (Handle: TSoundTouchHandle); stdcall;
+  TSoundTouchFlush = procedure (Handle: TSoundTouchHandle); cdecl;
 
   // Adds 'numSamples' pcs of samples from the 'samples' memory position into
   // the input of the object. Notice that sample rate _has_to_ be set before
@@ -105,11 +109,11 @@ type
                                      NumSamples: Cardinal    //< Number of samples in buffer. Notice
                                                              //< that in case of stereo-sound a single sample
                                                              //< contains data for both channels.
-                                    ); stdcall;
+                                    ); cdecl;
 
   // Clears all the samples in the object's output and internal processing
   // buffers.
-  TSoundTouchClear = procedure (Handle: TSoundTouchHandle); stdcall;
+  TSoundTouchClear = procedure (Handle: TSoundTouchHandle); cdecl;
 
   // Changes a setting controlling the processing system behaviour. See the
   // 'SETTING_...' defines for available setting ID's.
@@ -118,19 +122,18 @@ type
   TSoundTouchSetSetting = function (Handle: TSoundTouchHandle;
                                  SettingId: Integer;   //< Setting ID number. see SETTING_... defines.
                                  Value: Integer        //< New setting value.
-                                ): Boolean; stdcall;
+                                ): Boolean; cdecl;
 
   // Reads a setting controlling the processing system behaviour. See the
   // 'SETTING_...' defines for available setting ID's.
   //
   // \return the setting value.
   TSoundTouchGetSetting = function (Handle: TSoundTouchHandle;
-                                 settingId: Integer     //< Setting ID number, see SETTING_... defines.
-                                ): Integer; stdcall;
-
+                                 SettingId: Integer     //< Setting ID number, see SETTING_... defines.
+                                ): Integer; cdecl;
 
   // Returns number of samples currently unprocessed.
-  TSoundTouchNumUnprocessedSamples = function (Handle: TSoundTouchHandle): Cardinal; stdcall;
+  TSoundTouchNumUnprocessedSamples = function (Handle: TSoundTouchHandle): Cardinal; cdecl;
 
   // Adjusts book-keeping so that given number of samples are removed from beginning of the
   // sample buffer without copying them anywhere.
@@ -138,20 +141,21 @@ type
   // Used to reduce the number of samples in the buffer when accessing the sample buffer directly
   // with 'ptrBegin' function.
   TSoundTouchReceiveSamples = function (Handle: TSoundTouchHandle;
-                                     outBuffer: PSingle;           //< Buffer where to copy output samples.
-                                     maxSamples: Integer      //< How many samples to receive at max.
-                                    ): Cardinal; stdcall;
+                                     OutBuffer: PSingle;           //< Buffer where to copy output samples.
+                                     MaxSamples: Integer      //< How many samples to receive at max.
+                                    ): Cardinal; cdecl;
 
   // Returns number of samples currently available.
-  TSoundTouchNumSamples = function (Handle: TSoundTouchHandle): Cardinal; stdcall;
+  TSoundTouchNumSamples = function (Handle: TSoundTouchHandle): Cardinal; cdecl;
 
   // Returns nonzero if there aren't any samples available for outputting.
-  TSoundTouchIsEmpty = function (Handle: TSoundTouchHandle): Integer; stdcall;
+  TSoundTouchIsEmpty = function (Handle: TSoundTouchHandle): Integer; cdecl;
 
 var
   SoundTouchCreateInstance        : TSoundTouchCreateInstance;
   SoundTouchDestroyInstance       : TSoundTouchDestroyInstance;
   SoundTouchGetVersionString      : TSoundTouchGetVersionString;
+  SoundTouchGetVersionString2     : TSoundTouchGetVersionString2;
   SoundTouchGetVersionId          : TSoundTouchGetVersionId;
   SoundTouchSetRate               : TSoundTouchSetRate;
   SoundTouchSetTempo              : TSoundTouchSetTempo;
@@ -210,10 +214,10 @@ type
     procedure Clear; virtual;
 
     procedure PutSamples(const Samples: PSingle; const NumSamples: Cardinal);
-    function ReceiveSamples(const outBuffer: PSingle; const maxSamples: Integer): Cardinal;
+    function ReceiveSamples(const OutBuffer: PSingle; const MaxSamples: Integer): Cardinal;
 
     function SetSetting(const SettingId: Integer; const Value: Integer): Boolean;
-    function GetSetting(const settingId: Integer): Integer;
+    function GetSetting(const SettingId: Integer): Integer;
 
     property VersionString: string read GetVersionString;
     property VersionID: Cardinal read GetVersionId;
@@ -233,15 +237,12 @@ type
 
 implementation
 
-uses
-  SysUtils;
-
 { TSoundTouch }
 
 constructor TSoundTouch.Create;
 begin
   inherited;
-  FHandle := SoundTouchCreateInstance;
+  FHandle := SoundTouchCreateInstance();
   FRate := 1;
   FTempo := 1;
   FPitch := 1;
@@ -299,12 +300,12 @@ end;
 
 class function TSoundTouch.GetVersionId: Cardinal;
 begin
-  result := SoundTouchGetVersionId;
+  result := SoundTouchGetVersionId();
 end;
 
 class function TSoundTouch.GetVersionString: string;
 begin
-  result := StrPas(SoundTouchGetVersionString);
+  result := StrPas(SoundTouchGetVersionString());
 end;
 
 procedure TSoundTouch.SetChannels(const Value: Cardinal);
@@ -347,10 +348,10 @@ begin
   SoundTouchSetRate(FHandle, FRate);
 end;
 
-function TSoundTouch.ReceiveSamples(const outBuffer: PSingle;
-  const maxSamples: Integer): Cardinal;
+function TSoundTouch.ReceiveSamples(const OutBuffer: PSingle;
+  const MaxSamples: Integer): Cardinal;
 begin
-  result := SoundTouchReceiveSamples(FHandle, outBuffer, maxSamples);
+  result := SoundTouchReceiveSamples(FHandle, OutBuffer, MaxSamples);
 end;
 
 procedure TSoundTouch.SetPitchChange(const Value: Single);
@@ -419,35 +420,36 @@ end;
 
 var
   SoundTouchLibHandle: HINST;
-  SoundTouchDLL: PAnsiChar = 'SoundTouch.DLL';
+  SoundTouchDLLFile: PAnsiChar = 'SoundTouch.dll';
 
 procedure InitDLL;
 begin
-  SoundTouchLibHandle := LoadLibrary(SoundTouchDLL);
+  SoundTouchLibHandle := LoadLibrary(SoundTouchDLLFile);
   if SoundTouchLibHandle <> 0 then
   try
-    SoundTouchCreateInstance        := GetProcAddress(SoundTouchLibHandle, PAnsiChar( 2)); //'soundtouch_createInstance');
-    SoundTouchDestroyInstance       := GetProcAddress(SoundTouchLibHandle, PAnsiChar( 3)); //'soundtouch_destroyInstance');
-    SoundTouchGetVersionString      := GetProcAddress(SoundTouchLibHandle, PAnsiChar( 7)); //'soundtouch_getVersionString');
-    SoundTouchGetVersionId          := GetProcAddress(SoundTouchLibHandle, PAnsiChar( 6)); //'soundtouch_getVersionId');
-    SoundTouchSetRate               := GetProcAddress(SoundTouchLibHandle, PAnsiChar(17)); //'soundtouch_setRate');
-    SoundTouchSetTempo              := GetProcAddress(SoundTouchLibHandle, PAnsiChar(21)); //'soundtouch_setTempo');
-    SoundTouchSetRateChange         := GetProcAddress(SoundTouchLibHandle, PAnsiChar(18)); //'soundtouch_setRateChange');
-    SoundTouchSetTempoChange        := GetProcAddress(SoundTouchLibHandle, PAnsiChar(22)); //'soundtouch_setTempoChange');
-    SoundTouchSetPitch              := GetProcAddress(SoundTouchLibHandle, PAnsiChar(14)); //'soundtouch_setPitch');
-    SoundTouchSetPitchOctaves       := GetProcAddress(SoundTouchLibHandle, PAnsiChar(15)); //'soundtouch_setPitchOctaves');
-    SoundTouchSetPitchSemiTones     := GetProcAddress(SoundTouchLibHandle, PAnsiChar(16)); //'soundtouch_setPitchSemiTones');
-    SoundTouchSetChannels           := GetProcAddress(SoundTouchLibHandle, PAnsiChar(13)); //'soundtouch_setChannels');
-    SoundTouchSetSampleRate         := GetProcAddress(SoundTouchLibHandle, PAnsiChar(19)); //'soundtouch_setSampleRate');
-    SoundTouchFlush                 := GetProcAddress(SoundTouchLibHandle, PAnsiChar(4)); //'soundtouch_flush');
-    SoundTouchPutSamples            := GetProcAddress(SoundTouchLibHandle, PAnsiChar(11)); //'soundtouch_putSamples');
-    SoundTouchClear                 := GetProcAddress(SoundTouchLibHandle, PAnsiChar(1)); //'soundtouch_clear');
-    SoundTouchSetSetting            := GetProcAddress(SoundTouchLibHandle, PAnsiChar(20)); //'soundtouch_SetSetting');
-    SoundTouchGetSetting            := GetProcAddress(SoundTouchLibHandle, PAnsiChar(5)); //'soundtouch_setSetting');
-    SoundTouchNumUnprocessedSamples := GetProcAddress(SoundTouchLibHandle, PAnsiChar(10)); //'soundtouch_numUnprocessedSamples');
-    SoundTouchReceiveSamples        := GetProcAddress(SoundTouchLibHandle, PAnsiChar(12)); //'soundtouch_receiveSamples');
-    SoundTouchNumSamples            := GetProcAddress(SoundTouchLibHandle, PAnsiChar(9)); //'soundtouch_numSamples');
-    SoundTouchIsEmpty               := GetProcAddress(SoundTouchLibHandle, PAnsiChar(8)); //'soundtouch_isEmpty');
+    Pointer(SoundTouchCreateInstance)        := GetProcAddress(SoundTouchLibHandle, 'soundtouch_createInstance');
+    Pointer(SoundTouchDestroyInstance)       := GetProcAddress(SoundTouchLibHandle, 'soundtouch_destroyInstance');
+    Pointer(SoundTouchGetVersionString)      := GetProcAddress(SoundTouchLibHandle, 'soundtouch_getVersionString');
+    Pointer(SoundTouchGetVersionString2)     := GetProcAddress(SoundTouchLibHandle, 'soundtouch_getVersionString2');
+    Pointer(SoundTouchGetVersionId)          := GetProcAddress(SoundTouchLibHandle, 'soundtouch_getVersionId');
+    Pointer(SoundTouchSetRate)               := GetProcAddress(SoundTouchLibHandle, 'soundtouch_setRate');
+    Pointer(SoundTouchSetTempo)              := GetProcAddress(SoundTouchLibHandle, 'soundtouch_setTempo');
+    Pointer(SoundTouchSetRateChange)         := GetProcAddress(SoundTouchLibHandle, 'soundtouch_setRateChange');
+    Pointer(SoundTouchSetTempoChange)        := GetProcAddress(SoundTouchLibHandle, 'soundtouch_setTempoChange');
+    Pointer(SoundTouchSetPitch)              := GetProcAddress(SoundTouchLibHandle, 'soundtouch_setPitch');
+    Pointer(SoundTouchSetPitchOctaves)       := GetProcAddress(SoundTouchLibHandle, 'soundtouch_setPitchOctaves');
+    Pointer(SoundTouchSetPitchSemiTones)     := GetProcAddress(SoundTouchLibHandle, 'soundtouch_setPitchSemiTones');
+    Pointer(SoundTouchSetChannels)           := GetProcAddress(SoundTouchLibHandle, 'soundtouch_setChannels');
+    Pointer(SoundTouchSetSampleRate)         := GetProcAddress(SoundTouchLibHandle, 'soundtouch_setSampleRate');
+    Pointer(SoundTouchFlush)                 := GetProcAddress(SoundTouchLibHandle, 'soundtouch_flush');
+    Pointer(SoundTouchPutSamples)            := GetProcAddress(SoundTouchLibHandle, 'soundtouch_putSamples');
+    Pointer(SoundTouchClear)                 := GetProcAddress(SoundTouchLibHandle, 'soundtouch_clear');
+    Pointer(SoundTouchSetSetting)            := GetProcAddress(SoundTouchLibHandle, 'soundtouch_SetSetting');
+    Pointer(SoundTouchGetSetting)            := GetProcAddress(SoundTouchLibHandle, 'soundtouch_setSetting');
+    Pointer(SoundTouchNumUnprocessedSamples) := GetProcAddress(SoundTouchLibHandle, 'soundtouch_numUnprocessedSamples');
+    Pointer(SoundTouchReceiveSamples)        := GetProcAddress(SoundTouchLibHandle, 'soundtouch_receiveSamples');
+    Pointer(SoundTouchNumSamples)            := GetProcAddress(SoundTouchLibHandle, 'soundtouch_numSamples');
+    Pointer(SoundTouchIsEmpty)               := GetProcAddress(SoundTouchLibHandle, 'soundtouch_isEmpty');
 
   except
     FreeLibrary(SoundTouchLibHandle);
