@@ -75,6 +75,14 @@ typedef struct
     short bits_per_sample;
 } WavFormat;
 
+/// WAV audio file 'fact' section header
+typedef struct 
+{
+    char  fact_field[4];
+    int   fact_len;
+    uint  fact_sample_len;
+} WavFact;
+
 /// WAV audio file 'data' section header
 typedef struct 
 {
@@ -88,6 +96,7 @@ typedef struct
 {
     WavRiff   riff;
     WavFormat format;
+    WavFact   fact;
     WavData   data;
 } WavHeader;
 
