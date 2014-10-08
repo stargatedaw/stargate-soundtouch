@@ -65,13 +65,17 @@ protected:
     // Memory for filter coefficients
     SAMPLETYPE *filterCoeffs;
 
+    // Memory for keeping temporary sums in multichannel processing
+    LONG_SAMPLETYPE *sum;
+    uint sumsize;
+
     virtual uint evaluateFilterStereo(SAMPLETYPE *dest, 
                                       const SAMPLETYPE *src, 
                                       uint numSamples) const;
     virtual uint evaluateFilterMono(SAMPLETYPE *dest, 
                                     const SAMPLETYPE *src, 
                                     uint numSamples) const;
-    virtual uint evaluateFilterMulti(SAMPLETYPE *dest, const SAMPLETYPE *src, uint numSamples, uint numChannels) const;
+    virtual uint evaluateFilterMulti(SAMPLETYPE *dest, const SAMPLETYPE *src, uint numSamples, uint numChannels);
 
 public:
     FIRFilter();
@@ -91,7 +95,7 @@ public:
     uint evaluate(SAMPLETYPE *dest, 
                   const SAMPLETYPE *src, 
                   uint numSamples, 
-                  uint numChannels) const;
+                  uint numChannels);
 
     uint getLength() const;
 

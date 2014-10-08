@@ -348,8 +348,8 @@ void SoundTouch::flush()
     int i;
     int nUnprocessed;
     int nOut;
-    SAMPLETYPE *buff=(SAMPLETYPE*)alloca(64*channels*sizeof(SAMPLETYPE));
-
+    SAMPLETYPE *buff = new SAMPLETYPE[64 * channels];
+    
     // check how many samples still await processing, and scale
     // that by tempo & rate to get expected output sample count
     nUnprocessed = numUnprocessedSamples();
@@ -377,6 +377,8 @@ void SoundTouch::flush()
             break;  
         }
     }
+
+    delete[] buff;
 
     // Clear working buffers
     pRateTransposer->clear();
