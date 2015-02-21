@@ -65,10 +65,6 @@ protected:
     // Memory for filter coefficients
     SAMPLETYPE *filterCoeffs;
 
-    // Memory for keeping temporary sums in multichannel processing
-    LONG_SAMPLETYPE *sum;
-    uint sumsize;
-
     virtual uint evaluateFilterStereo(SAMPLETYPE *dest, 
                                       const SAMPLETYPE *src, 
                                       uint numSamples) const;

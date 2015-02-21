@@ -209,6 +209,7 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				FloatingPointModel="2"
+				OpenMP="true"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Debug/SoundTouch.pch"
 				AssemblerListingLocation=".\Debug/"

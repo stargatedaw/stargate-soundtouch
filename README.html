@@ -505,9 +505,12 @@ and estimates the BPM rate:</p>
 <h3>5.1. SoundTouch library Change History </h3>
 <p><b>1.8.1pre:</b></p>
 <ul>
+    <li>Added parallel computation support via OpenMP primitives for better performance in multicore systems. 
+        Benchmarks show processing speedup improvement range from +30% (x86 dual-core) to +180% (ARM quad-core).</li>
     <li>Replaced Windows-like 'BOOL' types with native 'bool'</li>
     <li>Fixed bug in Android.mk make file</li>
     <li>Changed documentation token to "dist_doc_DATA" in Makefile.am file</li>
+    <li>Removed -fcheck-new from gcc switches</li>
 </ul>
 <p><b>1.8.0:</b></p>
 <ul>
