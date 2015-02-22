@@ -88,17 +88,13 @@ SOUNDTOUCHDLL_API HANDLE __cdecl soundtouch_createInstance()
 
 SOUNDTOUCHDLL_API void __cdecl soundtouch_destroyInstance(HANDLE h)
 {
-    /*
     STHANDLE *sth = (STHANDLE*)h;
     if (sth->dwMagic != STMAGIC) return;
-*/
 
-    /*
     sth->dwMagic = 0;
-    delete sth->pst;
+    if (sth->pst) delete sth->pst;
     sth->pst = NULL;
     delete sth;
-*/
 }
 
 
