@@ -306,7 +306,6 @@ int TDStretch::seekBestOverlapPositionFull(const SAMPLETYPE *refPos)
     #pragma omp parallel for
     for (i = 1; i < seekLength; i ++) 
     {
-        norm = 0;
         double corr;
         // Calculates correlation value for the mixing position corresponding to 'i'
 #ifdef _OPENMP
