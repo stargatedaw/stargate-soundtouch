@@ -34,7 +34,7 @@ libSoundTouch_la_SOURCES=AAFilter.cpp FIRFilter.cpp FIFOSampleBuffer.cpp    \
     InterpolateShannon.cpp
 
 # Compiler flags
-AM_CXXFLAGS=-O3 -fopenmp -I../../include 
+AM_CXXFLAGS=-O3 -I../../include 
 
 # Compile the files that need MMX and SSE individually.
 libSoundTouch_la_LIBADD=libSoundTouchMMX.la libSoundTouchSSE.la
