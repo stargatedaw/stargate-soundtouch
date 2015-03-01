@@ -21,6 +21,7 @@ dnl Place - Suite 330, Boston, MA  02111-1307, USA
 
 AC_INIT(SoundTouch, 1.8.0, [http://www.surina.net/soundtouch])
 AC_CONFIG_AUX_DIR(config)
+AC_CONFIG_MACRO_DIR([config/m4])
 AM_CONFIG_HEADER([include/soundtouch_config.h])
 AM_INIT_AUTOMAKE
 AM_SILENT_RULES([yes])
