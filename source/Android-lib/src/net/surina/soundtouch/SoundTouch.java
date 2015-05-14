@@ -19,7 +19,7 @@ public final class SoundTouch
 {
     // Native interface function that returns SoundTouch version string.
     // This invokes the native c++ routine defined in "soundtouch-jni.cpp".
-    public native final String getVersionString();
+    public native final static String getVersionString();
 
     // Load the native library upon startup
     static

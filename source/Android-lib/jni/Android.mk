@@ -23,13 +23,14 @@ include $(CLEAR_VARS)
 LOCAL_MODULE    := soundtouch
 LOCAL_SRC_FILES := soundtouch-jni.cpp ../../SoundTouch/AAFilter.cpp  ../../SoundTouch/FIFOSampleBuffer.cpp \
                 ../../SoundTouch/FIRFilter.cpp ../../SoundTouch/cpu_detect_x86.cpp \
+                ../../SoundTouch/sse_optimized.cpp \
                 ../../SoundTouch/RateTransposer.cpp ../../SoundTouch/SoundTouch.cpp \
                 ../../SoundTouch/InterpolateCubic.cpp ../../SoundTouch/InterpolateLinear.cpp \
                 ../../SoundTouch/InterpolateShannon.cpp ../../SoundTouch/TDStretch.cpp \
-                ../../SoundTouch/BPMDetect.cpp ../../SoundTouch/PeakFinder.cpp
+                ../../SoundTouch/BPMDetect.cpp ../../SoundTouch/PeakFinder.cpp 
 
 # for native audio
-LOCAL_LDLIBS    += -lgcc 
+LOCAL_SHARED_LIBRARIES += -lgcc 
 # --whole-archive -lgcc 
 # for logging
 LOCAL_LDLIBS    += -llog
@@ -37,6 +38,6 @@ LOCAL_LDLIBS    += -llog
 #LOCAL_LDLIBS    += -landroid
 # don't export all symbols
 # added "-marm" switch to use arm instruction set instead of thumb for improved calculation performance.
-LOCAL_CFLAGS += -Wall -fvisibility=hidden -I ../../../include -D ST_NO_EXCEPTION_HANDLING -fdata-sections -ffunction-sections -marm
+LOCAL_CFLAGS += -fvisibility=hidden -I ../../../include -D ST_NO_EXCEPTION_HANDLING -fdata-sections -ffunction-sections
 
 include $(BUILD_SHARED_LIBRARY)
