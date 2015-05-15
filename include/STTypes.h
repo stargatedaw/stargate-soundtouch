@@ -172,6 +172,7 @@ namespace soundtouch
 #else
     // use c++ standard exceptions
     #include <stdexcept>
+    #include <string>
     #define ST_THROW_RT_ERROR(x)    {throw std::runtime_error(x);}
 #endif
 

@@ -45,49 +45,13 @@
     open Cygwin/bash shell, go to directory <b>&quot;soundtouch/source/Android-lib/jni&quot;</b> and invoke the NDK 
     compiler with following command:</p>
 <pre>    $NDK/ndk-build</pre>
-<p>This will build the ARMv5 and ARMv7 versions of SoundTouch library (including 
-    also the example JNI 
-    interface, see below) into the &quot;libs&quot; subdirectory.</p>
+<p>This will build binaries for all the supported Android platforms (arm-v5, arm-v7, X86, MIPS etc) of SoundTouch library, plus the JNI wrapper interface as discussed below. The target binaries will be built into the &quot;libs&quot; subdirectory. As long as all these .so binary library versions are included in the APK Application delivery package, the targer Android device can choose the correct library version to use. </p>
 <p>Notice that to allow Cygwin/bash to locate the NDK compile scripts, you 
     need to define the location of the NDK installation defined in environment 
     variable &quot;NDK&quot;. That's easiest done by adding the NDK path definition at end of 
     your <b>~/.bash_profile</b> file, for instance as follows:</p>
 <pre>    NDK=/cygdrive/d/Android/android-ndk-r6</pre>
 <hr />
-<h2>
-    Android floating-point performance considerations</h2>
-<p>
-        Default build target for
-        Android NDK is ARMv5 CPU generation, as that works in 
-        all ARM-based Android devices.<p>
-        This has a pitfall though: For ideal sound quality SoundTouch should be compiled 
-        to use floating-point algorithms, however, all low-end Android devices do not 
-        have floating-point hardware in their CPUs, and hence the default ARMv5 compilation uses software-emulation for floating-point calculations instead of 
-        hardware floating-point to allow running the binary executables also in low-end devices.<p>
-        The floating point software-emulation is however several tens of times slower 
-        than real hardware-level floating-point calculations, making 
-        floating-point-intensive applications such as SoundTouch infeasible with low-end 
-        devices.<p>
-        As workaround, the SoundTouch Android compilation builds two separate versions 
-        of the library:<ul>
-        <li>ARMv5 version that compiles SoundTouch using integer algorithm version. The integer 
-            algorithm version compromises the sound quality but provides good performance also 
-            with low-end 
-            devices without hardware floating-point support in the CPU level.</li>
-        <li>ARMv7 version that compiles SoundTouch using hardware floating-point algorithms. 
-            These algorithms provide ideal sound quality yet do not work in simpler CPU 
-            models.</li>
-    </ul>
-    <p>
-        These two library compilations are already defined in file &quot;<b>jni/Application.mk</b>&quot; 
-        so that these two separate library targets are automatically built under the &quot;<b>libs</b>&quot; 
-        directory. As far as you include both these compiled library versions into your 
-        application delivery, the Android devices can automatically select the right 
-        library version based on the available device&#39;s capabilities.<p>
-        Please yet be aware that depending on capabilities of the Android devices you 
-        will need to provide the SoundTouch routines with samples in either integer or 
-        floating-point format, so build your interface routines to take this into 
-        account.<hr />
 <h2>
     Calling SoundTouch native routines from Android application</h2>
     <p>The NDK tools build the SoundTouch c++ routines into a native binary library, while 
@@ -96,19 +60,38 @@
     Interface (JNI).</p>
     <p>
         The SoundTouch source code package provides source code example how to 
-        use JNI to call native c++ routines from a Java class through the following 
-        source code file pair:<ul>
-        <li><b>Android-lib/jni/soundtouch-jni.cpp</b>: This file contains c/c++ routine that 
-            calls SoundTouch library routine to return the library version string to the main 
-            Android application. The NDK compiles this file along with the SoundTouch 
+        use JNI to call native c++ routines from a Java class, and provides source codes also for
+	a simple example Android application:<ul>
+	<li><b>ExampleActivity</b>: This is simple Android example application that
+	utilizes SoundTouch native routines for processing WAV audio files. To build the example
+	application, use Eclipse Android SDK environment to import the "ExampleActivity" project in the 	"Android-lib" folder into the Eclipse workspace. 
+        <li><b>Android-lib/jni/soundtouch-jni.cpp</b>: This file contains c/c++ wrapper routines
+	for performing elementary audio file processing with adjusted tempo/pitch/speed parameters
+	from the Android application. The wrapper interface is not complete, but provides example
+	that is easy to extend when necessary. The NDK compiles this file along with the SoundTouch 
             routines into the native binary library.</li>
-        <li><b>Android-lib/src/net/surina/soundtouch/SoundTouch.java</b>: This file provides 
-            a Java interface class to load the native library and to invoke the native routine implemented in 
-            the file <b>soundtouch-jni.cpp</b></li>
+        <li><b>Android-lib/src/net/surina/soundtouch/SoundTouch.java</b>: This file implements
+	the Java interface class that loasd & accesses the JNI routines in the natively compiled library.
+	The example Android application uses this class as interface for processing audio files 
+	with SoundTouch.</li>
     </ul>
 <p>
         Feel free to examine and extend the provided cpp/java source code example file pair to 
-        implement and integrate the desired SoundTouch library capabilities into your Android application.</p>
+        implement and integrate the desired SoundTouch library capabilities into your own Android application.</p>
+<hr />
+<h2>
+    Android floating-point performance considerations</h2>
+<p>
+        The make process will build dedicated binaries for each supported Android CPU hardware platform type.
+</p><p>SoundTouch uses floating-point algorithms for ideal sound quality on all other platform than in the lowest-end ARMv5. That is because lowest-end Android devices are not guaranteed to 
+        have floating-point hardware in their CPUs, so that the ARMv5 compilation uses by default software-emulation for floating-point calculations to allow running the binary executables also in low-end devices without floating-point hardware.<p>
+        As floating point software-emulation is however several tens of times slower 
+        than real hardware-level floating-point calculations, that would make running
+        floating-point-intensive applications such as SoundTouch infeasible in these low-end 
+        devices. As workaround, the SoundTouch Android compilation builds the ARMv5 version using integer algorithm versions. The integer 
+            algorithm version compromises the sound quality but provides good performance also 
+            with low-end devices without hardware floating-point support in the CPU level.</p>
+        <p>When Android devices with more capable device is used, the device will automatically choose a proper library version for ideal sound quality.</p>
 <hr />
     <p style="text-align: center"><i>Copyright &copy; Olli Parviainen</i></p>
     <!--

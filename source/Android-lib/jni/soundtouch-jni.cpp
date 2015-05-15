@@ -14,16 +14,100 @@
 
 #include <jni.h>
 #include <android/log.h>
+#include <stdexcept>
+#include <string>
+
+using namespace std;
 
 #include "../../../include/SoundTouch.h"
+#include "../source/SoundStretch/WavFile.h"
 
 #define LOGV(...)   __android_log_print((int)ANDROID_LOG_INFO, "SOUNDTOUCH", __VA_ARGS__)
 //#define LOGV(...)
 
 
+// String for keeping possible c++ exception error messages. Notice that this isn't
+// thread-safe but it's expected that exceptions are special situations that won't
+// occur in several threads in parallel.
+static string _errMsg = "";
+
+
 #define DLL_PUBLIC __attribute__ ((visibility ("default")))
+#define BUFF_SIZE 4096
+
 
 using namespace soundtouch;
+
+
+// Set error message to return
+static void _setErrmsg(const char *msg)
+{
+	_errMsg = msg;
+}
+
+
+
+// Processes the sound file
+static void _processFile(SoundTouch *pSoundTouch, const char *inFileName, const char *outFileName)
+{
+    int nSamples;
+    int nChannels;
+    int buffSizeSamples;
+    SAMPLETYPE sampleBuffer[BUFF_SIZE];
+
+    // open input file
+    WavInFile inFile(inFileName);
+    int sampleRate = inFile.getSampleRate();
+    int bits = inFile.getNumBits();
+    nChannels = inFile.getNumChannels();
+
+    // create output file
+    WavOutFile outFile(outFileName, sampleRate, bits, nChannels);
+
+    pSoundTouch->setSampleRate(sampleRate);
+    pSoundTouch->setChannels(nChannels);
+
+    assert(nChannels > 0);
+    buffSizeSamples = BUFF_SIZE / nChannels;
+
+    // Process samples read from the input file
+    while (inFile.eof() == 0)
+    {
+        int num;
+
+        // Read a chunk of samples from the input file
+        num = inFile.read(sampleBuffer, BUFF_SIZE);
+        nSamples = num / nChannels;
+
+        // Feed the samples into SoundTouch processor
+        pSoundTouch->putSamples(sampleBuffer, nSamples);
+
+        // Read ready samples from SoundTouch processor & write them output file.
+        // NOTES:
+        // - 'receiveSamples' doesn't necessarily return any samples at all
+        //   during some rounds!
+        // - On the other hand, during some round 'receiveSamples' may have more
+        //   ready samples than would fit into 'sampleBuffer', and for this reason
+        //   the 'receiveSamples' call is iterated for as many times as it
+        //   outputs samples.
+        do
+        {
+            nSamples = pSoundTouch->receiveSamples(sampleBuffer, buffSizeSamples);
+            outFile.write(sampleBuffer, nSamples * nChannels);
+        } while (nSamples != 0);
+    }
+
+    // Now the input file is processed, yet 'flush' few last samples that are
+    // hiding in the SoundTouch's internal processing pipeline.
+    pSoundTouch->flush();
+    do
+    {
+        nSamples = pSoundTouch->receiveSamples(sampleBuffer, buffSizeSamples);
+        outFile.write(sampleBuffer, nSamples * nChannels);
+    } while (nSamples != 0);
+}
+
+
 
 extern "C" DLL_PUBLIC jstring Java_net_surina_soundtouch_SoundTouch_getVersionString(JNIEnv *env, jobject thiz)
 {
@@ -36,4 +120,78 @@ extern "C" DLL_PUBLIC jstring Java_net_surina_soundtouch_SoundTouch_getVersionSt
 
     // return version as string
     return env->NewStringUTF(verStr);
+}
+
+
+
+extern "C" DLL_PUBLIC jlong Java_net_surina_soundtouch_SoundTouch_newInstance(JNIEnv *env, jobject thiz)
+{
+	return (jlong)(new SoundTouch());
+}
+
+
+extern "C" DLL_PUBLIC void Java_net_surina_soundtouch_SoundTouch_deleteInstance(JNIEnv *env, jobject thiz, jlong handle)
+{
+	SoundTouch *ptr = (SoundTouch*)handle;
+	delete ptr;
+}
+
+
+extern "C" DLL_PUBLIC void Java_net_surina_soundtouch_SoundTouch_setTempo(JNIEnv *env, jobject thiz, jlong handle, jfloat tempo)
+{
+	SoundTouch *ptr = (SoundTouch*)handle;
+	ptr->setTempo(tempo);
+}
+
+
+extern "C" DLL_PUBLIC void Java_net_surina_soundtouch_SoundTouch_setPitchSemiTones(JNIEnv *env, jobject thiz, jlong handle, jfloat pitch)
+{
+	SoundTouch *ptr = (SoundTouch*)handle;
+	ptr->setPitchSemiTones(pitch);
+}
+
+
+extern "C" DLL_PUBLIC void Java_net_surina_soundtouch_SoundTouch_setSpeed(JNIEnv *env, jobject thiz, jlong handle, jfloat speed)
+{
+	SoundTouch *ptr = (SoundTouch*)handle;
+	ptr->setRate(speed);
+}
+
+
+extern "C" DLL_PUBLIC jstring Java_net_surina_soundtouch_SoundTouch_getErrorString(JNIEnv *env, jobject thiz)
+{
+	jstring result = env->NewStringUTF(_errMsg.c_str());
+	_errMsg.clear();
+
+	return result;
+}
+
+
+extern "C" DLL_PUBLIC int Java_net_surina_soundtouch_SoundTouch_processFile(JNIEnv *env, jobject thiz, jlong handle, jstring jinputFile, jstring joutputFile)
+{
+	SoundTouch *ptr = (SoundTouch*)handle;
+
+	const char *inputFile = env->GetStringUTFChars(jinputFile, 0);
+	const char *outputFile = env->GetStringUTFChars(joutputFile, 0);
+
+	LOGV("JNI process file %s", inputFile);
+
+	try
+	{
+		_processFile(ptr, inputFile, outputFile);
+	}
+	catch (const runtime_error &e)
+    {
+		const char *err = e.what();
+        // An exception occurred during processing, return the error message
+    	LOGV("JNI exception in SoundTouch::processFile: %s", err);
+        _setErrmsg(err);
+        return -1;
+    }
+
+
+	env->ReleaseStringUTFChars(jinputFile, inputFile);
+	env->ReleaseStringUTFChars(joutputFile, outputFile);
+
+	return 0;
 }
