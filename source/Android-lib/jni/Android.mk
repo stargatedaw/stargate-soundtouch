@@ -36,10 +36,16 @@ LOCAL_SHARED_LIBRARIES += -lgcc
 LOCAL_LDLIBS    += -llog
 # for native asset manager
 #LOCAL_LDLIBS    += -landroid
-# don't export all symbols
-#
-# in ARM-only environment could add "-marm" switch to force arm instruction set instead 
-# of thumb for improved calculation performance.
-LOCAL_CFLAGS += -fvisibility=hidden -I ../../../include -fdata-sections -ffunction-sections
+
+# Custom Flags: 
+# -fvisibility=hidden : don't export all symbols
+# -fopenmp : enable these flags to allow using OpenMP for parallel computation 
+LOCAL_CFLAGS += -fvisibility=hidden -I ../../../include -fdata-sections -ffunction-sections #-fopenmp
+
+#LOCAL_LDFLAGS += -fopenmp
+
+
+# Use ARM instruction set instead of Thumb for improved calculation performance in ARM CPUs	
+LOCAL_ARM_MODE := arm
 
 include $(BUILD_SHARED_LIBRARY)

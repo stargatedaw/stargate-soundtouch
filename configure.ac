@@ -85,8 +85,8 @@ AC_ARG_ENABLE(integer-samples,
 
 AC_ARG_ENABLE(openmp,
               [AC_HELP_STRING([--enable-openmp],
-                              [use parallel multicore calculation through OpenMP [default=yes]])],,
-              [enable_openmp=yes])
+                              [use parallel multicore calculation through OpenMP [default=no]])],,
+              [enable_openmp=no])
 
 # Let the user enable/disable the x86 optimizations.
 # Useful when compiling on non-x86 architectures.

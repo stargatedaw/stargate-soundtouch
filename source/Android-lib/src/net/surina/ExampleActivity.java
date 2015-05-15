@@ -146,11 +146,10 @@ public class ExampleActivity extends Activity implements OnClickListener
 		}
 
 		
-		/// Processing routine
-		@Override	
-		protected Long doInBackground(Parameters... aparams) 
+		
+		/// Function that does the SoundTouch processing
+		public final long doSoundTouchProcessing(Parameters params) 
 		{
-			Parameters params = aparams[0];
 			
 			SoundTouch st = new SoundTouch();
 			st.setTempo(params.tempo);
@@ -177,6 +176,15 @@ public class ExampleActivity extends Activity implements OnClickListener
 			}
 			return 0L;
 		}
+
+
+		
+		/// Overloaded function that get called by the system to perform the background processing
+		@Override	
+		protected Long doInBackground(Parameters... aparams) 
+		{
+			return doSoundTouchProcessing(aparams[0]);
+		}
 		
 	}
 
@@ -202,8 +210,9 @@ public class ExampleActivity extends Activity implements OnClickListener
 			
 			Toast.makeText(this, "Starting to process file " + params.inFileName + "...", Toast.LENGTH_SHORT).show();
 
-			// start processing task in background
+			// start SoundTouch processing in a background thread
 			task.execute(params);
+//			task.doSoundTouchProcessing(params);	// this would run processing in main thread
 			
 		}
 		catch (Exception exp)
