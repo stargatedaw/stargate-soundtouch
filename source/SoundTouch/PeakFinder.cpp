@@ -192,11 +192,21 @@ double PeakFinder::getPeakCenter(const float *data, int peakpos) const
     gp1 = findGround(data, peakpos, -1);
     gp2 = findGround(data, peakpos, 1);
 
-    groundLevel = 0.5f * (data[gp1] + data[gp2]);
     peakLevel = data[peakpos];
 
-    // calculate 70%-level of the peak
-    cutLevel = 0.70f * peakLevel + 0.30f * groundLevel;
+    if (gp1 == gp2) 
+    {
+        // avoid rounding errors when all are equal
+        assert(gp1 == peakpos);
+        cutLevel = groundLevel = peakLevel;
+    } else {
+        // get average of the ground levels
+        groundLevel = 0.5f * (data[gp1] + data[gp2]);
+
+        // calculate 70%-level of the peak
+        cutLevel = 0.70f * peakLevel + 0.30f * groundLevel;
+    }
+
     // find mid-level crossings
     crosspos1 = findCrossingLevel(data, cutLevel, peakpos, -1);
     crosspos2 = findCrossingLevel(data, cutLevel, peakpos, 1);
