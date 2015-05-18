@@ -51,6 +51,27 @@
     variable &quot;NDK&quot;. That's easiest done by adding the NDK path definition at end of 
     your <b>~/.bash_profile</b> file, for instance as follows:</p>
 <pre>    NDK=/cygdrive/d/Android/android-ndk-r6</pre>
+<p><b>Enabling OpenMP parallel computing mode</b></p>
+<p>
+    SoundTouch supports OpenMP for parallel computing in multi-core 
+	environments, and these improvements can be enabled also in the Android 
+	build. See the SoundTouch main README.html file for generic notes about the 
+	OpenMP implementation.</p>
+<p>
+    To enable OpenMP mode in Android compilation, edit file <strong>Android.mk</strong> 
+	and enable the &quot;-fopenmp&quot; flag in LOCAL_CFLAGS and LOCAL_LDFLAGS variables. 
+	This is done by removing hash # from before the following lines in the 
+	Android.mk file, before compiling the library:</p>
+<pre>    LOCAL_CFLAGS += -fopenmp
+   LOCAL_LDFLAGS += -fopenmp</pre>
+<p><strong>OpenMP COMPATIBILITY NOTE: </strong>Android NDK has a threading issue 
+(at least until NDK v10) that causes the native library crash with fatal signal 
+11 if calling OpenMP-improved routines from a background thread. SoundTouch has 
+a workaround for this issue in soundtouch-jni.cpp, and this workaround requires 
+calling function <strong>SoundTouch.getVersionString() </strong>from the Android 
+application's main thread at least once before calling other SoundTouch 
+processing routines. See the SoundTouch Android example application and comments 
+in the <strong>soundtouch-jni.cpp </strong>source code file for more details.</p>
 <hr />
 <h2>
     Calling SoundTouch native routines from Android application</h2>
