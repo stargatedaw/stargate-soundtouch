@@ -55,6 +55,22 @@ instead of the make-win.bat script, directories bin and lib may need to
 be created manually to the SoundTouch package root for the final
 executables. The make-win.bat script creates these directories
 automatically. </p>
+<p><strong>OpenMP NOTE</strong>: If activating the OpenMP parallel computing in 
+the compilation, the target program will require additional vcomp dll library to 
+properly run. In Visual C++ 9.0 these libraries can be found in the following 
+folders.</p>
+<ul>
+	<li>x86 32bit: C:\Program Files (x86)\Microsoft Visual Studio 
+	9.0\VC\redist\x86\Microsoft.VC90.OPENMP\vcomp90.dll</li>
+	<li>x64 64bit: C:\Program Files (x86)\Microsoft Visual Studio 
+	9.0\VC\redist\amd64\Microsoft.VC90.OPENMP\vcomp90.dll</li>
+</ul>
+<p>In Visual Studio 2008, a SP1 version may be required for these libraries. In 
+other VC++ versions the required library will be expectedly found in similar 
+&quot;redist&quot; location.</p>
+<p>Notice that as minor demonstration of a &quot;dll hell&quot; phenomenon both the 32-bit 
+and 64-bit version of vcomp90.dll have the same filename but different contents, 
+thus choose the proper version to allow the program start.</p>
 <h3>2.2. Building in Gnu platforms</h3>
 <p>The SoundTouch library compiles in practically any platform
 supporting GNU compiler (GCC) tools. SoundTouch requires GCC version 4.3 or later.</p>
