@@ -123,9 +123,9 @@ fi
 if test "x$enable_x86_optimizations" = "xyes" -a "x$ac_cv_header_cpuid_h" = "xyes"; then
         echo "****** x86 optimizations enabled ******"
 
-	original_saved_CXXFLAGS=$AM_CXXFLAGS
+	original_saved_CXXFLAGS=$CXXFLAGS
 	have_mmx_intrinsics=no
-	AM_CXXFLAGS="-mmmx -Winline $AM_CXXFLAGS"
+	CXXFLAGS="-mmmx -Winline $CXXFLAGS"
 
 	# Check if the user can compile MMX code using intrinsics.
 	# GCC supports MMX intrinsics since version 3.3
@@ -139,7 +139,7 @@ if test "x$enable_x86_optimizations" = "xyes" -a "x$ac_cv_header_cpuid_h" = "xye
 	    __m64 loop = _mm_cvtsi32_si64 (1);
 	    return _mm_cvtsi64_si32 (loop);
 	}]])],[have_mmx_intrinsics=yes])
-	AM_CXXFLAGS=$original_saved_CXXFLAGS
+	CXXFLAGS=$original_saved_CXXFLAGS
 
 	# Inform the user if we did or did not find MMX support.
 	#
@@ -157,8 +157,9 @@ if test "x$enable_x86_optimizations" = "xyes" -a "x$ac_cv_header_cpuid_h" = "xye
 
 
 	# SSE support
+	original_saved_CXXFLAGS=$CXXFLAGS
 	have_sse_intrinsics=no
-	AM_CXXFLAGS="-msse -Winline $AM_CXXFLAGS"
+	CXXFLAGS="-msse -Winline $CXXFLAGS"
 
 	# Check if the user can compile SSE code using intrinsics.
 	# GCC supports SSE intrinsics since version 3.3
@@ -172,7 +173,7 @@ if test "x$enable_x86_optimizations" = "xyes" -a "x$ac_cv_header_cpuid_h" = "xye
 	    _mm_setzero_ps();
 	    return 0;
 	}]])],[have_sse_intrinsics=yes])
-	AM_CXXFLAGS=$original_saved_CXXFLAGS
+	CXXFLAGS=$original_saved_CXXFLAGS
 
 	# Inform the user if we did or did not find SSE support.
 	#
