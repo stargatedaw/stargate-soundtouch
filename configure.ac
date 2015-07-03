@@ -199,7 +199,7 @@ fi
 AC_SUBST([AM_CXXFLAGS], [$AM_CXXFLAGS])
 
 # Empty default CXXFLAGS so user can set them if desirable
-AC_SUBST([CXXFLAGS], [ ])
+#AC_SUBST([CXXFLAGS], [ ])
 
 
 # SSTypes.h by default enables optimizations. Those already got disabled if
