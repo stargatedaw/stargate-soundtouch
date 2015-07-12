@@ -151,7 +151,7 @@ if test "x$enable_x86_optimizations" = "xyes" -a "x$ac_cv_header_cpuid_h" = "xye
 		echo "****** No MMX support found ******"
 		if test "x$enable_integer_samples" = "xyes"; then
 		        echo "****** Disabling optimizations. Using integer samples with no MMX support ******"
-		        AC_DEFINE([SOUNDTOUCH_DISABLE_X86_OPTIMIZATIONS],[1],[Do not use x86 optimizations])
+		        CPPFLAGS="-DSOUNDTOUCH_DISABLE_X86_OPTIMIZATIONS $CPPFLAGS"
 		fi
 	fi
 
@@ -185,14 +185,14 @@ if test "x$enable_x86_optimizations" = "xyes" -a "x$ac_cv_header_cpuid_h" = "xye
 		echo "****** No SSE support found ******"
 		if test "x$enable_integer_samples" != "xyes"; then
 		        echo "****** Disabling optimizations. Using float samples with no SSE support ******"
-		        AC_DEFINE([SOUNDTOUCH_DISABLE_X86_OPTIMIZATIONS],[1],[Do not use x86 optimizations])
+		        CPPFLAGS="-DSOUNDTOUCH_DISABLE_X86_OPTIMIZATIONS $CPPFLAGS"
 		fi
 	fi
 
 else
 	# Disable optimizations in SSTypes.h since the user requested it.
         echo "****** x86 optimizations disabled ******"
-        AC_DEFINE([SOUNDTOUCH_DISABLE_X86_OPTIMIZATIONS],[1],[Do not use x86 optimizations])
+        CPPFLAGS="-DSOUNDTOUCH_DISABLE_X86_OPTIMIZATIONS $CPPFLAGS"
 fi
 
 # Set AM_CXXFLAGS
