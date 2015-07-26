@@ -63,7 +63,7 @@ public:
 
     /// Sets new target rate. Normal rate = 1.0, smaller values represent slower 
     /// rate, larger faster rates.
-    virtual void setRate(float newRate);
+    virtual void setRate(double newRate);
 };
 
 
@@ -71,7 +71,7 @@ public:
 class InterpolateLinearFloat : public TransposerBase
 {
 protected:
-    float fract;
+    double fract;
 
     virtual void resetRegisters();
 

@@ -97,20 +97,20 @@ AAFilter *RateTransposer::getAAFilter()
 
 // Sets new target iRate. Normal iRate = 1.0, smaller values represent slower 
 // iRate, larger faster iRates.
-void RateTransposer::setRate(float newRate)
+void RateTransposer::setRate(double newRate)
 {
     double fCutoff;
 
     pTransposer->setRate(newRate);
 
     // design a new anti-alias filter
-    if (newRate > 1.0f) 
+    if (newRate > 1.0) 
     {
-        fCutoff = 0.5f / newRate;
+        fCutoff = 0.5 / newRate;
     } 
     else 
     {
-        fCutoff = 0.5f * newRate;
+        fCutoff = 0.5 * newRate;
     }
     pAAFilter->setCutoffFreq(fCutoff);
 }
@@ -225,7 +225,7 @@ void TransposerBase::setAlgorithm(TransposerBase::ALGORITHM a)
 int TransposerBase::transpose(FIFOSampleBuffer &dest, FIFOSampleBuffer &src)
 {
     int numSrcSamples = src.numSamples();
-    int sizeDemand = (int)((float)numSrcSamples / rate) + 8;
+    int sizeDemand = (int)((double)numSrcSamples / rate) + 8;
     int numOutput;
     SAMPLETYPE *psrc = src.ptrBegin();
     SAMPLETYPE *pdest = dest.ptrEnd(sizeDemand);
@@ -270,7 +270,7 @@ void TransposerBase::setChannels(int channels)
 }
 
 
-void TransposerBase::setRate(float newRate)
+void TransposerBase::setRate(double newRate)
 {
     rate = newRate;
 }

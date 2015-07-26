@@ -81,14 +81,14 @@ protected:
     static ALGORITHM algorithm;
 
 public:
-    float rate;
+    double rate;
     int numChannels;
 
     TransposerBase();
     virtual ~TransposerBase();
 
     virtual int transpose(FIFOSampleBuffer &dest, FIFOSampleBuffer &src);
-    virtual void setRate(float newRate);
+    virtual void setRate(double newRate);
     virtual void setChannels(int channels);
 
     // static factory function
@@ -158,7 +158,7 @@ public:
 
     /// Sets new target rate. Normal rate = 1.0, smaller values represent slower 
     /// rate, larger faster rates.
-    virtual void setRate(float newRate);
+    virtual void setRate(double newRate);
 
     /// Sets the number of channels, 1 = mono, 2 = stereo
     void setChannels(int channels);

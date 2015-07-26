@@ -112,7 +112,7 @@ class TDStretch : public FIFOProcessor
 protected:
     int channels;
     int sampleReq;
-    float tempo;
+    double tempo;
 
     SAMPLETYPE *pMidBuffer;
     SAMPLETYPE *pMidBufferUnaligned;
@@ -121,8 +121,8 @@ protected:
     int seekWindowLength;
     int overlapDividerBits;
     int slopingDivider;
-    float nominalSkip;
-    float skipFract;
+    double nominalSkip;
+    double skipFract;
     FIFOSampleBuffer outputBuffer;
     FIFOSampleBuffer inputBuffer;
     bool bQuickSeek;
@@ -182,7 +182,7 @@ public:
 
     /// Sets new target tempo. Normal tempo = 'SCALE', smaller values represent slower 
     /// tempo, larger faster tempo.
-    void setTempo(float newTempo);
+    void setTempo(double newTempo);
 
     /// Returns nonzero if there aren't any samples available for outputting.
     virtual void clear();

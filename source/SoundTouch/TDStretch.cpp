@@ -459,7 +459,7 @@ void TDStretch::calcSeqParameters()
 
 // Sets new target tempo. Normal tempo = 'SCALE', smaller values represent slower 
 // tempo, larger faster tempo.
-void TDStretch::setTempo(float newTempo)
+void TDStretch::setTempo(double newTempo)
 {
     int intskip;
 
@@ -470,7 +470,7 @@ void TDStretch::setTempo(float newTempo)
 
     // Calculate ideal skip length (according to tempo value) 
     nominalSkip = tempo * (seekWindowLength - overlapLength);
-    intskip = (int)(nominalSkip + 0.5f);
+    intskip = (int)(nominalSkip + 0.5);
 
     // Calculate how many samples are needed in the 'inputBuffer' to 
     // process another batch of samples
