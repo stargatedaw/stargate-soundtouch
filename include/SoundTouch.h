@@ -79,10 +79,10 @@ namespace soundtouch
 {
 
 /// Soundtouch library version string
-#define SOUNDTOUCH_VERSION          "1.9.0"
+#define SOUNDTOUCH_VERSION          "1.9.1-pre"
 
 /// SoundTouch library version id
-#define SOUNDTOUCH_VERSION_ID       (10900)
+#define SOUNDTOUCH_VERSION_ID       (10901)
 
 //
 // Available setting IDs for the 'setSetting' & 'get_setting' functions:
@@ -154,20 +154,20 @@ private:
     double virtualRate;
 
     /// Virtual pitch parameter. Effective rate & tempo are calculated from these parameters.
-	double virtualTempo;
+    double virtualTempo;
 
     /// Virtual pitch parameter. Effective rate & tempo are calculated from these parameters.
-	double virtualPitch;
+    double virtualPitch;
 
     /// Flag: Has sample rate been set?
     bool  bSrateSet;
 
-	/// Accumulator for how many samples in total will be expected as output vs. samples put in,
-	/// considering current processing settings.
-	double samplesExpectedOut;
+    /// Accumulator for how many samples in total will be expected as output vs. samples put in,
+    /// considering current processing settings.
+    double samplesExpectedOut;
 
-	/// Accumulator for how many samples in total have been read out from the processing so far
-	long   samplesOutput;
+    /// Accumulator for how many samples in total have been read out from the processing so far
+    long   samplesOutput;
 
     /// Calculates effective rate & tempo valuescfrom 'virtualRate', 'virtualTempo' and 
     /// 'virtualPitch' parameters.
@@ -199,28 +199,28 @@ public:
 
     /// Sets new tempo control value. Normal tempo = 1.0, smaller values
     /// represent slower tempo, larger faster tempo.
-	void setTempo(double newTempo);
+    void setTempo(double newTempo);
 
     /// Sets new rate control value as a difference in percents compared
     /// to the original rate (-50 .. +100 %)
-	void setRateChange(double newRate);
+    void setRateChange(double newRate);
 
     /// Sets new tempo control value as a difference in percents compared
     /// to the original tempo (-50 .. +100 %)
-	void setTempoChange(double newTempo);
+    void setTempoChange(double newTempo);
 
     /// Sets new pitch control value. Original pitch = 1.0, smaller values
     /// represent lower pitches, larger values higher pitch.
-	void setPitch(double newPitch);
+    void setPitch(double newPitch);
 
     /// Sets pitch change in octaves compared to the original pitch  
     /// (-1.00 .. +1.00)
-	void setPitchOctaves(double newPitch);
+    void setPitchOctaves(double newPitch);
 
     /// Sets pitch change in semi-tones compared to the original pitch
     /// (-12 .. +12)
     void setPitchSemiTones(int newPitch);
-	void setPitchSemiTones(double newPitch);
+    void setPitchSemiTones(double newPitch);
 
     /// Sets the number of channels, 1 = mono, 2 = stereo
     void setChannels(uint numChannels);
@@ -247,22 +247,22 @@ public:
                                                     ///< contains data for both channels.
             );
 
-	/// Output samples from beginning of the sample buffer. Copies requested samples to 
-	/// output buffer and removes them from the sample buffer. If there are less than 
-	/// 'numsample' samples in the buffer, returns all that available.
-	///
-	/// \return Number of samples returned.
-	virtual uint receiveSamples(SAMPLETYPE *output, ///< Buffer where to copy output samples.
-		uint maxSamples                 ///< How many samples to receive at max.
-		);
+    /// Output samples from beginning of the sample buffer. Copies requested samples to 
+    /// output buffer and removes them from the sample buffer. If there are less than 
+    /// 'numsample' samples in the buffer, returns all that available.
+    ///
+    /// \return Number of samples returned.
+    virtual uint receiveSamples(SAMPLETYPE *output, ///< Buffer where to copy output samples.
+        uint maxSamples                 ///< How many samples to receive at max.
+        );
 
-	/// Adjusts book-keeping so that given number of samples are removed from beginning of the 
-	/// sample buffer without copying them anywhere. 
-	///
-	/// Used to reduce the number of samples in the buffer when accessing the sample buffer directly
-	/// with 'ptrBegin' function.
-	virtual uint receiveSamples(uint maxSamples   ///< Remove this many samples from the beginning of pipe.
-		);
+    /// Adjusts book-keeping so that given number of samples are removed from beginning of the 
+    /// sample buffer without copying them anywhere. 
+    ///
+    /// Used to reduce the number of samples in the buffer when accessing the sample buffer directly
+    /// with 'ptrBegin' function.
+    virtual uint receiveSamples(uint maxSamples   ///< Remove this many samples from the beginning of pipe.
+        );
 
     /// Clears all the samples in the object's output and internal processing
     /// buffers.
