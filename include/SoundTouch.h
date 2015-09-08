@@ -79,7 +79,7 @@ namespace soundtouch
 {
 
 /// Soundtouch library version string
-#define SOUNDTOUCH_VERSION          "1.9.1-pre"
+#define SOUNDTOUCH_VERSION          "1.9.1"
 
 /// SoundTouch library version id
 #define SOUNDTOUCH_VERSION_ID       (10901)
