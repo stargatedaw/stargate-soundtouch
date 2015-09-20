@@ -65,6 +65,8 @@ libSoundTouchMMX_la_CXXFLAGS = $(AM_CXXFLAGS)
 libSoundTouchSSE_la_CXXFLAGS = $(AM_CXXFLAGS)
 endif
 
+# Modify the default 0.0.0 to LIB_SONAME.0.0
+libSoundTouch_la_LDFLAGS=-version-info @LIB_SONAME@
 
 # other linking flags to add
 # noinst_LTLIBRARIES = libSoundTouchOpt.la
