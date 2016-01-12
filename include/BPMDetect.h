@@ -77,12 +77,6 @@ protected:
     /// Auto-correlation accumulator bins.
     float *xcorr;
     
-    /// Amplitude envelope sliding average approximation level accumulator
-    double envelopeAccu;
-
-    /// RMS volume sliding average approximation level accumulator
-    double RMSVolumeAccu;
-
     /// Sample average counter.
     int decimateCount;
 
