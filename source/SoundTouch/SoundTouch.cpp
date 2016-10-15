@@ -475,7 +475,6 @@ int SoundTouch::getSetting(int settingId) const
             return size;
         }
 
-
         case SETTING_NOMINAL_OUTPUT_SEQUENCE :
         {
             int size = pTDStretch->getOutputBatchSize();
@@ -512,6 +511,7 @@ int SoundTouch::getSetting(int settingId) const
             return 0;
     }
 }
+
 
 
 // Clears all the samples in the object's output and internal processing
@@ -566,4 +566,13 @@ uint SoundTouch::receiveSamples(uint maxSamples)
     uint ret = FIFOProcessor::receiveSamples(maxSamples);
     samplesOutput += (long)ret;
     return ret;
+}
+
+
+/// Get ratio between input and output audio durations, useful for calculating
+/// processed output duration: if you'll process a stream of N samples, then 
+/// you can expect to get out N * getInputOutputSampleRatio() samples.
+double SoundTouch::getInputOutputSampleRatio()
+{
+    return 1.0 / (tempo * rate);
 }

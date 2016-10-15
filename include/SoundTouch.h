@@ -259,6 +259,24 @@ public:
     /// Sets sample rate.
     void setSampleRate(uint srate);
 
+    /// Get ratio between input and output audio durations, useful for calculating
+    /// processed output duration: if you'll process a stream of N samples, then 
+    /// you can expect to get out N * getInputOutputSampleRatio() samples.
+    ///
+    /// This ratio will give accurate target duration ratio for a full audio track, 
+    /// given that the the whole track is processed with same processing parameters.
+    /// 
+    /// If this ratio is applied to calculate intermediate offsets inside a processing
+    /// stream, then this ratio is approximate and can deviate +- some tens of milliseconds 
+    /// from ideal offset, yet by end of the audio stream the duration ratio will become
+    /// exact.
+    ///
+    /// Example: if processing with parameters "-tempo=15 -pitch=-3", the function
+    /// will return value 0.8695652... Now, if processing an audio stream whose duration
+    /// is exactly one million audio samples, then you can expect the processed 
+    /// output duration  be 0.869565 * 1000000 = 869565 samples.
+    double getInputOutputSampleRatio();
+
     /// Flushes the last samples from the processing pipeline to the output.
     /// Clears also the internal processing buffers.
     //

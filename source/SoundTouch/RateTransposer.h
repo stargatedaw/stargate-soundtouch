@@ -172,6 +172,9 @@ public:
 
     /// Returns nonzero if there aren't any samples available for outputting.
     int isEmpty() const;
+
+    /// Return approximate initial input-output latency
+    int getLatency() const;
 };
 
 }
