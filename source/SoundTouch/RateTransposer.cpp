@@ -208,6 +208,13 @@ int RateTransposer::isEmpty() const
 }
 
 
+/// Return approximate initial input-output latency
+int RateTransposer::getLatency() const
+{
+	return (bUseAAFilter) ? pAAFilter->getLength() : 0;
+}
+
+
 //////////////////////////////////////////////////////////////////////////////
 //
 // TransposerBase - Base class for interpolation

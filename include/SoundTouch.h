@@ -116,30 +116,61 @@ namespace soundtouch
 #define SETTING_OVERLAP_MS          5
 
 
-/// Call "getSetting" with this ID to query nominal average processing sequence
-/// size in samples. This value tells approcimate value how many input samples 
-/// SoundTouch needs to gather before it does DSP processing run for the sample batch.
+/// Call "getSetting" with this ID to query processing sequence size in samples. 
+/// This value gives approximate value of how many input samples you'll need to 
+/// feed into SoundTouch after initial buffering to get out a new batch of
+/// output samples. 
+///
+/// This value does not include initial buffering at beginning of a new processing 
+/// stream, use SETTING_INITIAL_LATENCY to get the initial buffering size.
 ///
 /// Notices: 
 /// - This is read-only parameter, i.e. setSetting ignores this parameter
-/// - Returned value is approximate average value, exact processing batch
-///   size may wary from time to time
-/// - This parameter value is not constant but may change depending on 
+/// - This parameter value is not constant but change depending on 
 ///   tempo/pitch/rate/samplerate settings.
-#define SETTING_NOMINAL_INPUT_SEQUENCE		6
+#define SETTING_NOMINAL_INPUT_SEQUENCE      6
 
 
 /// Call "getSetting" with this ID to query nominal average processing output 
 /// size in samples. This value tells approcimate value how many output samples 
 /// SoundTouch outputs once it does DSP processing run for a batch of input samples.
-///	
+///
 /// Notices: 
 /// - This is read-only parameter, i.e. setSetting ignores this parameter
-/// - Returned value is approximate average value, exact processing batch
-///   size may wary from time to time
-/// - This parameter value is not constant but may change depending on 
+/// - This parameter value is not constant but change depending on 
 ///   tempo/pitch/rate/samplerate settings.
-#define SETTING_NOMINAL_OUTPUT_SEQUENCE		7
+#define SETTING_NOMINAL_OUTPUT_SEQUENCE     7
+
+
+/// Call "getSetting" with this ID to query initial processing latency, i.e.
+/// approx. how many samples you'll need to enter to SoundTouch pipeline before 
+/// you can expect to get first batch of ready output samples out. 
+///
+/// After the first output batch, you can then expect to get approx. 
+/// SETTING_NOMINAL_OUTPUT_SEQUENCE ready samples out for every
+/// SETTING_NOMINAL_INPUT_SEQUENCE samples that you enter into SoundTouch.
+///
+/// Example:
+///     processing with parameter -tempo=5
+///     => initial latency = 5509 samples
+///        input sequence  = 4167 samples
+///        output sequence = 3969 samples
+///
+/// Accordingly, you can expect to feed in approx. 5509 samples at beginning of 
+/// the stream, and then you'll get out the first 3969 samples. After that, for 
+/// every approx. 4167 samples that you'll put in, you'll receive again approx. 
+/// 3969 samples out.
+///
+/// This also means that average latency during stream processing is 
+/// INITIAL_LATENCY-OUTPUT_SEQUENCE/2, in the above example case 5509-3969/2 
+/// = 3524 samples
+/// 
+/// Notices: 
+/// - This is read-only parameter, i.e. setSetting ignores this parameter
+/// - This parameter value is not constant but change depending on 
+///   tempo/pitch/rate/samplerate settings.
+#define SETTING_INITIAL_LATENCY             8
+
 
 class SoundTouch : public FIFOProcessor
 {

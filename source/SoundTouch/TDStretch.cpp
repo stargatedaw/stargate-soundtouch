@@ -656,7 +656,7 @@ void TDStretch::processSamples()
     // to form a processing frame.
     while ((int)inputBuffer.numSamples() >= sampleReq) 
     {
-        // If tempo differs from the normal ('SCALE'), scan for the best overlapping
+		// If tempo differs from the normal ('SCALE'), scan for the best overlapping
         // position
         offset = seekBestOverlapPosition(inputBuffer.ptrBegin());
 
@@ -673,7 +673,7 @@ void TDStretch::processSamples()
         temp = (seekWindowLength - 2 * overlapLength);
 
         // crosscheck that we don't have buffer overflow...
-        if ((int)inputBuffer.numSamples() < (offset + temp + overlapLength * 2))
+        if ((int)inputBuffer.numSamples() < (offset + seekWindowLength))
         {
             continue;    // just in case, shouldn't really happen
         }
