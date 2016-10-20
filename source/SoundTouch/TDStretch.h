@@ -134,6 +134,7 @@ protected:
     bool bQuickSeek;
     bool bAutoSeqSetting;
     bool bAutoSeekSetting;
+    bool isBeginning;
 
     SAMPLETYPE *pMidBuffer;
     SAMPLETYPE *pMidBufferUnaligned;

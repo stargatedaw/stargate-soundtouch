@@ -225,6 +225,7 @@ void TDStretch::clearInput()
 {
     inputBuffer.clear();
     clearMidBuffer();
+    isBeginning = true;
 }
 
 
@@ -639,7 +640,8 @@ void TDStretch::processNominalTempo()
 // the result into 'outputBuffer'
 void TDStretch::processSamples()
 {
-    int ovlSkip, offset;
+    int ovlSkip;
+    int offset = 0;
     int temp;
 
     /* Removed this small optimization - can introduce a click to sound when tempo setting
@@ -656,21 +658,22 @@ void TDStretch::processSamples()
     // to form a processing frame.
     while ((int)inputBuffer.numSamples() >= sampleReq) 
     {
-		// If tempo differs from the normal ('SCALE'), scan for the best overlapping
-        // position
-        offset = seekBestOverlapPosition(inputBuffer.ptrBegin());
+        if (isBeginning == false)
+        {
+            // apart from the very beginning of the track, 
+            // scan for the best overlapping position & do overlap-add
+            offset = seekBestOverlapPosition(inputBuffer.ptrBegin());
 
-        // Mix the samples in the 'inputBuffer' at position of 'offset' with the 
-        // samples in 'midBuffer' using sliding overlapping
-        // ... first partially overlap with the end of the previous sequence
-        // (that's in 'midBuffer')
-        overlap(outputBuffer.ptrEnd((uint)overlapLength), inputBuffer.ptrBegin(), (uint)offset);
-        outputBuffer.putSamples((uint)overlapLength);
+            // Mix the samples in the 'inputBuffer' at position of 'offset' with the 
+            // samples in 'midBuffer' using sliding overlapping
+            // ... first partially overlap with the end of the previous sequence
+            // (that's in 'midBuffer')
+            overlap(outputBuffer.ptrEnd((uint)overlapLength), inputBuffer.ptrBegin(), (uint)offset);
+            outputBuffer.putSamples((uint)overlapLength);
+        }
+        isBeginning = false;
 
         // ... then copy sequence samples from 'inputBuffer' to output:
-
-        // length of sequence
-        temp = (seekWindowLength - 2 * overlapLength);
 
         // crosscheck that we don't have buffer overflow...
         if ((int)inputBuffer.numSamples() < (offset + seekWindowLength))
@@ -678,6 +681,8 @@ void TDStretch::processSamples()
             continue;    // just in case, shouldn't really happen
         }
 
+        // length of sequence
+        temp = (seekWindowLength - 2 * overlapLength);
         outputBuffer.putSamples(inputBuffer.ptrBegin() + channels * (offset + overlapLength), (uint)temp);
 
         // Copies the end of the current sequence from 'inputBuffer' to 
