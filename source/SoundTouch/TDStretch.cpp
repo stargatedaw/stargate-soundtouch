@@ -524,13 +524,13 @@ void TDStretch::calcSeqParameters()
     #define AUTOSEQ_TEMPO_TOP   2.0     // auto setting top tempo range (+100%)
 
     // sequence-ms setting values at above low & top tempo
-    #define AUTOSEQ_AT_MIN      125.0
-    #define AUTOSEQ_AT_MAX      50.0
+    #define AUTOSEQ_AT_MIN      90.0
+    #define AUTOSEQ_AT_MAX      40.0
     #define AUTOSEQ_K           ((AUTOSEQ_AT_MAX - AUTOSEQ_AT_MIN) / (AUTOSEQ_TEMPO_TOP - AUTOSEQ_TEMPO_LOW))
     #define AUTOSEQ_C           (AUTOSEQ_AT_MIN - (AUTOSEQ_K) * (AUTOSEQ_TEMPO_LOW))
 
     // seek-window-ms setting values at above low & top tempoq
-    #define AUTOSEEK_AT_MIN     25.0
+    #define AUTOSEEK_AT_MIN     20.0
     #define AUTOSEEK_AT_MAX     15.0
     #define AUTOSEEK_K          ((AUTOSEEK_AT_MAX - AUTOSEEK_AT_MIN) / (AUTOSEQ_TEMPO_TOP - AUTOSEQ_TEMPO_LOW))
     #define AUTOSEEK_C          (AUTOSEEK_AT_MIN - (AUTOSEEK_K) * (AUTOSEQ_TEMPO_LOW))

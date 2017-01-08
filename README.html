@@ -574,6 +574,7 @@ this corresponds to lowering the pitch by -0.318 semitones:</p>
     <ul>
         <li>Added functions to get initial processing latency, duration ratio between the original input and processed output tracks, and clarified reporting of input/output batch sizes</li>
         <li>Fixed issue that added brief sequence of silence to beginning of output audio</li>
+        <li>Adjusted algorithm parameters to reduce reverberating effect at tempo slowdown</li>
         <li>Bugfix: Fixed a glitch that could cause negative array indexing in quick seek algorithm</li>
         <li>Bugfix: flush() didn't properly flush final samples from the pipeline on 2nd time in case that soundtouch object instance was recycled and used for processing a second audio stream.</li>
         <li>Bugfix: Pi value had incorrect 9th/10th decimals</li>
