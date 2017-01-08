@@ -310,6 +310,7 @@ int TDStretch::seekBestOverlapPositionFull(const SAMPLETYPE *refPos)
     // Scans for the best correlation value by testing each possible position
     // over the permitted range.
     bestCorr = calcCrossCorr(refPos, pMidBuffer, norm);
+    bestCorr = (bestCorr + 0.1) * 0.75;
 
     #pragma omp parallel for
     for (i = 1; i < seekLength; i ++) 
@@ -670,26 +671,50 @@ void TDStretch::processSamples()
             // (that's in 'midBuffer')
             overlap(outputBuffer.ptrEnd((uint)overlapLength), inputBuffer.ptrBegin(), (uint)offset);
             outputBuffer.putSamples((uint)overlapLength);
+            offset += overlapLength;
         }
-        isBeginning = false;
+        else
+        {
+            // Adjust processing offset at beginning of track:
+            // - do not perform initial overlapping
+            // - compensate expected value of 'seekBestOverlapPosition' offset landing to middle of seekLength
+            isBeginning = false;
+            int skip = overlapLength + seekLength / 2;
+
+            #ifdef SOUNDTOUCH_ALLOW_NONEXACT_SIMD_OPTIMIZATION
+                #ifdef SOUNDTOUCH_ALLOW_SSE
+                // if SSE mode, round the skip amount to value corresponding to aligned memory address
+                if (channels == 1)
+                {
+                    skip &= -4;
+                }
+                else if (channels == 2)
+                {
+                    skip &= -2;
+                }
+                #endif
+            #endif
+            skipFract -= skip;
+            assert(nominalSkip >= -skipFract);
+        }
 
         // ... then copy sequence samples from 'inputBuffer' to output:
 
         // crosscheck that we don't have buffer overflow...
-        if ((int)inputBuffer.numSamples() < (offset + seekWindowLength))
+        if ((int)inputBuffer.numSamples() < (offset + seekWindowLength - overlapLength))
         {
             continue;    // just in case, shouldn't really happen
         }
 
         // length of sequence
         temp = (seekWindowLength - 2 * overlapLength);
-        outputBuffer.putSamples(inputBuffer.ptrBegin() + channels * (offset + overlapLength), (uint)temp);
+        outputBuffer.putSamples(inputBuffer.ptrBegin() + channels * offset, (uint)temp);
 
         // Copies the end of the current sequence from 'inputBuffer' to 
         // 'midBuffer' for being mixed with the beginning of the next 
         // processing sequence and so on
-        assert((offset + temp + overlapLength * 2) <= (int)inputBuffer.numSamples());
-        memcpy(pMidBuffer, inputBuffer.ptrBegin() + channels * (offset + temp + overlapLength), 
+        assert((offset + temp + overlapLength) <= (int)inputBuffer.numSamples());
+        memcpy(pMidBuffer, inputBuffer.ptrBegin() + channels * (offset + temp), 
             channels * sizeof(SAMPLETYPE) * overlapLength);
 
         // Remove the processed samples from the input buffer. Update

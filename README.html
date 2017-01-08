@@ -14,7 +14,7 @@
 <body class="normal">
 <hr>
 <h1>SoundTouch audio processing library v1.9.3pre</h1>
-<p class="normal">SoundTouch library Copyright © Olli Parviainen 2001-2015</p>
+<p class="normal">SoundTouch library Copyright © Olli Parviainen 2001-2017</p>
 <hr>
 <h2>1. Introduction </h2>
 <p>SoundTouch is an open-source audio processing library that allows
@@ -570,6 +570,14 @@ this corresponds to lowering the pitch by -0.318 semitones:</p>
 <hr>
 <h2>5. Change History</h2>
 <h3>5.1. SoundTouch library Change History </h3>
+    <p><b>1.9.3:</b></p>
+    <ul>
+        <li>Added functions to get initial processing latency, duration ratio between the original input and processed output tracks, and clarified reporting of input/output batch sizes</li>
+        <li>Fixed issue that added brief sequence of silence to beginning of output audio</li>
+        <li>Bugfix: Fixed a glitch that could cause negative array indexing in quick seek algorithm</li>
+        <li>Bugfix: flush() didn't properly flush final samples from the pipeline on 2nd time in case that soundtouch object instance was recycled and used for processing a second audio stream.</li>
+        <li>Bugfix: Pi value had incorrect 9th/10th decimals</li>
+    </ul>
     <p><b>1.9.2:</b></p>
     <ul>
         <li>Fix in GNU package configuration</li>
@@ -822,11 +830,12 @@ switch "-bpm"</li>
 <p>Kudos for these people who have contributed to development or
 submitted bugfixes:</p>
 <ul>
-    <li> Arthur A</li>
-	<li> Paul Adenot</li>
+  <li> Arthur A</li>
+  <li> Paul Adenot</li>
   <li> Richard Ash</li>
   <li> Stanislav Brabec</li>
   <li> Christian Budde</li>
+  <li> Jamie Bullock</li>
   <li> Chris Bryan</li>  
   <li> Jacek Caban</li>
   <li> Brian Cameron</li>
@@ -834,24 +843,24 @@ submitted bugfixes:</p>
   <li> David Clark</li>
   <li> Patrick Colis</li>
   <li> Miquel Colon</li>
-    <li> Jim Credland</li>
+  <li> Jim Credland</li>
   <li> Sandro Cumerlato</li>
   <li> Justin Frankel</li>
-    <li> Masa H.</li>
+  <li> Masa H.</li>
   <li> Jason Garland</li>
   <li> Takashi Iwai</li>
-    <li> Thomas Klausner</li>
-    <li> Tony Mechelynck </li>
-	<li> Mathias Möhl</li>
+  <li> Thomas Klausner</li>
+  <li> Tony Mechelynck </li>
+  <li> Mathias Möhl</li>
   <li> Yuval Naveh</li>
-	<li> Mats Palmgren </li>
+  <li> Mats Palmgren </li>
   <li> Paulo Pizarro</li>
-	<li> Andrey Ponomarenko</li>
+  <li> Andrey Ponomarenko</li>
   <li> Blaise Potard</li>
-    <li> Michael Pruett</li>
+  <li> Michael Pruett</li>
   <li> Rajeev Puran</li>
-    <li> RJ Ryan</li>
-    <li> John Sheehy</li>
+  <li> RJ Ryan</li>
+  <li> John Sheehy</li>
   <li> Tim Shuttleworth</li>
   <li> Albert Sirvent</li>
   <li> John Stumpo</li>
