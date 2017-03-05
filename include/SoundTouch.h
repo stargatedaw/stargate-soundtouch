@@ -335,6 +335,11 @@ public:
     /// Returns number of samples currently unprocessed.
     virtual uint numUnprocessedSamples() const;
 
+    /// Return number of channels
+    uint numChannels() const
+    {
+        return channels;
+    }
 
     /// Other handy functions that are implemented in the ancestor classes (see
     /// classes 'FIFOProcessor' and 'FIFOSamplePipe')
