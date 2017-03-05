@@ -911,7 +911,12 @@ double TDStretch::calcCrossCorr(const short *mixingPos, const short *compare, do
 
     if (lnorm > maxnorm)
     {
-        maxnorm = lnorm;
+        // modify 'maxnorm' inside critical section to avoid multi-access conflict if in OpenMP mode
+        #pragma omp critical
+        if (lnorm > maxnorm)
+        {
+            maxnorm = lnorm;
+        }
     }
     // Normalize result by dividing by sqrt(norm) - this step is easiest 
     // done using floating point operation
