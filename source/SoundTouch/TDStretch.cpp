@@ -675,11 +675,10 @@ void TDStretch::processSamples()
         }
         else
         {
-            // Adjust processing offset at beginning of track:
-            // - do not perform initial overlapping
-            // - compensate expected value of 'seekBestOverlapPosition' offset landing to middle of seekLength
+            // Adjust processing offset at beginning of track by not perform initial overlapping
+            // and compensating that in the 'input buffer skip' calculation
             isBeginning = false;
-            int skip = overlapLength + seekLength / 2;
+            int skip = (int)(tempo * overlapLength + 0.5);
 
             #ifdef SOUNDTOUCH_ALLOW_NONEXACT_SIMD_OPTIMIZATION
                 #ifdef SOUNDTOUCH_ALLOW_SSE
