@@ -168,6 +168,7 @@ var
   SoundTouchSetSampleRate         : TSoundTouchSetSampleRate;
   SoundTouchFlush                 : TSoundTouchFlush;
   SoundTouchPutSamples            : TSoundTouchPutSamples;
+  SoundTouchPutSamplesI16         : TSoundTouchPutSamplesI16;
   SoundTouchClear                 : TSoundTouchClear;
   SoundTouchSetSetting            : TSoundTouchSetSetting;
   SoundTouchGetSetting            : TSoundTouchGetSetting;
@@ -443,11 +444,13 @@ begin
     Pointer(SoundTouchSetSampleRate)         := GetProcAddress(SoundTouchLibHandle, 'soundtouch_setSampleRate');
     Pointer(SoundTouchFlush)                 := GetProcAddress(SoundTouchLibHandle, 'soundtouch_flush');
     Pointer(SoundTouchPutSamples)            := GetProcAddress(SoundTouchLibHandle, 'soundtouch_putSamples');
+    Pointer(SoundTouchPutSamplesI16)         := GetProcAddress(SoundTouchLibHandle, 'soundtouch_putSamples_i16');
     Pointer(SoundTouchClear)                 := GetProcAddress(SoundTouchLibHandle, 'soundtouch_clear');
     Pointer(SoundTouchSetSetting)            := GetProcAddress(SoundTouchLibHandle, 'soundtouch_SetSetting');
     Pointer(SoundTouchGetSetting)            := GetProcAddress(SoundTouchLibHandle, 'soundtouch_setSetting');
     Pointer(SoundTouchNumUnprocessedSamples) := GetProcAddress(SoundTouchLibHandle, 'soundtouch_numUnprocessedSamples');
     Pointer(SoundTouchReceiveSamples)        := GetProcAddress(SoundTouchLibHandle, 'soundtouch_receiveSamples');
+    Pointer(SoundTouchReceiveSamplesI16)     := GetProcAddress(SoundTouchLibHandle, 'soundtouch_receiveSamples_i16');
     Pointer(SoundTouchNumSamples)            := GetProcAddress(SoundTouchLibHandle, 'soundtouch_numSamples');
     Pointer(SoundTouchIsEmpty)               := GetProcAddress(SoundTouchLibHandle, 'soundtouch_isEmpty');
 

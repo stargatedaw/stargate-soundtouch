@@ -13,7 +13,7 @@
 </head>
 <body class="normal">
 <hr>
-<h1>SoundTouch audio processing library v1.9.3pre</h1>
+<h1>SoundTouch audio processing library v2.0</h1>
 <p class="normal">SoundTouch library Copyright © Olli Parviainen 2001-2017</p>
 <hr>
 <h2>1. Introduction </h2>
@@ -55,6 +55,9 @@ instead of the make-win.bat script, directories bin and lib may need to
 be created manually to the SoundTouch package root for the final
 executables. The make-win.bat script creates these directories
 automatically. </p>
+<p><strong>C# example</strong>: The source code package includes also a C# example 
+    application for Windows that shows how to invoke SoundTouch.dll 
+    dynamic-load library for processing mp3 audio.
 <p><strong>OpenMP NOTE</strong>: If activating the OpenMP parallel computing in 
 the compilation, the target program will require additional vcomp dll library to 
 properly run. In Visual C++ 9.0 these libraries can be found in the following 
@@ -156,7 +159,7 @@ directly and remove the following definition:<blockquote>
 sstrip SoundTouch.dll</pre>
 </blockquote>
 
-<h3>2.1. Building in Android</h3>
+<h3>2.3. Building in Android</h3>
 <p>Android compilation instructions are within the 
     source code package, see file &quot;<b>source/Android-lib/README-SoundTouch-Android.html</b>&quot; 
     in the source code package. </p>
@@ -570,7 +573,7 @@ this corresponds to lowering the pitch by -0.318 semitones:</p>
 <hr>
 <h2>5. Change History</h2>
 <h3>5.1. SoundTouch library Change History </h3>
-    <p><b>1.9.3:</b></p>
+    <p><b>2.0:</b></p>
     <ul>
         <li>Added functions to get initial processing latency, duration ratio between the original input and processed output tracks, and clarified reporting of input/output batch sizes</li>
         <li>Fixed issue that added brief sequence of silence to beginning of output audio</li>
@@ -578,8 +581,7 @@ this corresponds to lowering the pitch by -0.318 semitones:</p>
         <li>Bugfix: Fixed a glitch that could cause negative array indexing in quick seek algorithm</li>
         <li>Bugfix: flush() didn't properly flush final samples from the pipeline on 2nd time in case that soundtouch object instance was recycled and used for processing a second audio stream.</li>
         <li>Bugfix: Pi value had incorrect 9th/10th decimals</li>
-		<li>Added C# example application that uses SoundTouch dll library for 
-		processing MP3 files</li>
+        <li>Added C# example application that uses SoundTouch dll library for processing MP3 files</li>
     </ul>
     <p><b>1.9.2:</b></p>
     <ul>
@@ -854,7 +856,7 @@ submitted bugfixes:</p>
   <li> Takashi Iwai</li>
   <li> Thomas Klausner</li>
   <li> Tony Mechelynck </li>
-  <li> Mathias Möhl</li>
+  <li> Mathias M&ouml;hl</li>
   <li> Yuval Naveh</li>
   <li> Mats Palmgren </li>
   <li> Chandni Patel</li>
@@ -867,6 +869,7 @@ submitted bugfixes:</p>
   <li> John Sheehy</li>
   <li> Tim Shuttleworth</li>
   <li> Albert Sirvent</li>
+  <li> Tyson Smith</li>
   <li> John Stumpo</li>
   <li> Katja Vetter</li>
 </ul>
