@@ -58,7 +58,7 @@ typedef unsigned int uint;
 typedef struct 
 {
     char riff_char[4];
-    int  package_len;
+    uint package_len;
     char wave[4];
 } WavRiff;
 
@@ -66,21 +66,21 @@ typedef struct
 typedef struct 
 {
     char  fmt[4];
-    int   format_len;
-    short fixed;
-    short channel_number;
-    int   sample_rate;
-    int   byte_rate;
-    short byte_per_sample;
-    short bits_per_sample;
+    unsigned int   format_len;
+    unsigned short fixed;
+    unsigned short channel_number;
+    unsigned int   sample_rate;
+    unsigned int   byte_rate;
+    unsigned short byte_per_sample;
+    unsigned short bits_per_sample;
 } WavFormat;
 
 /// WAV audio file 'fact' section header
 typedef struct 
 {
-    char  fact_field[4];
-    int   fact_len;
-    uint  fact_sample_len;
+    char fact_field[4];
+    uint fact_len;
+    uint fact_sample_len;
 } WavFact;
 
 /// WAV audio file 'data' section header
