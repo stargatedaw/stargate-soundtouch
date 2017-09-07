@@ -573,6 +573,13 @@ this corresponds to lowering the pitch by -0.318 semitones:</p>
 <hr>
 <h2>5. Change History</h2>
 <h3>5.1. SoundTouch library Change History </h3>
+    <p><b>2.0.1pre:</b></p>
+    <ul>
+        <li>Disable anti-alias filter when switch 
+		SOUNDTOUCH_PREVENT_CLICK_AT_RATE_CROSSOVER defined because anti-alias 
+		filter cause slight click if the rate change crosses zero during 
+		processing</li>
+    </ul>
     <p><b>2.0:</b></p>
     <ul>
         <li>Added functions to get initial processing latency, duration ratio between the original input and processed output tracks, and clarified reporting of input/output batch sizes</li>
@@ -855,6 +862,7 @@ submitted bugfixes:</p>
   <li> Jason Garland</li>
   <li> Takashi Iwai</li>
   <li> Thomas Klausner</li>
+	<li> Lu Zhihe</li>
   <li> Tony Mechelynck </li>
   <li> Mathias M&ouml;hl</li>
   <li> Yuval Naveh</li>
@@ -872,6 +880,7 @@ submitted bugfixes:</p>
   <li> Tyson Smith</li>
   <li> John Stumpo</li>
   <li> Katja Vetter</li>
+	<li> Wu Q.</li>
 </ul>
 <p>Moral greetings to all other contributors and users also!</p>
 <hr>
