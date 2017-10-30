@@ -64,8 +64,8 @@ namespace csharp_example
         {
             inputStr = input;
             st = new SoundTouch();
-            st.SetChannels((uint)input.WaveFormat.Channels);
-            st.SetSampleRate((uint)input.WaveFormat.SampleRate);
+            st.Channels = (uint)input.WaveFormat.Channels;
+            st.SampleRate = (uint)input.WaveFormat.SampleRate;
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace csharp_example
                 // Iterate until enough samples available for output:
                 // - read samples from input stream
                 // - put samples to SoundStretch processor
-                while (st.NumSamples() < count)
+                while (st.AvailableSampleCount < count)
                 {
                     int nbytes = inputStr.Read(bytebuffer, 0, bytebuffer.Length);
                     if (nbytes == 0)

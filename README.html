@@ -13,7 +13,7 @@
 </head>
 <body class="normal">
 <hr>
-<h1>SoundTouch audio processing library v2.0</h1>
+<h1>SoundTouch audio processing library v2.0.1pre</h1>
 <p class="normal">SoundTouch library Copyright © Olli Parviainen 2001-2017</p>
 <hr>
 <h2>1. Introduction </h2>
@@ -123,7 +123,7 @@ destination locations.</p>
     </tr>
   </tbody>
 </table>
-<h4><b>2.2.1 Required GNU tools</b>&nbsp;</h4>
+<h4><b>2.2.1 Required GNU tools</b></h4>
 <p> <span style="font-weight: bold;">Bash shell</span>, <span
  style="font-weight: bold;">GNU C++ compiler</span>, <span
  style="font-weight: bold;">libtool</span>, <span
@@ -222,7 +222,7 @@ as combination of two primary effects, <em>sample rate transposing</em>
 and <em>time-stretching</em>.</p>
 <p><em>Sample rate transposing</em> affects both the audio stream
 duration and pitch. It's implemented simply by converting the original
-audio sample stream to the&nbsp; desired duration by interpolating from
+audio sample stream to the desired duration by interpolating from
 the original audio samples. In SoundTouch, linear interpolation with
 anti-alias filtering is used. Theoretically a higher-order
 interpolation provide better result than 1st order linear
@@ -271,7 +271,7 @@ length of a single processing sequence in milliseconds which determines
 the how the original sound is chopped in the time-stretch algorithm.
 Larger values mean fewer sequences are used in processing. In principle
 a larger value sounds better when slowing down the tempo, but worse
-when increasing the tempo and vice versa.&nbsp;<br>
+when increasing the tempo and vice versa.<br>
     <br>
 By default, this setting value is calculated automatically according to
 tempo value.<br>
@@ -280,7 +280,7 @@ tempo value.<br>
 default length in milliseconds is for the algorithm that seeks the best
 possible overlapping location. This determines from how wide a sample
 "window" the algorithm can use to find an optimal mixing location when
-the sound sequences are to be linked back together.&nbsp;<br>
+the sound sequences are to be linked back together.<br>
     <br>
 The bigger this window setting is, the higher the possibility to find a
 better mixing position becomes, but at the same time large values may
@@ -348,7 +348,7 @@ computation burden</td>
       </td>
       <td valign="top">Default value is relatively large, chosen to
 suit with above parameters.</td>
-      <td valign="top">&nbsp;</td>
+      <td valign="top"></td>
       <td valign="top">If you reduce the "sequence ms" setting, you
 might wish to try a smaller value.</td>
       <td valign="top">Increasing the parameter value increases
@@ -361,7 +361,7 @@ computation burden</td>
 <p>The time-stretch routine has a 'quick' mode that substantially
 speeds up the algorithm but may slightly compromise the sound quality. 
 This mode is activated by calling SoundTouch::setSetting()
-function with parameter&nbsp; id of SETTING_USE_QUICKSEEK and value
+function with parameter id of SETTING_USE_QUICKSEEK and value
 "1", i.e. </p>
 <blockquote>
   <p>setSetting(SETTING_USE_QUICKSEEK, 1);</p>
@@ -445,13 +445,13 @@ file format). Give "stdin" as filename to use standard input pipe. </td>
       </td>
       <td valign="top">Name of the output sound file where the
 resulting sound is saved (in .WAV audio file format). This parameter
-may be omitted if you&nbsp; don't want to save the output (e.g. when
+may be omitted if you don't want to save the output (e.g. when
 only calculating BPM rate with '-bpm' switch). Give "stdout" as
 filename to use standard output pipe.</td>
     </tr>
     <tr>
       <td valign="top">
-      <pre>&nbsp;[switches]</pre>
+      <pre>[switches]</pre>
       </td>
       <td valign="top">Are one or more control switches.</td>
     </tr>
@@ -575,10 +575,11 @@ this corresponds to lowering the pitch by -0.318 semitones:</p>
 <h3>5.1. SoundTouch library Change History </h3>
     <p><b>2.0.1pre:</b></p>
     <ul>
+        <li>Refactored C# interface example</li>
         <li>Disable anti-alias filter when switch 
-		SOUNDTOUCH_PREVENT_CLICK_AT_RATE_CROSSOVER defined because anti-alias 
-		filter cause slight click if the rate change crosses zero during 
-		processing</li>
+        SOUNDTOUCH_PREVENT_CLICK_AT_RATE_CROSSOVER defined because anti-alias 
+        filter cause slight click if the rate change crosses zero during 
+        processing</li>
     </ul>
     <p><b>2.0:</b></p>
     <ul>
@@ -670,13 +671,13 @@ sample batch sizes</li>
 <ul>
   <li> Added normalization to correlation calculation and improvement
 automatic seek/sequence parameter calculation to improve sound quality</li>
-  <li> Bugfixes:&nbsp;
+  <li> Bugfixes:
     <ul>
       <li> Fixed negative array indexing in quick seek algorithm</li>
       <li> FIR autoalias filter running too far in processing buffer</li>
       <li> Check against zero sample count in rate transposing</li>
       <li> Fix for x86-64 support: Removed pop/push instructions from
-the cpu detection algorithm.&nbsp;</li>
+the cpu detection algorithm.</li>
       <li> Check against empty buffers in FIFOSampleBuffer</li>
       <li> Other minor fixes &amp; code cleanup</li>
     </ul>
@@ -692,7 +693,7 @@ negative side or vice versa</li>
 <p><strong>1.4.1:</strong></p>
 <ul>
   <li> Fixed a buffer overflow bug in BPM detect algorithm routines if
-processing more than 2048 samples at one call&nbsp;</li>
+processing more than 2048 samples at one call</li>
 </ul>
 <p><strong>1.4.0:</strong></p>
 <ul>
@@ -775,7 +776,6 @@ accessing the FIFOSampleBuffer class from external files.</li>
 <ul>
   <li> Initial release</li>
 </ul>
-<p>&nbsp;</p>
 <h3>5.2. SoundStretch application Change History </h3>
 <p><b>1.9:</b></p>
 <ul>
@@ -862,7 +862,7 @@ submitted bugfixes:</p>
   <li> Jason Garland</li>
   <li> Takashi Iwai</li>
   <li> Thomas Klausner</li>
-	<li> Lu Zhihe</li>
+  <li> Lu Zhihe</li>
   <li> Tony Mechelynck </li>
   <li> Mathias M&ouml;hl</li>
   <li> Yuval Naveh</li>
@@ -879,8 +879,9 @@ submitted bugfixes:</p>
   <li> Albert Sirvent</li>
   <li> Tyson Smith</li>
   <li> John Stumpo</li>
+  <li> Mario di Vece</li>
   <li> Katja Vetter</li>
-	<li> Wu Q.</li>
+  <li> Wu Q.</li>
 </ul>
 <p>Moral greetings to all other contributors and users also!</p>
 <hr>
