@@ -34,34 +34,38 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <windows.h>
+
+#if defined(_WIN32) || defined(WIN32)
+    #include <windows.h>
+
+    // DLL main in Windows compilation
+    BOOL APIENTRY DllMain( HANDLE hModule,
+                           DWORD  ul_reason_for_call,
+                           LPVOID lpReserved
+                         )
+    {
+        switch (ul_reason_for_call)
+        {
+        case DLL_PROCESS_ATTACH:
+        case DLL_THREAD_ATTACH:
+        case DLL_THREAD_DETACH:
+        case DLL_PROCESS_DETACH:
+            break;
+        }
+        return TRUE;
+    }
+#endif
+
+#include <limits.h>
 #include <string.h>
 #include "SoundTouchDLL.h"
-#include "soundtouch.h"
+#include "SoundTouch.h"
 
 using namespace soundtouch;
 
 #ifdef SOUNDTOUCH_INTEGER_SAMPLES
     #error "error - compile the dll version with float samples"
 #endif // SOUNDTOUCH_INTEGER_SAMPLES
-
-
-BOOL APIENTRY DllMain( HANDLE hModule, 
-                       DWORD  ul_reason_for_call, 
-                       LPVOID lpReserved
-                     )
-{
-    switch (ul_reason_for_call)
-    {
-    case DLL_PROCESS_ATTACH:
-    case DLL_THREAD_ATTACH:
-    case DLL_THREAD_DETACH:
-    case DLL_PROCESS_DETACH:
-        break;
-    }
-    return TRUE;
-}
-
 
 //////////////
 

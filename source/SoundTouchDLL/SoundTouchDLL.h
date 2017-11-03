@@ -37,23 +37,36 @@
 #ifndef _SoundTouchDLL_h_
 #define _SoundTouchDLL_h_
 
-#ifdef __cplusplus
+#if defined(_WIN32) || defined(WIN32)
+    // Windows
+    #ifndef __cplusplus
+        #error "Expected g++"
+    #endif
 
-#ifdef DLL_EXPORTS
-    #define SOUNDTOUCHDLL_API extern "C" __declspec(dllexport)
+    #ifdef DLL_EXPORTS
+        #define SOUNDTOUCHDLL_API extern "C" __declspec(dllexport)
+    #else
+        #define SOUNDTOUCHDLL_API extern "C" __declspec(dllimport)
+    #endif
+
 #else
-    #define SOUNDTOUCHDLL_API extern "C" __declspec(dllimport)
+    // GNU version
+
+    #ifdef DLL_EXPORTS
+        // GCC declaration for exporting functions
+        #define SOUNDTOUCHDLL_API extern "C" __attribute__((__visibility__("default")))
+    #else
+        // GCC doesn't require DLL imports
+        #define SOUNDTOUCHDLL_API
+    #endif
+
+    // Linux-replacements for Windows declarations:
+    #define __cdecl
+    typedef unsigned int DWORD;
+    #define FALSE    0
+    #define TRUE    1
+
 #endif
-
-#else
-
-#ifdef DLL_EXPORTS
-    #define SOUNDTOUCHDLL_API __declspec(dllexport)
-#else
-    #define SOUNDTOUCHDLL_API __declspec(dllimport)
-#endif
-
-#endif // __cplusplus
 
 typedef void * HANDLE;
 
