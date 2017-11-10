@@ -199,5 +199,35 @@ SOUNDTOUCHDLL_API unsigned int __cdecl soundtouch_numSamples(HANDLE h);
 /// Returns nonzero if there aren't any samples available for outputting.
 SOUNDTOUCHDLL_API int __cdecl soundtouch_isEmpty(HANDLE h);
 
+/// Create a new instance of BPM detector
+SOUNDTOUCHDLL_API HANDLE __cdecl bpm_createInstance(int numChannels, int sampleRate);
+
+/// Destroys a BPM detector instance.
+SOUNDTOUCHDLL_API void __cdecl bpm_destroyInstance(HANDLE h);
+
+/// Feed 'numSamples' sample frames from 'samples' into the BPM detector.
+SOUNDTOUCHDLL_API void __cdecl bpm_putSamples(HANDLE h, 
+        const float *samples,           ///< Pointer to sample buffer.
+        unsigned int numSamples         ///< Number of samples in buffer. Notice
+                                        ///< that in case of stereo-sound a single sample
+                                        ///< contains data for both channels.
+        );
+
+/// Feed 'numSamples' sample frames from 'samples' into the BPM detector.
+/// 16bit int sample format verson.
+SOUNDTOUCHDLL_API void __cdecl bpm_putSamples_i16(HANDLE h, 
+        const short *samples,           ///< Pointer to sample buffer.
+        unsigned int numSamples         ///< Number of samples in buffer. Notice
+                                        ///< that in case of stereo-sound a single sample
+                                        ///< contains data for both channels.
+        );
+
+/// Analyzes the results and returns the BPM rate. Use this function to read result
+/// after whole song data has been input to the class by consecutive calls of
+/// 'inputSamples' function.
+///
+/// \return Beats-per-minute rate, or zero if detection failed.
+SOUNDTOUCHDLL_API float __cdecl bpm_getBpm(HANDLE h);
+
 #endif  // _SoundTouchDLL_h_
 
