@@ -7,7 +7,7 @@ SoundTouch is an open-source audio processing library that allows changing the s
 same time
 * Change any combination of tempo/pitch/rate
 
-Visit [SoundTouch website](https://www.surina.net/soundtouch) and see the [README file](https://www.surina.net/soundtouch/README.html) for more information and audio examples.
+Visit [SoundTouch website](https://www.surina.net/soundtouch) and see the [README file](README.html) for more information and audio examples.
 
 ## Example
 
@@ -17,7 +17,7 @@ Use SoundStretch example app for modifying wav audio files, for example as follo
 soundstretch my_original_file.wav output_file.wav -tempo=+15 -pitch=-3
 ```
 
-See the [README file](https://www.surina.net/soundtouch/README.html) for more usage examples and instructions how to build SoundTouch + SoundStretch.
+See the [README file](README.html) for more usage examples and instructions how to build SoundTouch + SoundStretch.
 
 Ready [SoundStretch application executables](https://www.surina.net/soundtouch/download.html) are available for download for Windows and Mac OS.
 
