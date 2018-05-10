@@ -1,4 +1,3 @@
-# $Id$
 #
 # Build library bilaries for all supported architectures
 #

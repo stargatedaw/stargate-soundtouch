@@ -1,8 +1,6 @@
 ## vim:tw=78
 ## Process this file with automake to create Makefile.in
 ##
-## $Id$
-##
 ## This file is part of SoundTouch, an audio processing library for pitch/time adjustments
 ## 
 ## SoundTouch is free software; you can redistribute it and/or modify it under the

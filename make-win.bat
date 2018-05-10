@@ -5,9 +5,7 @@
 @REM "vcvars32.bat" in VC install directotry before running this one.
 @REM 
 @REM Copyright (c) Olli Parviainen
-@REM File Created: 09/Sep/2003
 @REM
-@REM $Id$ 
 
 @rem ****************************
 @rem try first for VS6.0 support

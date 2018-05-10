@@ -1,7 +1,3 @@
-dnl SoundTouch configure.ac, by David W. Durham
-dnl
-dnl $Id$
-dnl
 dnl This file is part of SoundTouch, an audio processing library for pitch/time adjustments
 dnl 
 dnl SoundTouch is free software; you can redistribute it and/or modify it under the
