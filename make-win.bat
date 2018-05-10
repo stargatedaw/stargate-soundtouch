@@ -9,22 +9,17 @@
 
 @if "%DevEnvDir%"=="" goto nodevdir
 
-md bin
-md lib
-devenv source\SoundTouch\SoundTouch.vcproj /upgrade
-devenv source\SoundTouch\SoundTouch.vcproj /build debug
-devenv source\SoundTouch\SoundTouch.vcproj /build release
-devenv source\SoundTouch\SoundTouch.vcproj /build releasex64
+@rem devenv source\SoundStretch\SoundStretch.sln /upgrade
+devenv source\SoundStretch\SoundStretch.sln /build "Debug|Win32"
+devenv source\SoundStretch\SoundStretch.sln /build "Release|Win32"
+devenv source\SoundStretch\SoundStretch.sln /build "Debug|x64"
+devenv source\SoundStretch\SoundStretch.sln /build "Release|x64"
 
-devenv source\SoundStretch\SoundStretch.sln /upgrade
-devenv source\SoundStretch\SoundStretch.sln /build debug
-devenv source\SoundStretch\SoundStretch.sln /build release
-devenv source\SoundStretch\SoundStretch.sln /build releasex64
-
-devenv source\SoundTouchDll\SoundTouchDll.sln /upgrade
-devenv source\SoundTouchDll\SoundTouchDll.sln /build debug
-devenv source\SoundTouchDll\SoundTouchDll.sln /build release
-devenv source\SoundTouchDll\SoundTouchDll.sln /build releasex64
+@rem devenv source\SoundTouchDll\SoundTouchDll.sln /upgrade
+devenv source\SoundTouchDll\SoundTouchDll.sln /build "Debug|Win32"
+devenv source\SoundTouchDll\SoundTouchDll.sln /build "Release|Win32"
+devenv source\SoundTouchDll\SoundTouchDll.sln /build "Debug|x64"
+devenv source\SoundTouchDll\SoundTouchDll.sln /build "Release|x64"
 
 @goto end
 
