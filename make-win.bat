@@ -7,23 +7,6 @@
 @REM Copyright (c) Olli Parviainen
 @REM
 
-@rem ****************************
-@rem try first for VS6.0 support
-
-@if "%MsDevDir%"=="" goto nomsdevdir
-
-md bin
-md lib
-msdev source\SoundTouch\SoundTouch.dsw /MAKE ALL
-msdev source\SoundStretch\SoundStretch.dsw /MAKE ALL
-
-goto end
-
-:nomsdevdir
-
-@rem **********************************
-@rem try with devenv for VS2003 support
-
 @if "%DevEnvDir%"=="" goto nodevdir
 
 md bin
