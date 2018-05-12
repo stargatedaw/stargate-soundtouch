@@ -124,7 +124,7 @@ void FIFOSampleBuffer::putSamples(uint nSamples)
 //
 // Parameter 'slackCapacity' tells the function how much free capacity (in
 // terms of samples) there _at least_ should be, in order to the caller to
-// succesfully insert all the required samples to the buffer. When necessary, 
+// successfully insert all the required samples to the buffer. When necessary, 
 // the function grows the buffer size to comply with this requirement.
 //
 // When using this function as means for inserting new samples, also remember 
@@ -151,7 +151,7 @@ SAMPLETYPE *FIFOSampleBuffer::ptrBegin()
 }
 
 
-// Ensures that the buffer has enought capacity, i.e. space for _at least_
+// Ensures that the buffer has enough capacity, i.e. space for _at least_
 // 'capacityRequirement' number of samples. The buffer is grown in steps of
 // 4 kilobytes to eliminate the need for frequently growing up the buffer,
 // as well as to round the buffer size up to the virtual memory page size.

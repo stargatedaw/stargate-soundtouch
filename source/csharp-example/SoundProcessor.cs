@@ -185,7 +185,7 @@ namespace csharp_example
         /// <summary>
         /// Start / resume playback
         /// </summary>
-        /// <returns>true if succesful, false if audio file not open</returns>
+        /// <returns>true if successful, false if audio file not open</returns>
         public bool Play()
         {
             if (waveOut == null) return false;
@@ -201,7 +201,7 @@ namespace csharp_example
         /// <summary>
         /// Pause playback
         /// </summary>
-        /// <returns>true if succesful, false if audio not playing</returns>
+        /// <returns>true if successful, false if audio not playing</returns>
         public bool Pause()
         {
             if (waveOut == null) return false;
@@ -218,7 +218,7 @@ namespace csharp_example
         /// <summary>
         /// Stop playback
         /// </summary>
-        /// <returns>true if succesful, false if audio file not open</returns>
+        /// <returns>true if successful, false if audio file not open</returns>
         public bool Stop()
         {
             if (waveOut == null) return false;
@@ -238,7 +238,7 @@ namespace csharp_example
 
 
         /// <summary>
-        /// Proxy event handler for receiving playback stoped event from WaveOut
+        /// Proxy event handler for receiving playback stopped event from WaveOut
         /// </summary>
         protected void EventHandler_stopped(object sender, StoppedEventArgs args)
         {
