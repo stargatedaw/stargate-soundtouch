@@ -30,7 +30,7 @@ bin_PROGRAMS=soundstretch
 
 noinst_HEADERS=RunParameters.h WavFile.h
 
-# extra files to include in distrubution tarball
+# extra files to include in distribution tarball
 EXTRA_DIST=soundstretch.dsp soundstretch.dsw soundstretch.sln soundstretch.vcproj
 
 ## for every name listed under bin_PROGRAMS, you have a <prog>_SOURCES. This lists

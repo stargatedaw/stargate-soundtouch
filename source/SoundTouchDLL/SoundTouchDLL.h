@@ -157,7 +157,7 @@ SOUNDTOUCHDLL_API void __cdecl soundtouch_clear(HANDLE h);
 /// Changes a setting controlling the processing system behaviour. See the
 /// 'SETTING_...' defines for available setting ID's.
 /// 
-/// \return 'nonzero' if the setting was succesfully changed, otherwise zero
+/// \return 'nonzero' if the setting was successfully changed, otherwise zero
 SOUNDTOUCHDLL_API int __cdecl soundtouch_setSetting(HANDLE h, 
         int settingId,   ///< Setting ID number. see SETTING_... defines.
         int value        ///< New setting value.
@@ -214,7 +214,7 @@ SOUNDTOUCHDLL_API void __cdecl bpm_putSamples(HANDLE h,
         );
 
 /// Feed 'numSamples' sample frames from 'samples' into the BPM detector.
-/// 16bit int sample format verson.
+/// 16bit int sample format version.
 SOUNDTOUCHDLL_API void __cdecl bpm_putSamples_i16(HANDLE h, 
         const short *samples,           ///< Pointer to sample buffer.
         unsigned int numSamples         ///< Number of samples in buffer. Notice

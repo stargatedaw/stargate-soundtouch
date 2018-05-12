@@ -39,7 +39,7 @@ namespace csharp_example
 
 
         /// <summary>
-        /// Display SoundTouch library version string in status bar. This also indicates whether the DLL was loaded succesfully or not ...
+        /// Display SoundTouch library version string in status bar. This also indicates whether the DLL was loaded successfully or not ...
         /// </summary>
         private void DisplaySoundTouchVersion()
         {

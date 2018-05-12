@@ -118,7 +118,7 @@ type
   // Changes a setting controlling the processing system behaviour. See the
   // 'SETTING_...' defines for available setting ID's.
   //
-  // \return 'TRUE' if the setting was succesfully changed
+  // \return 'TRUE' if the setting was successfully changed
   TSoundTouchSetSetting = function (Handle: TSoundTouchHandle;
                                  SettingId: Integer;   //< Setting ID number. see SETTING_... defines.
                                  Value: Integer        //< New setting value.

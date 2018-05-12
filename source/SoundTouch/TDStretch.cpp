@@ -367,7 +367,7 @@ int TDStretch::seekBestOverlapPositionFull(const SAMPLETYPE *refPos)
 // with improved precision
 //
 // Based on testing:
-// - This algorithm gives on average 99% as good match as the full algorith
+// - This algorithm gives on average 99% as good match as the full algorithm
 // - this quick seek algorithm finds the best match on ~90% of cases
 // - on those 10% of cases when this algorithm doesn't find best match, 
 //   it still finds on average ~90% match vs. the best possible match
@@ -524,7 +524,7 @@ void TDStretch::clearCrossCorrState()
 void TDStretch::calcSeqParameters()
 {
     // Adjust tempo param according to tempo, so that variating processing sequence length is used
-    // at varius tempo settings, between the given low...top limits
+    // at various tempo settings, between the given low...top limits
     #define AUTOSEQ_TEMPO_LOW   0.5     // auto setting low tempo range (-50%)
     #define AUTOSEQ_TEMPO_TOP   2.0     // auto setting top tempo range (+100%)
 
