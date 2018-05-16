@@ -58,8 +58,8 @@ using namespace std;
 
 static const char _helloText[] = 
     "\n"
-    "   SoundStretch v%s -  Copyright (c) Olli Parviainen 2001 - 2017\n"
-    "==================================================================\n"
+    "   SoundStretch v%s -  Copyright (c) Olli Parviainen\n"
+    "=========================================================\n"
     "author e-mail: <oparviai"
     "@"
     "iki.fi> - WWW: http://www.surina.net/soundtouch\n"

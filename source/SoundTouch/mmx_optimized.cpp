@@ -390,4 +390,9 @@ uint FIRFilterMMX::evaluateFilterStereo(short *dest, const short *src, uint numS
     return (numSamples & 0xfffffffe) - length;
 }
 
+#else
+
+// workaround to not complain about empty module
+bool _dontcomplain_mmx_empty;
+
 #endif  // SOUNDTOUCH_ALLOW_MMX

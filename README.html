@@ -13,8 +13,8 @@
 </head>
 <body class="normal">
 <hr>
-<h1>SoundTouch audio processing library v2.0.1pre</h1>
-<p class="normal">SoundTouch library Copyright &copy Olli Parviainen 2001-2017</p>
+<h1>SoundTouch audio processing library v2.1pre</h1>
+<p class="normal">SoundTouch library Copyright © Olli Parviainen 2001-2018</p>
 <hr>
 <h2>1. Introduction </h2>
 <p>SoundTouch is an open-source audio processing library that allows
@@ -573,7 +573,7 @@ this corresponds to lowering the pitch by -0.318 semitones:</p>
 <hr>
 <h2>5. Change History</h2>
 <h3>5.1. SoundTouch library Change History </h3>
-    <p><b>2.0.1pre:</b></p>
+    <p><b>2.1pre:</b></p>
     <ul>
         <li>Refactored C# interface example</li>
         <li>Disable anti-alias filter when switch 
@@ -581,7 +581,10 @@ this corresponds to lowering the pitch by -0.318 semitones:</p>
         filter cause slight click if the rate change crosses zero during 
         processing</li>
         <li>Added script for building SoundTouchDll dynamic-link-library for GNU platforms</li>
-        <li>Added BPM functions to SoundTouchDll API</li>
+        <li>Rewrote Beats-per-Minute analysis algorithm for more reliable BPM 
+		detection</li>
+		<li>Added BPM functions to SoundTouchDll API</li>
+		<li>Migrated Visual Studio project files to MSVC 201x format</li>
     </ul>
     <p><b>2.0:</b></p>
     <ul>
@@ -901,6 +904,8 @@ General Public License for more details.</p>
 <p>You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA</p>
+<p>---</p>
+<p>commercial license alternative also available, contact author for details.</p>
 <hr>
 <p><i>README.html file updated in May-2018</i></p>
 </body>
