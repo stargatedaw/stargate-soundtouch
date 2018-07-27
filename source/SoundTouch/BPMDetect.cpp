@@ -428,7 +428,7 @@ void BPMDetect::inputSamples(const SAMPLETYPE *samples, int numSamples)
         buffer->putSamples(decimated, decSamples);
     }
 
-    // when the buffer has enought samples for processing...
+    // when the buffer has enough samples for processing...
     int req = max(windowLen + XCORR_UPDATE_SEQUENCE, 2 * XCORR_UPDATE_SEQUENCE);
     while ((int)buffer->numSamples() >= req) 
     {

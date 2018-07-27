@@ -126,12 +126,12 @@ public:
     virtual ~RateTransposer();
 
     /// Operator 'new' is overloaded so that it automatically creates a suitable instance 
-    /// depending on if we're to use integer or floating point arithmetics.
+    /// depending on if we're to use integer or floating point arithmetic.
 //    static void *operator new(size_t s);
 
     /// Use this function instead of "new" operator to create a new instance of this class. 
     /// This function automatically chooses a correct implementation, depending on if 
-    /// integer or floating point arithmetics are to be used.
+    /// integer or floating point arithmetic are to be used.
 //    static RateTransposer *newInstance();
 
     /// Returns the output buffer object
