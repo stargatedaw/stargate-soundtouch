@@ -31,8 +31,8 @@ AC_DISABLE_STATIC	dnl This makes libtool only build shared libs
 
 AC_LANG(C++)
 
-
-
+# Set AR_FLAGS to avoid build warning "ar: `u' modifier ignored since `D' is the default (see `U')"
+AR_FLAGS='cr'
 
 
 dnl ############################################################################
