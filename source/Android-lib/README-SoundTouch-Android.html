@@ -45,7 +45,7 @@
     open Cygwin/bash shell, go to directory <b>&quot;soundtouch/source/Android-lib/jni&quot;</b> and invoke the NDK 
     compiler with following command:</p>
 <pre>    $NDK/ndk-build</pre>
-<p>This will build binaries for all the supported Android platforms (arm-v5, arm-v7, X86, MIPS etc) of SoundTouch library, plus the JNI wrapper interface as discussed below. The target binaries will be built into the &quot;libs&quot; subdirectory. As long as all these .so binary library versions are included in the APK Application delivery package, the targer Android device can choose the correct library version to use. </p>
+<p>This will build binaries for all the supported Android platforms (arm-v5, arm-v7, X86, MIPS etc) of SoundTouch library, plus the JNI wrapper interface as discussed below. The target binaries will be built into the &quot;libs&quot; subdirectory. As long as all these .so binary library versions are included in the APK Application delivery package, the target Android device can choose the correct library version to use. </p>
 <p>Notice that to allow Cygwin/bash to locate the NDK compile scripts, you 
     need to define the location of the NDK installation defined in environment 
     variable &quot;NDK&quot;. That's easiest done by adding the NDK path definition at end of 

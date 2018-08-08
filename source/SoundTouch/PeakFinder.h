@@ -44,8 +44,8 @@ protected:
 
     /// Calculates the mass center between given vector items.
     double calcMassCenter(const float *data, ///< Data vector.
-                         int firstPos,      ///< Index of first vector item beloging to the peak.
-                         int lastPos        ///< Index of last vector item beloging to the peak.
+                         int firstPos,      ///< Index of first vector item belonging to the peak.
+                         int lastPos        ///< Index of last vector item belonging to the peak.
                          ) const;
 
     /// Finds the data vector index where the monotoniously decreasing signal crosses the
