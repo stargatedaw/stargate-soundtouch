@@ -20,7 +20,7 @@ include $(top_srcdir)/config/am_include.mk
 
 
 # set to something if you want other stuff to be included in the distribution tarball
-EXTRA_DIST=SoundTouch.dsp SoundTouch.dsw SoundTouch.sln SoundTouch.vcproj
+EXTRA_DIST=SoundTouch.sln SoundTouch.vcxproj
 
 noinst_HEADERS=AAFilter.h cpu_detect.h cpu_detect_x86.cpp FIRFilter.h RateTransposer.h TDStretch.h PeakFinder.h \
     InterpolateCubic.h InterpolateLinear.h InterpolateShannon.h
