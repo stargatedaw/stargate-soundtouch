@@ -53,6 +53,7 @@
 #include <assert.h>
 #include <string.h>
 #include <stdio.h>
+#include <cfloat>
 #include "FIFOSampleBuffer.h"
 #include "PeakFinder.h"
 #include "BPMDetect.h"
@@ -392,7 +393,8 @@ void BPMDetect::updateBeatPos(int process_samples)
             if (peakVal > 0)
             {
                 // add detected beat to end of "beats" vector
-                beats.push_back({ (float)(peakPos * posScale), (float)(peakVal * scale) });
+                BEAT temp = { (float)(peakPos * posScale), (float)(peakVal * scale) };
+                beats.push_back(temp);
             }
 
             peakVal = 0;
