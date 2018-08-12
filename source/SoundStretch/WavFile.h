@@ -218,7 +218,6 @@ public:
 };
 
 
-
 /// Class for writing WAV audio files.
 class WavOutFile : protected WavFileBase
 {

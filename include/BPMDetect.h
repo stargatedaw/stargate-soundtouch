@@ -66,81 +66,7 @@ namespace soundtouch
     /// Maximum allowed BPM rate range. Used to restrict accepted result below a reasonable limit.
     #define MAX_BPM_VALID 190
 
-
 ////////////////////////////////////////////////////////////////////////////////
-
-/*
-class BeatCollection
-{
-private:
-
-    int size;
-
-    // Ensure there's enough capacity in arrays
-    void EnsureCapacity(int newCapacity)
-    {
-        if (newCapacity > size)
-        {
-            // enlarge arrays
-            int oldSize = size;
-            float *beatPosOld = beatPos;
-            float *beatValuesOld = beatValues;
-            while (size < newCapacity) size *= 2;
-            printf("Alloc more %d\n", size);
-            beatPos = new float[size];
-            beatValues = new float[size];
-            if ((beatPos == NULL) || (beatValues == NULL))
-            {
-                ST_THROW_RT_ERROR("can't allocate memory");
-            }
-            // copy old arrays to new arrays
-            memcpy(beatPos, beatPosOld, sizeof(float)*oldSize);
-            memcpy(beatValues, beatValuesOld, sizeof(float)*oldSize);
-            // free old arrays
-            delete[] beatPosOld;
-            delete[] beatValuesOld;
-        }
-    }
-
-public:
-    // beat position array
-    float *beatPos;
-
-    // beat values array
-    float *beatValues;
-
-    // number of beats in arrays
-    int numBeats;
-
-    // constructor
-    BeatCollection()
-    {
-        numBeats = 0;
-        size = 1024;
-        beatPos = new float[size];
-        beatValues = new float[size];
-    }
-
-
-    // destructor
-    ~BeatCollection()
-    {
-        delete[] beatPos;
-        delete[] beatValues;
-    }
-
-
-    // add new beat position into array
-    void Add(float pos, float value)
-    {
-        EnsureCapacity(numBeats + 1);
-        beatPos[numBeats] = pos;
-        beatValues[numBeats] = value;
-        numBeats++;
-    }
-
-};
-*/
 
     typedef struct
     {
@@ -257,14 +183,12 @@ public:
             int numSamples                            ///< Number of samples in buffer
         );
 
-
         /// Analyzes the results and returns the BPM rate. Use this function to read result
         /// after whole song data has been input to the class by consecutive calls of
         /// 'inputSamples' function.
         ///
         /// \return Beats-per-minute rate, or zero if detection failed.
         float getBpm();
-
 
         /// Get beat position arrays. Note: The array includes also really low beat detection values 
         /// in absence of clear strong beats. Consumer may wish to filter low values away.

@@ -151,7 +151,6 @@ RunParameters::RunParameters(const int nParams, const char * const paramStr[])
 }
 
 
-
 // Checks parameter limits
 void RunParameters::checkLimits()
 {
@@ -184,7 +183,6 @@ void RunParameters::checkLimits()
 }
 
 
-
 // Unknown switch parameter -- throws an exception with an error message
 void RunParameters::throwIllegalParamExp(const string &str) const
 {
@@ -194,7 +192,6 @@ void RunParameters::throwIllegalParamExp(const string &str) const
     msg += usage;
     ST_THROW_RT_ERROR(msg.c_str());
 }
-
 
 
 void RunParameters::throwLicense() const

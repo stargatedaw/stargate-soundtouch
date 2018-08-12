@@ -56,7 +56,6 @@ static const char fmtStr[]  = "fmt ";
 static const char factStr[] = "fact";
 static const char dataStr[] = "data";
 
-
 //////////////////////////////////////////////////////////////////////////////
 //
 // Helper functions for swapping byte order to correctly read/write WAV files 
@@ -228,17 +227,8 @@ void WavInFile::init()
         ST_THROW_RT_ERROR("Error: Illegal wav file header format parameters.");
     }
 
-    /* Ignore 'fixed' field value as 32bit signed linear data can have other value than 1.
-    if (header.format.fixed != 1)
-    {
-        string msg = "Input file uses unsupported encoding.";
-        ST_THROW_RT_ERROR(msg.c_str());
-    }
-    */
-
     dataRead = 0;
 }
-
 
 
 WavInFile::~WavInFile()
@@ -246,7 +236,6 @@ WavInFile::~WavInFile()
     if (fptr) fclose(fptr);
     fptr = NULL;
 }
-
 
 
 void WavInFile::rewind()
@@ -465,7 +454,6 @@ int WavInFile::eof() const
 }
 
 
-
 // test if character code is between a white space ' ' and little 'z'
 static int isAlpha(char c)
 {
@@ -504,8 +492,6 @@ int WavInFile::readRIFFBlock()
 
     return 0;
 }
-
-
 
 
 int WavInFile::readHeaderBlock()
@@ -679,7 +665,6 @@ uint WavInFile::getSampleRate() const
 }
 
 
-
 uint WavInFile::getDataSizeInBytes() const
 {
     return header.data.data_len;
@@ -711,7 +696,6 @@ uint WavInFile::getElapsedMS() const
 {
     return (uint)(1000.0 * (double)dataRead / (double)header.format.byte_rate);
 }
-
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -752,14 +736,12 @@ WavOutFile::WavOutFile(FILE *file, int sampleRate, int bits, int channels)
 }
 
 
-
 WavOutFile::~WavOutFile()
 {
     finishHeader();
     if (fptr) fclose(fptr);
     fptr = NULL;
 }
-
 
 
 void WavOutFile::fillInHeader(uint sampleRate, uint bits, uint channels)
@@ -812,7 +794,6 @@ void WavOutFile::finishHeader()
 }
 
 
-
 void WavOutFile::writeHeader()
 {
     WavHeader hdrTemp;
@@ -845,7 +826,6 @@ void WavOutFile::writeHeader()
 }
 
 
-
 void WavOutFile::write(const unsigned char *buffer, int numElems)
 {
     int res;
@@ -864,7 +844,6 @@ void WavOutFile::write(const unsigned char *buffer, int numElems)
 
     bytesWritten += numElems;
 }
-
 
 
 void WavOutFile::write(const short *buffer, int numElems)

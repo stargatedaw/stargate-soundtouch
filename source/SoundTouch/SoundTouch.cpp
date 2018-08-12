@@ -111,13 +111,11 @@ SoundTouch::SoundTouch()
 }
 
 
-
 SoundTouch::~SoundTouch()
 {
     delete pRateTransposer;
     delete pTDStretch;
 }
-
 
 
 /// Get SoundTouch library version string
@@ -156,7 +154,6 @@ void SoundTouch::setRate(double newRate)
 }
 
 
-
 // Sets new rate control value as a difference in percents compared
 // to the original rate (-50 .. +100 %)
 void SoundTouch::setRateChange(double newRate)
@@ -164,7 +161,6 @@ void SoundTouch::setRateChange(double newRate)
     virtualRate = 1.0 + 0.01 * newRate;
     calcEffectiveRateAndTempo();
 }
-
 
 
 // Sets new tempo control value. Normal tempo = 1.0, smaller values
@@ -176,7 +172,6 @@ void SoundTouch::setTempo(double newTempo)
 }
 
 
-
 // Sets new tempo control value as a difference in percents compared
 // to the original tempo (-50 .. +100 %)
 void SoundTouch::setTempoChange(double newTempo)
@@ -184,7 +179,6 @@ void SoundTouch::setTempoChange(double newTempo)
     virtualTempo = 1.0 + 0.01 * newTempo;
     calcEffectiveRateAndTempo();
 }
-
 
 
 // Sets new pitch control value. Original pitch = 1.0, smaller values
@@ -196,7 +190,6 @@ void SoundTouch::setPitch(double newPitch)
 }
 
 
-
 // Sets pitch change in octaves compared to the original pitch
 // (-1.00 .. +1.00)
 void SoundTouch::setPitchOctaves(double newPitch)
@@ -206,14 +199,12 @@ void SoundTouch::setPitchOctaves(double newPitch)
 }
 
 
-
 // Sets pitch change in semi-tones compared to the original pitch
 // (-12 .. +12)
 void SoundTouch::setPitchSemiTones(int newPitch)
 {
     setPitchOctaves((double)newPitch / 12.0);
 }
-
 
 
 void SoundTouch::setPitchSemiTones(double newPitch)
@@ -294,22 +285,6 @@ void SoundTouch::putSamples(const SAMPLETYPE *samples, uint nSamples)
         ST_THROW_RT_ERROR("SoundTouch : Number of channels not defined");
     }
 
-    // Transpose the rate of the new samples if necessary
-    /* Bypass the nominal setting - can introduce a click in sound when tempo/pitch control crosses the nominal value...
-    if (rate == 1.0f) 
-    {
-        // The rate value is same as the original, simply evaluate the tempo changer. 
-        assert(output == pTDStretch);
-        if (pRateTransposer->isEmpty() == 0) 
-        {
-            // yet flush the last samples in the pitch transposer buffer
-            // (may happen if 'rate' changes from a non-zero value to zero)
-            pTDStretch->moveSamples(*pRateTransposer);
-        }
-        pTDStretch->putSamples(samples, nSamples);
-    } 
-    */
-
     // accumulate how many samples are expected out from processing, given the current 
     // processing setting
     samplesExpectedOut += (double)nSamples / ((double)rate * (double)tempo);
@@ -365,7 +340,6 @@ void SoundTouch::flush()
     delete[] buff;
 
     // Clear input buffers
- //   pRateTransposer->clearInput();
     pTDStretch->clearInput();
     // yet leave the output intouched as that's where the
     // flushed samples are!
@@ -502,7 +476,6 @@ int SoundTouch::getSetting(int settingId) const
 }
 
 
-
 // Clears all the samples in the object's output and internal processing
 // buffers.
 void SoundTouch::clear()
@@ -512,7 +485,6 @@ void SoundTouch::clear()
     pRateTransposer->clear();
     pTDStretch->clear();
 }
-
 
 
 /// Returns number of samples currently unprocessed.
@@ -529,7 +501,6 @@ uint SoundTouch::numUnprocessedSamples() const
     }
     return 0;
 }
-
 
 
 /// Output samples from beginning of the sample buffer. Copies requested samples to 

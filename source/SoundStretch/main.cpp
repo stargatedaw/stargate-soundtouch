@@ -108,7 +108,6 @@ static void openFiles(WavInFile **inFile, WavOutFile **outFile, const RunParamet
 }
 
 
-
 // Sets the 'SoundTouch' object up according to input file sound format & 
 // command line parameters
 static void setup(SoundTouch *pSoundTouch, const WavInFile *inFile, const RunParameters *params)
@@ -165,7 +164,6 @@ static void setup(SoundTouch *pSoundTouch, const WavInFile *inFile, const RunPar
 }
 
 
-
 // Processes the sound
 static void process(SoundTouch *pSoundTouch, WavInFile *inFile, WavOutFile *outFile)
 {
@@ -216,7 +214,6 @@ static void process(SoundTouch *pSoundTouch, WavInFile *inFile, WavOutFile *outF
         outFile->write(sampleBuffer, nSamples * nChannels);
     } while (nSamples != 0);
 }
-
 
 
 // Detect BPM rate of inFile and adjust tempo setting accordingly if necessary
@@ -272,7 +269,6 @@ static void detectBPM(WavInFile *inFile, RunParameters *params)
         fprintf(stderr, "The file will be converted to %.1f BPM\n\n", params->goalBPM);
     }
 }
-
 
 
 int main(const int nParams, const char * const paramStr[])

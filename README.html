@@ -14,7 +14,7 @@
 <body class="normal">
 <hr>
 <h1>SoundTouch audio processing library v2.1pre</h1>
-<p class="normal">SoundTouch library Copyright © Olli Parviainen 2001-2018</p>
+<p class="normal">SoundTouch library Copyright ï¿½ Olli Parviainen 2001-2018</p>
 <hr>
 <h2>1. Introduction </h2>
 <p>SoundTouch is an open-source audio processing library that allows
@@ -575,16 +575,17 @@ this corresponds to lowering the pitch by -0.318 semitones:</p>
 <h3>5.1. SoundTouch library Change History </h3>
     <p><b>2.1pre:</b></p>
     <ul>
-        <li>Refactored C# interface example</li>
-        <li>Disable anti-alias filter when switch 
-        SOUNDTOUCH_PREVENT_CLICK_AT_RATE_CROSSOVER defined because anti-alias 
-        filter cause slight click if the rate change crosses zero during 
-        processing</li>
-        <li>Added script for building SoundTouchDll dynamic-link-library for GNU platforms</li>
-        <li>Rewrote Beats-per-Minute analysis algorithm for more reliable BPM 
-		detection</li>
-		<li>Added BPM functions to SoundTouchDll API</li>
-		<li>Migrated Visual Studio project files to MSVC 201x format</li>
+      <li>Refactored C# interface example</li>
+      <li>Disable anti-alias filter when switch 
+      SOUNDTOUCH_PREVENT_CLICK_AT_RATE_CROSSOVER defined because anti-alias 
+      filter cause slight click if the rate change crosses zero during 
+      processing</li>
+      <li>Added script for building SoundTouchDll dynamic-link-library for GNU platforms</li>
+      <li>Rewrote Beats-per-Minute analysis algorithm for more reliable BPM detection</li>
+      <li>Added BPM functions to SoundTouchDll API</li>
+      <li>Migrated Visual Studio project files to MSVC 201x format</li>
+      <li>Replaced function parameter value asserts with runtime exceptions</li>
+      <li>Code maintenance & style cleanup</li>
     </ul>
     <p><b>2.0:</b></p>
     <ul>
