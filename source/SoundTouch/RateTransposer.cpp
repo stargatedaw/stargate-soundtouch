@@ -288,7 +288,7 @@ void TransposerBase::setRate(double newRate)
 TransposerBase *TransposerBase::newInstance()
 {
 #ifdef SOUNDTOUCH_INTEGER_SAMPLES
-    // Notice: For integer arithmetics support only linear algorithm (due to simplest calculus)
+    // Notice: For integer arithmetic support only linear algorithm (due to simplest calculus)
     return ::new InterpolateLinearInteger;
 #else
     switch (algorithm)

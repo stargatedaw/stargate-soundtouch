@@ -804,7 +804,7 @@ TDStretch * TDStretch::newInstance()
 
 //////////////////////////////////////////////////////////////////////////////
 //
-// Integer arithmetics specific algorithm implementations.
+// Integer arithmetic specific algorithm implementations.
 //
 //////////////////////////////////////////////////////////////////////////////
 
@@ -969,7 +969,7 @@ double TDStretch::calcCrossCorrAccumulate(const short *mixingPos, const short *c
 
 //////////////////////////////////////////////////////////////////////////////
 //
-// Floating point arithmetics specific algorithm implementations.
+// Floating point arithmetic specific algorithm implementations.
 //
 
 #ifdef SOUNDTOUCH_FLOAT_SAMPLES
