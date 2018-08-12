@@ -139,16 +139,12 @@ uint SoundTouch::getVersionId()
 // Sets the number of channels, 1 = mono, 2 = stereo
 void SoundTouch::setChannels(uint numChannels)
 {
-    /*if (numChannels != 1 && numChannels != 2) 
-    {
-        //ST_THROW_RT_ERROR("Illegal number of channels");
-        return;
-    }*/
+    if (!verifyNumberOfChannels(numChannels)) return;
+
     channels = numChannels;
     pRateTransposer->setChannels((int)numChannels);
     pTDStretch->setChannels((int)numChannels);
 }
-
 
 
 // Sets new rate control value. Normal rate = 1.0, smaller values

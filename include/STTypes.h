@@ -56,6 +56,9 @@ typedef unsigned long   ulong;
 
 namespace soundtouch
 {
+    /// Max allowed number of channels
+    #define SOUNDTOUCH_MAX_CHANNELS     16
+
     /// Activate these undef's to overrule the possible sampletype 
     /// setting inherited from some other header file:
     //#undef SOUNDTOUCH_INTEGER_SAMPLES
