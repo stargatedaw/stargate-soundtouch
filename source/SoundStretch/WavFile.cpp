@@ -530,7 +530,11 @@ int WavInFile::readHeaderBlock()
         // read length of the format field
         if (fread(&nLen, sizeof(int), 1, fptr) != 1) return -1;
         // swap byte order if necessary
-        _swap32(nLen); // int format_len;
+        _swap32(nLen);
+
+        // verify that header length isn't smaller than expected
+        if (nLen < sizeof(header.format) - 8) return -1;
+
         header.format.format_len = nLen;
 
         // calculate how much length differs from expected
@@ -572,6 +576,10 @@ int WavInFile::readHeaderBlock()
         if (fread(&nLen, sizeof(int), 1, fptr) != 1) return -1;
         // swap byte order if necessary
         _swap32(nLen); // int fact_len;
+
+        // verify that fact length isn't smaller than expected
+        if (nLen < sizeof(header.fact) - 8) return -1;
+
         header.fact.fact_len = nLen;
 
         // calculate how much length differs from expected
