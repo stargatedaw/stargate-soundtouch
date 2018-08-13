@@ -522,7 +522,7 @@ int WavInFile::readHeaderBlock()
         nDump = nLen - ((int)sizeof(header.format) - 8);
 
         // verify that header length isn't smaller than expected structure
-        if (nDump < 0) return -1;
+        if ((nLen < 0) || (nDump < 0)) return -1;
 
         header.format.format_len = nLen;
 
@@ -567,7 +567,7 @@ int WavInFile::readHeaderBlock()
         nDump = nLen - ((int)sizeof(header.fact) - 8);
 
         // verify that fact length isn't smaller than expected structure
-        if (nDump < 0) return -1;
+        if ((nLen < 0) || (nDump < 0)) return -1;
 
         header.fact.fact_len = nLen;
 
