@@ -1,8 +1,8 @@
-set SOUND_DIR=d:\dev\test_sounds
+set SOUND_DIR=c:\dev\test_sounds
 set OUT_DIR=.
 set TEST_NAME=semmari
 set OUT_NAME=out
-set SS=soundstretch
+set SS=soundstretch_x64
 set TEST_PARAM=-pitch=-3 -bpm
 
 call %SS% %SOUND_DIR%\%TEST_NAME%-8b1.wav %OUT_DIR%\%OUT_NAME%-8b1.wav %TEST_PARAM%
