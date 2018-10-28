@@ -771,8 +771,8 @@ void WavOutFile::fillInHeader(uint sampleRate, uint bits, uint channels)
 
     // fill in the 'fact' part...
     memcpy(&(header.fact.fact_field), factStr, 4);
-	header.fact.fact_len = 4;
-	header.fact.fact_sample_len = 0;
+    header.fact.fact_len = 4;
+    header.fact.fact_sample_len = 0;
 
     // fill in the 'data' part..
 
@@ -788,8 +788,8 @@ void WavOutFile::finishHeader()
     // supplement the file length into the header structure
     header.riff.package_len = bytesWritten + sizeof(WavHeader) - sizeof(WavRiff) + 4;
     header.data.data_len = bytesWritten;
-	header.fact.fact_sample_len = bytesWritten / header.format.byte_per_sample; 
-	
+    header.fact.fact_sample_len = bytesWritten / header.format.byte_per_sample; 
+    
     writeHeader();
 }
 
@@ -924,7 +924,8 @@ void WavOutFile::write(const float *buffer, int numElems)
 
     bytesPerSample = header.format.bits_per_sample / 8;
     numBytes = numElems * bytesPerSample;
-    short *temp = (short*)getConvBuffer(numBytes);
+    int confBufBytes = (numBytes + 3) & -4; // round up to nearest multiple of four to avoid overflow with 24bit-value assignment
+    void *temp = getConvBuffer(confBufBytes);
 
     switch (bytesPerSample)
     {
