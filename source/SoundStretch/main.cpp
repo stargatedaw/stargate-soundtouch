@@ -229,7 +229,7 @@ static void detectBPM(WavInFile *inFile, RunParameters *params)
     fflush(stderr);
 
     nChannels = (int)inFile->getNumChannels();
-    assert(BUFF_SIZE % nChannels == 0);
+    int readSize = BUFF_SIZE - BUFF_SIZE % nChannels;   // round read size down to multiple of num.channels 
 
     // Process the 'inFile' in small blocks, repeat until whole file has 
     // been processed
@@ -238,7 +238,7 @@ static void detectBPM(WavInFile *inFile, RunParameters *params)
         int num, samples;
 
         // Read sample data from input file
-        num = inFile->read(sampleBuffer, BUFF_SIZE);
+        num = inFile->read(sampleBuffer, readSize);
 
         // Enter the new samples to the bpm analyzer class
         samples = num / nChannels;
