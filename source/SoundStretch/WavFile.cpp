@@ -924,8 +924,7 @@ void WavOutFile::write(const float *buffer, int numElems)
 
     bytesPerSample = header.format.bits_per_sample / 8;
     numBytes = numElems * bytesPerSample;
-    int confBufBytes = (numBytes + 3) & -4; // round up to nearest multiple of four to avoid overflow with 24bit-value assignment
-    void *temp = getConvBuffer(confBufBytes);
+    void *temp = getConvBuffer(numBytes + 7);   // round bit up to avoid buffer overrun with 24bit-value assignment
 
     switch (bytesPerSample)
     {
