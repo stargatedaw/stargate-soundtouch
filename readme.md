@@ -9,7 +9,7 @@ same time
 
 Visit [SoundTouch website](https://www.surina.net/soundtouch) and see the [README file](README.html) for more information and audio examples.
 
-### The latest stable release is 2.1.1, tagged in git as 2.1.1
+### The latest stable release is 2.1.2
 
 ## Example
 
