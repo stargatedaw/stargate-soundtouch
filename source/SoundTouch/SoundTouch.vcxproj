@@ -112,6 +112,7 @@
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <XMLDocumentationFileName>$(IntDir)</XMLDocumentationFileName>
       <BrowseInformationFile>$(IntDir)</BrowseInformationFile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -153,6 +154,7 @@ copy $(OutDir)$(TargetName)$(TargetExt) ..\..\lib</Command>
       </EnableEnhancedInstructionSet>
       <XMLDocumentationFileName>$(IntDir)</XMLDocumentationFileName>
       <BrowseInformationFile>$(IntDir)</BrowseInformationFile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -188,6 +190,7 @@ copy $(OutDir)$(TargetName)$(TargetExt) ..\..\lib</Command>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <XMLDocumentationFileName>$(IntDir)</XMLDocumentationFileName>
       <BrowseInformationFile>$(IntDir)</BrowseInformationFile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -227,6 +230,7 @@ copy $(OutDir)$(TargetName)$(TargetExt) ..\..\lib</Command>
       </EnableEnhancedInstructionSet>
       <XMLDocumentationFileName>$(IntDir)</XMLDocumentationFileName>
       <BrowseInformationFile>$(IntDir)</BrowseInformationFile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
