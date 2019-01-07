@@ -142,7 +142,7 @@ int PeakFinder::findCrossingLevel(const float *data, float level, int peakpos, i
     peaklevel = data[peakpos];
     assert(peaklevel >= level);
     pos = peakpos;
-    while ((pos >= minPos) && (pos < maxPos))
+    while ((pos >= minPos) && (pos + direction < maxPos))
     {
         if (data[pos + direction] < level) return pos;   // crossing found
         pos += direction;
