@@ -31,8 +31,9 @@ echo ***************************************************************************
 echo **
 echo ** ERROR: Visual Studio path not set.
 echo **
-echo ** Run "vsvars32.bat" or "vcvars32.bat" from Visual Studio installation dir,
-echo ** e.g. "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin",
+echo ** Open "tools"->"Developer Command Line" from Visual Studio IDE, or
+echo ** run "vcvars32.bat" from Visual Studio installation dir, e.g.
+echo ** "C:\Program Files (x86)\Microsoft Visual Studio xxx\VC\bin",
 echo ** then try again.
 echo **
 echo ****************************************************************************
