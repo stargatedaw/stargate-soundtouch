@@ -44,7 +44,7 @@ soundstretch_LDADD=../SoundTouch/libSoundTouch.la -lm
 #soundstretch_LDFLAGS=-s
 
 ## additional compiler flags
-soundstretch_CXXFLAGS=-O3 $(AM_CXXFLAGS)
+soundstretch_CXXFLAGS=$(AM_CXXFLAGS)
 
 #clean-local: 
 #	-rm -f additional-files-to-remove-on-make-clean
