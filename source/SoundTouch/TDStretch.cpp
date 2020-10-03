@@ -928,7 +928,7 @@ double TDStretch::calcCrossCorr(const short *mixingPos, const short *compare, do
 double TDStretch::calcCrossCorrAccumulate(const short *mixingPos, const short *compare, double &norm)
 {
     long corr;
-    unsigned long lnorm;
+    long lnorm;
     int i;
 
     // cancel first normalizer tap from previous round
