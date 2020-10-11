@@ -149,8 +149,9 @@ namespace soundtouch
 
         // floating point samples
         typedef float  SAMPLETYPE;
-        // data type for sample accumulation: Use double to utilize full precision.
-        typedef double LONG_SAMPLETYPE;
+        // data type for sample accumulation: Use float also here to enable
+        // efficient autovectorization
+        typedef float LONG_SAMPLETYPE;
 
         #ifdef SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS
             // Allow SSE optimizations
@@ -158,6 +159,12 @@ namespace soundtouch
         #endif
 
     #endif  // SOUNDTOUCH_INTEGER_SAMPLES
+
+    #if ((SOUNDTOUCH_ALLOW_SSE) || (__SSE__) || (SOUNDTOUCH_USE_NEON))
+        #if SOUNDTOUCH_ALLOW_NONEXACT_SIMD_OPTIMIZATION
+            #define ST_SIMD_AVOID_UNALIGNED
+        #endif
+    #endif
 
 };
 
