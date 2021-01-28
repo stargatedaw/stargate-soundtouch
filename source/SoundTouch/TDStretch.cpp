@@ -675,7 +675,7 @@ void TDStretch::processSamples()
             // Adjust processing offset at beginning of track by not perform initial overlapping
             // and compensating that in the 'input buffer skip' calculation
             isBeginning = false;
-            int skip = (int)(tempo * overlapLength + 0.5);
+            int skip = (int)(tempo * overlapLength + 0.5 * seekLength + 0.5);
 
             #ifdef ST_SIMD_AVOID_UNALIGNED
             // in SIMD mode, round the skip amount to value corresponding to aligned memory address
