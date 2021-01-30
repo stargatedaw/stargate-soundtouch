@@ -92,11 +92,6 @@ TDStretch::TDStretch() : FIFOProcessor(&outputBuffer)
     bAutoSeqSetting = true;
     bAutoSeekSetting = true;
 
-    maxnorm = 0;
-    maxnormf = 1e8;
-
-    skipFract = 0;
-
     tempo = 1.0f;
     setParameters(44100, DEFAULT_SEQUENCE_MS, DEFAULT_SEEKWINDOW_MS, DEFAULT_OVERLAP_MS);
     setTempo(1.0f);
@@ -223,6 +218,9 @@ void TDStretch::clearInput()
     inputBuffer.clear();
     clearMidBuffer();
     isBeginning = true;
+    maxnorm = 0;
+    maxnormf = 1e8;
+    skipFract = 0;
 }
 
 

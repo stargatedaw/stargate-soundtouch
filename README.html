@@ -15,8 +15,8 @@
 
 <body class="normal">
   <hr>
-  <h1>SoundTouch audio processing library v2.2</h1>
-  <p class="normal">SoundTouch library Copyright &copy; Olli Parviainen 2001-2020</p>
+  <h1>SoundTouch audio processing library v2.3pre</h1>
+  <p class="normal">SoundTouch library Copyright &copy; Olli Parviainen 2001-2021</p>
   <hr>
   <h2>1. Introduction </h2>
   <p>SoundTouch is an open-source audio processing library that allows
@@ -72,8 +72,7 @@
     <li>x64 64bit: C:\Program Files (x86)\Microsoft Visual Studio
       9.0\VC\redist\amd64\Microsoft.VC90.OPENMP\vcomp90.dll</li>
   </ul>
-  <p>In Visual Studio 2008, a SP1 version may be required for these libraries. In
-    other VC++ versions the required library will be expectedly found in similar
+  <p>In other VC++ versions the required library will be expectedly found in similar
     &quot;redist&quot; location.</p>
   <p>Notice that as minor demonstration of a &quot;dll hell&quot; phenomenon both the 32-bit
     and 64-bit version of vcomp90.dll have the same filename but different contents,
@@ -81,6 +80,8 @@
   <h3>2.2. Building in Gnu platforms</h3>
   <p>The SoundTouch library compiles in practically any platform
     supporting GNU compiler (GCC) tools. SoundTouch requires GCC version 4.3 or later.</p>
+  <p>To install build prerequisites:</p>
+  <pre>    sudo apt-get install automake autoconf libtool build-essential</pre>
   <p>To build and install the binaries, run the following commands in
     /soundtouch directory:</p>
   <table border="0" cellpadding="0" cellspacing="4">
@@ -127,28 +128,6 @@
       </tr>
     </tbody>
   </table>
-  <h4><b>2.2.1 Required GNU tools</b></h4>
-  <p> <span style="font-weight: bold;">Bash shell</span>, <span style="font-weight: bold;">GNU C++ compiler</span>,
-    <span style="font-weight: bold;">libtool</span>, <span style="font-weight: bold;">autoconf</span> and <span
-      style="font-weight: bold;">automake</span> tools
-    are required for compiling the SoundTouch library. These are usually
-    included with the GNU/Linux distribution, but if not, install these
-    packages first. For example, Ubuntu Linux can acquire and install
-    these with the following command:</p>
-  <pre><b>sudo apt-get install automake autoconf libtool build-essential</b></pre>
-  <h4><b>2.2.2 Problems with GCC compiler compatibility</b></h4>
-  <p>At the release time the SoundTouch package has been tested to
-    compile in GNU/Linux platform. However, If you have problems getting the
-    SoundTouch library compiled, try disabling optimizations that are specific for
-    x86 processors by running <b>./configure</b> script with switch
-  <blockquote>
-    <pre>--enable-x86-optimizations=no</pre>
-  </blockquote>
-
-  Alternatively, if you don't use GNU Configure system, edit file "include/STTypes.h"
-  directly and remove the following definition:<blockquote>
-    <pre>#define SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS 1</pre>
-  </blockquote>
 
   <h4><b>2.2.3 Compiling portable Shared Library / DLL version in GNU environment</b></h4>
   <p> The GNU compilation does not automatically create a shared-library version of
@@ -304,7 +283,8 @@
         <br>
         This shouldn't be that critical parameter. If you reduce the
         DEFAULT_SEQUENCE_MS setting by a large amount, you might wish to try a
-        smaller value on this.</li>
+        smaller value on this.
+      </li>
     </ul>
     <p>Notice that these parameters can also be set during execution time
       with functions "<strong>TDStretch::setParameters()</strong>" and "<strong>SoundTouch::setSetting()</strong>".</p>
@@ -415,7 +395,8 @@
       quad-core ARM of Raspberry Pi2). </p>
     <p>See an external blog article with more detailed discussion about the
       <a href="http://www.softwarecoven.com/parallel-computing-in-embedded-mobile-devices/">
-        SoundTouch OpenMP optimization</a>.</p>
+        SoundTouch OpenMP optimization</a>.
+    </p>
     <p>The parallel computing support is implemented using OpenMP spec 3.0
       instructions. These instructions are supported by Visual C++ 2008 and later, and
       GCC v4.2 and later. Compilers that do not supporting OpenMP will ignore these
@@ -439,7 +420,8 @@
         </strong>settings. Set
         there &quot;<strong>OpenMP support</strong>&quot; to &quot;<strong>Yes</strong>&quot;. Alternatively add
         <strong>/openmp</strong> switch to command-line
-        parameters</li>
+        parameters
+      </li>
       <li><strong>GNU</strong>: Run the configure script with &quot;<strong>./configure
           --enable-openmp</strong>&quot; switch, then run make as usually</li>
       <li><strong>Android</strong>: Add &quot;<strong>-fopenmp</strong>&quot; switches to compiler &amp; linker
@@ -605,6 +587,21 @@
     <hr>
     <h2>5. Change History</h2>
     <h3>5.1. SoundTouch library Change History </h3>
+    <p><b>2.3pre:</b></p>
+    <ul>
+      <li>Disable setting "SOUNDTOUCH_ALLOW_NONEXACT_SIMD_OPTIMIZATION" by default. The original
+        purpose of this setting was to avoid performance penalty due to unaligned SIMD memory
+        accesses in old CPUs, but that is not any more issue in concurrent CPU SIMD implementations
+        and having this setting enabled can cause slight compromise in result quality.
+      </li>
+      <li>Bugfix: soundtouch.clear() to really clear whole processing pipeline state. Earlier
+        individual variables were left uncleared, which caused slightly different result if
+        the same audio stream were processed again after calling clear().
+      </li>
+      <li>Bugfix: TDstretch to align initial offset position to be in middle of correlation search
+        window. This ensures that with zero tempo change the output will be same as input.
+      </li>
+    </ul>
     <p><b>2.2:</b></p>
     <ul>
       <li>Improved source codes so that compiler can autovectorize them more effectively.

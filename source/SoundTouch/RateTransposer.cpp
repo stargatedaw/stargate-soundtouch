@@ -194,6 +194,7 @@ void RateTransposer::clear()
     outputBuffer.clear();
     midBuffer.clear();
     inputBuffer.clear();
+    pTransposer->resetRegisters();
 
     // prefill buffer to avoid losing first samples at beginning of stream
     int prefill = getLatency();
