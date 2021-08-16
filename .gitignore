@@ -47,3 +47,5 @@ source/android-lib/local.properties
 source/android-lib/build
 source/android-lib/.externalNativeBuild
 
+# CMake build directory
+build*
