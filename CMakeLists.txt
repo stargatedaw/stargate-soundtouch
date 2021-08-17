@@ -26,11 +26,13 @@ target_include_directories(SoundTouch PUBLIC
 
 option(SOUNDTOUCH_DLL "Build SoundTouchDLL C wrapper library" OFF)
 if(SOUNDTOUCH_DLL)
-  add_library(SoundTouchDLL
+  add_library(SoundTouchDLL SHARED
     source/SoundTouchDLL/SoundTouchDLL.cpp
     source/SoundTouchDLL/SoundTouchDLL.rc
   )
+  target_include_directories(SoundTouchDLL PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
   install(FILES source/SoundTouchDLL/SoundTouchDLL.h DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/soundtouch")
+  install(TARGETS SoundTouchDLL EXPORT SoundTouchTargets)
 endif()
 
 if(WIN32 AND BUILD_SHARED_LIBS)
