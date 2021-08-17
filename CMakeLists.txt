@@ -30,7 +30,12 @@ if(SOUNDTOUCH_DLL)
     source/SoundTouchDLL/SoundTouchDLL.cpp
     source/SoundTouchDLL/SoundTouchDLL.rc
   )
+  target_compile_options(SoundTouch PRIVATE -fPIC)
+  set_target_properties(SoundTouchDLL PROPERTIES CXX_VISIBILITY_PRESET hidden)
+  target_compile_options(SoundTouchDLL PRIVATE -Ofast)
+  target_compile_definitions(SoundTouchDLL PRIVATE CMAKE)
   target_include_directories(SoundTouchDLL PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
+  target_link_libraries(SoundTouchDLL PRIVATE SoundTouch)
   install(FILES source/SoundTouchDLL/SoundTouchDLL.h DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/soundtouch")
   install(TARGETS SoundTouchDLL EXPORT SoundTouchTargets)
 endif()
@@ -42,6 +47,7 @@ if(WIN32 AND BUILD_SHARED_LIBS)
   endif()
 endif()
 
+target_compile_options(SoundTouch PRIVATE -Ofast)
 target_compile_definitions(SoundTouch PRIVATE CMAKE)
 
 option(INTEGER_SAMPLES "Use integers instead of floats for samples" OFF)
