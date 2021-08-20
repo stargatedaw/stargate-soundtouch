@@ -3,6 +3,17 @@ project(SoundTouch VERSION 2.2.1 LANGUAGES CXX)
 
 include(GNUInstallDirs)
 
+if(MSVC)
+  set(COMPILE_DEFINITIONS CMAKE /O2 /fp:fast)
+  set(COMPILE_OPTIONS )
+else()
+  set(COMPILE_OPTIONS -Ofast)
+  set(COMPILE_DEFINITIONS CMAKE)
+endif()
+
+#####################
+# SoundTouch library
+
 add_library(SoundTouch
   source/SoundTouch/AAFilter.cpp
   source/SoundTouch/BPMDetect.cpp
@@ -22,23 +33,10 @@ add_library(SoundTouch
 target_include_directories(SoundTouch PUBLIC
    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
- )
+)
 
-option(SOUNDTOUCH_DLL "Build SoundTouchDLL C wrapper library" OFF)
-if(SOUNDTOUCH_DLL)
-  add_library(SoundTouchDLL SHARED
-    source/SoundTouchDLL/SoundTouchDLL.cpp
-    source/SoundTouchDLL/SoundTouchDLL.rc
-  )
-  target_compile_options(SoundTouch PRIVATE -fPIC)
-  set_target_properties(SoundTouchDLL PROPERTIES CXX_VISIBILITY_PRESET hidden)
-  target_compile_options(SoundTouchDLL PRIVATE -Ofast)
-  target_compile_definitions(SoundTouchDLL PRIVATE CMAKE)
-  target_include_directories(SoundTouchDLL PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
-  target_link_libraries(SoundTouchDLL PRIVATE SoundTouch)
-  install(FILES source/SoundTouchDLL/SoundTouchDLL.h DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/soundtouch")
-  install(TARGETS SoundTouchDLL EXPORT SoundTouchTargets)
-endif()
+target_compile_definitions(SoundTouch PRIVATE ${COMPILE_DEFINITIONS})
+target_compile_options(SoundTouch PRIVATE ${COMPILE_OPTIONS})
 
 if(WIN32 AND BUILD_SHARED_LIBS)
   set_target_properties(SoundTouch PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
@@ -46,14 +44,6 @@ if(WIN32 AND BUILD_SHARED_LIBS)
     target_compile_definitions(SoundTouchDLL PRIVATE DLL_EXPORTS)
   endif()
 endif()
-
-if(MSVC)
-  target_compile_definitions(SoundTouch PRIVATE /O2 /fp:fast)
-else()
-  target_compile_options(SoundTouch PRIVATE -Ofast)
-endif()
-
-target_compile_definitions(SoundTouch PRIVATE CMAKE)
 
 option(INTEGER_SAMPLES "Use integers instead of floats for samples" OFF)
 if(INTEGER_SAMPLES)
@@ -88,6 +78,44 @@ install(TARGETS SoundTouch
   RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
   INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
 )
+
+#######################
+# soundstretch utility
+
+add_executable(soundstretch
+  source/SoundStretch/main.cpp
+  source/SoundStretch/RunParameters.cpp
+  source/SoundStretch/WavFile.cpp
+)
+target_include_directories(soundstretch PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
+target_compile_definitions(soundstretch PRIVATE ${COMPILE_DEFINITIONS})
+target_compile_options(soundstretch PRIVATE ${COMPILE_OPTIONS})
+target_link_libraries(soundstretch PRIVATE SoundTouch)
+
+install(TARGETS soundstretch
+  DESTINATION bin
+)
+
+########################
+# SoundTouchDll library
+
+option(SOUNDTOUCH_DLL "Build SoundTouchDLL C wrapper library" OFF)
+if(SOUNDTOUCH_DLL)
+  add_library(SoundTouchDLL SHARED
+    source/SoundTouchDLL/SoundTouchDLL.cpp
+    source/SoundTouchDLL/SoundTouchDLL.rc
+  )
+  target_compile_options(SoundTouch PRIVATE -fPIC)
+  target_compile_options(SoundTouchDLL PRIVATE -fPIC ${COMPILE_OPTIONS})
+  target_compile_definitions(SoundTouchDLL PRIVATE ${COMPILE_DEFINITIONS})
+  set_target_properties(SoundTouchDLL PROPERTIES CXX_VISIBILITY_PRESET hidden)
+  target_include_directories(SoundTouchDLL PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
+  target_link_libraries(SoundTouchDLL PRIVATE SoundTouch)
+  install(FILES source/SoundTouchDLL/SoundTouchDLL.h DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/soundtouch")
+  install(TARGETS SoundTouchDLL EXPORT SoundTouchTargets)
+endif()
+
+########################
 
 # pkgconfig
 set(prefix "${CMAKE_INSTALL_PREFIX}")
