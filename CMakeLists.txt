@@ -47,7 +47,12 @@ if(WIN32 AND BUILD_SHARED_LIBS)
   endif()
 endif()
 
-target_compile_options(SoundTouch PRIVATE -Ofast)
+if(MSVC)
+  target_compile_definitions(SoundTouch PRIVATE /O2 /fp:fast)
+else()
+  target_compile_options(SoundTouch PRIVATE -Ofast)
+endif()
+
 target_compile_definitions(SoundTouch PRIVATE CMAKE)
 
 option(INTEGER_SAMPLES "Use integers instead of floats for samples" OFF)
