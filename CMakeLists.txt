@@ -52,11 +52,14 @@ else()
   target_compile_definitions(SoundTouch PRIVATE SOUNDTOUCH_FLOAT_SAMPLES)
 endif()
 
-if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(arm|armv7.*)$") # but not armv8
-  set(NEON_DEFAULT ON)
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(armv7.*|armv8.*)$")
+  set(NEON_CPU ON)
+else()
+  set(NEON_CPU OFF)
 endif()
-option(NEON "Use ARM Neon SIMD instructions" NEON_DEFAULT)
-if(NEON)
+
+option(NEON "Use ARM Neon SIMD instructions if in ARM CPU" ON)
+if(${NEON} AND ${NEON_CPU})
   target_compile_definitions(SoundTouch PRIVATE SOUNDTOUCH_USE_NEON)
 endif()
 
