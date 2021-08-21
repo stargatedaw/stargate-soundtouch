@@ -15,7 +15,7 @@
 
 <body class="normal">
   <hr>
-  <h1>SoundTouch audio processing library v2.3pre</h1>
+  <h1>SoundTouch audio processing library v2.3.0</h1>
   <p class="normal">SoundTouch library Copyright &copy; Olli Parviainen 2001-2021</p>
   <hr>
   <h2>1. Introduction </h2>
@@ -39,7 +39,7 @@
   <hr>
   <h2>2. Compiling SoundTouch</h2>
   <p>Before compiling, notice that you can choose the sample data format if it's
-    desirable to use floating point sample data instead of 16bit integers. See
+    desirable to use 16bit integer sample data instead of floating point samples. See
     section &quot;sample data format&quot; for more information.</p>
   <p>Also notice that SoundTouch can use OpenMP instructions for parallel
     computation to accelerate the runtime processing speed in multi-core systems,
@@ -76,11 +76,12 @@
     &quot;redist&quot; location.</p>
   <p>Notice that as minor demonstration of a &quot;dll hell&quot; phenomenon both the 32-bit
     and 64-bit version of vcomp90.dll have the same filename but different contents,
-    thus choose the proper version to allow the program start.</p>
+    thus choose the proper version to allow the program to start.</p>
   <h3>2.2. Building in Gnu platforms</h3>
   <p>The SoundTouch library compiles in practically any platform
-    supporting GNU compiler (GCC) tools. SoundTouch requires GCC version 4.3 or later.</p>
-  <p>To install build prerequisites:</p>
+    supporting GNU compiler (GCC) tools.
+  <h4>2.2.1 Compiling with autotools</h4>
+  <p>To install build prerequisites for 'autotools' tool chain:</p>
   <pre>    sudo apt-get install automake autoconf libtool build-essential</pre>
   <p>To build and install the binaries, run the following commands in
     /soundtouch directory:</p>
@@ -129,11 +130,26 @@
     </tbody>
   </table>
 
-  <h4><b>2.2.3 Compiling portable Shared Library / DLL version in GNU environment</b></h4>
-  <p> The GNU compilation does not automatically create a shared-library version of
+  <b>Compiling portable Shared Library / DLL version</b>
+  <p> The GNU autotools compilation does not automatically create a shared-library version of
     SoundTouch (.so or .dll) that features position-independent code and C-language
     api that are more suitable for cross-language development than C++ libraries.</p>
   <p> Use script "make-gnu-dll-sh" to build a portable dynamic library version if such is desired.</p>
+
+  <h4><b>2.2.2 Compiling with cmake</b></h4>
+  <p>'cmake' build scripts are provided as an alternative to the autotools toolchain.</p>
+  <p>To install cmake build prerequisites:</p>
+  <pre>    sudo apt-get install libtool build-essential cmake</pre>
+  <p>To build:</p>
+  <pre>
+    cmake .
+    make -j
+    make install</pre>
+  <p>To compile the additional portable Shared Library / DLL version with the native C-language API:</p>
+  <pre>
+    cmake . -DSOUNDTOUCH_DLL=ON
+    make -j
+    make install</pre>
 
   <h3>2.3. Building in Android</h3>
   <p>Android compilation instructions are within the
@@ -150,7 +166,7 @@
 
   <h3>2.4. Building in Mac</h3>
   <p>Install autoconf tool as instructed in <a
-      href="http://macappstore.org/autoconf/">http://macappstore.org/autoconf/</a>.</p>
+      href="http://macappstore.org/autoconf/">http://macappstore.org/autoconf/</a>, or alternatively the 'cmake' toolchain.</p>
   <p>Then, build as described above in section "Building in Gnu platforms".</p>
 
   <hr>
@@ -587,7 +603,7 @@
     <hr>
     <h2>5. Change History</h2>
     <h3>5.1. SoundTouch library Change History </h3>
-    <p><b>2.3pre:</b></p>
+    <p><b>2.3.0:</b></p>
     <ul>
       <li>Disable setting "SOUNDTOUCH_ALLOW_NONEXACT_SIMD_OPTIMIZATION" by default. The original
         purpose of this setting was to avoid performance penalty due to unaligned SIMD memory
@@ -601,6 +617,12 @@
       <li>Bugfix: TDstretch to align initial offset position to be in middle of correlation search
         window. This ensures that with zero tempo change the output will be same as input.
       </li>
+      <li>Bugfix: Fix a bug in TDstrectch with too small initial skipFract value that occurred
+        with certain processing parameter settings: Replace assert with assignment that 
+        corrects the situation.
+      </li>
+      <li>Remove OpenMP "_init_threading" workaround from Android build as it's not needed with concurrent
+        Android SDKs any more.</li>
     </ul>
     <p><b>2.2:</b></p>
     <ul>
