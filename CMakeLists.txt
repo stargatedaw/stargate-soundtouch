@@ -40,9 +40,6 @@ target_compile_options(SoundTouch PRIVATE ${COMPILE_OPTIONS})
 
 if(WIN32 AND BUILD_SHARED_LIBS)
   set_target_properties(SoundTouch PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
-  if(SOUNDTOUCH_DLL)
-    target_compile_definitions(SoundTouchDLL PRIVATE DLL_EXPORTS)
-  endif()
 endif()
 
 option(INTEGER_SAMPLES "Use integers instead of floats for samples" OFF)
@@ -86,19 +83,22 @@ install(TARGETS SoundTouch
 #######################
 # soundstretch utility
 
-add_executable(soundstretch
-  source/SoundStretch/main.cpp
-  source/SoundStretch/RunParameters.cpp
-  source/SoundStretch/WavFile.cpp
-)
-target_include_directories(soundstretch PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
-target_compile_definitions(soundstretch PRIVATE ${COMPILE_DEFINITIONS})
-target_compile_options(soundstretch PRIVATE ${COMPILE_OPTIONS})
-target_link_libraries(soundstretch PRIVATE SoundTouch)
+option(SOUNDSTRETCH "Build soundstretch command line utility." ON)
+if(SOUNDSTRETCH)
+  add_executable(soundstretch
+    source/SoundStretch/main.cpp
+    source/SoundStretch/RunParameters.cpp
+    source/SoundStretch/WavFile.cpp
+  )
+  target_include_directories(soundstretch PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
+  target_compile_definitions(soundstretch PRIVATE ${COMPILE_DEFINITIONS})
+  target_compile_options(soundstretch PRIVATE ${COMPILE_OPTIONS})
+  target_link_libraries(soundstretch PRIVATE SoundTouch)
 
-install(TARGETS soundstretch
-  DESTINATION bin
-)
+  install(TARGETS soundstretch
+    DESTINATION bin
+  )
+endif()
 
 ########################
 # SoundTouchDll library
@@ -111,7 +111,6 @@ if(SOUNDTOUCH_DLL)
   )
   target_compile_options(SoundTouch PRIVATE -fPIC)
   target_compile_options(SoundTouchDLL PRIVATE -fPIC ${COMPILE_OPTIONS})
-  target_compile_definitions(SoundTouchDLL PRIVATE ${COMPILE_DEFINITIONS})
   set_target_properties(SoundTouchDLL PROPERTIES CXX_VISIBILITY_PRESET hidden)
   target_include_directories(SoundTouchDLL PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
   target_link_libraries(SoundTouchDLL PRIVATE SoundTouch)
