@@ -41,7 +41,7 @@ static void _setErrmsg(const char *msg)
 	_errMsg = msg;
 }
 
-
+#if 0   // apparently following workaround not needed any more with concurrent Android SDKs
 #ifdef _OPENMP
 
 #include <pthread.h>
@@ -90,6 +90,7 @@ static int _init_threading(bool warn)
 }
 #endif
 
+#endif
 
 // Processes the sound file
 static void _processFile(SoundTouch *pSoundTouch, const char *inFileName, const char *outFileName)
@@ -162,8 +163,9 @@ extern "C" DLL_PUBLIC jstring Java_net_surina_soundtouch_SoundTouch_getVersionSt
     // Call example SoundTouch routine
     verStr = SoundTouch::getVersionString();
 
-    /// gomp_tls storage bug workaround - see comments in _init_threading() function!
-    _init_threading(false);
+    // gomp_tls storage bug workaround - see comments in _init_threading() function!
+    // update: apparently this is not needed any more with concurrent Android SDKs
+    // _init_threading(false);
 
     int threads = 0;
 	#pragma omp parallel
