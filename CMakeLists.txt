@@ -61,6 +61,7 @@ endif()
 option(NEON "Use ARM Neon SIMD instructions if in ARM CPU" ON)
 if(${NEON} AND ${NEON_CPU})
   target_compile_definitions(SoundTouch PRIVATE SOUNDTOUCH_USE_NEON)
+  target_compile_options(SoundTouch PRIVATE -mfpu=neon)
 endif()
 
 install(
