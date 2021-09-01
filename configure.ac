@@ -33,7 +33,7 @@ AC_LANG(C++)
 
 # Compiler flags. Apply -ffast-math to allow gcc autovectorization
 # generate effective SIMD code.
-CXXFLAGS="-O3 -ffast-math"
+CXXFLAGS+=" -O3 -ffast-math"
 
 # Set AR_FLAGS to avoid build warning "ar: `u' modifier ignored since `D' is the default (see `U')"
 AR_FLAGS='cr'
