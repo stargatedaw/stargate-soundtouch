@@ -1,14 +1,13 @@
 cmake_minimum_required(VERSION 3.1)
-project(SoundTouch VERSION 2.3.0 LANGUAGES CXX)
+project(SoundTouch VERSION 2.3.1 LANGUAGES CXX)
 
 include(GNUInstallDirs)
 
 if(MSVC)
-  set(COMPILE_DEFINITIONS CMAKE /O2 /fp:fast)
+  set(COMPILE_DEFINITIONS /O2 /fp:fast)
   set(COMPILE_OPTIONS )
 else()
   set(COMPILE_OPTIONS -Ofast)
-  set(COMPILE_DEFINITIONS CMAKE)
 endif()
 
 #####################
@@ -79,6 +78,7 @@ install(
     include/FIFOSamplePipe.h
     include/STTypes.h
     include/SoundTouch.h
+    include/soundtouch_config.h
   DESTINATION
     "${CMAKE_INSTALL_INCLUDEDIR}/soundtouch"
 )
