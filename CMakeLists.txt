@@ -38,8 +38,19 @@ target_include_directories(SoundTouch PUBLIC
 target_compile_definitions(SoundTouch PRIVATE ${COMPILE_DEFINITIONS})
 target_compile_options(SoundTouch PRIVATE ${COMPILE_OPTIONS})
 
-if(WIN32 AND BUILD_SHARED_LIBS)
-  set_target_properties(SoundTouch PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+if(BUILD_SHARED_LIBS)
+  set_target_properties(SoundTouch PROPERTIES
+    VERSION ${CMAKE_PROJECT_VERSION}
+  )
+  if(WIN32)
+    set_target_properties(SoundTouch PROPERTIES
+      WINDOWS_EXPORT_ALL_SYMBOLS TRUE
+    )
+  else()
+    set_target_properties(SoundTouch PROPERTIES
+      SOVERSION ${PROJECT_VERSION_MAJOR}
+    )
+  endif()
 endif()
 
 option(INTEGER_SAMPLES "Use integers instead of floats for samples" OFF)
