@@ -120,8 +120,8 @@ if(SOUNDTOUCH_DLL)
     source/SoundTouchDLL/SoundTouchDLL.cpp
     source/SoundTouchDLL/SoundTouchDLL.rc
   )
-  target_compile_options(SoundTouch PRIVATE -fPIC)
-  target_compile_options(SoundTouchDLL PRIVATE -fPIC ${COMPILE_OPTIONS})
+  set_target_properties(SoundTouch PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
+  target_compile_options(SoundTouchDLL PRIVATE ${COMPILE_OPTIONS})
   set_target_properties(SoundTouchDLL PROPERTIES CXX_VISIBILITY_PRESET hidden)
   target_include_directories(SoundTouchDLL PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
   target_link_libraries(SoundTouchDLL PRIVATE SoundTouch)
