@@ -105,6 +105,9 @@ if(SOUNDSTRETCH)
   target_compile_definitions(soundstretch PRIVATE ${COMPILE_DEFINITIONS})
   target_compile_options(soundstretch PRIVATE ${COMPILE_OPTIONS})
   target_link_libraries(soundstretch PRIVATE SoundTouch)
+  if(INTEGER_SAMPLES)
+    target_compile_definitions(soundstretch PRIVATE SOUNDTOUCH_INTEGER_SAMPLES)
+  endif()
 
   install(TARGETS soundstretch
     DESTINATION bin
