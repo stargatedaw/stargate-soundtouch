@@ -59,7 +59,7 @@ else()
   target_compile_definitions(SoundTouch PRIVATE SOUNDTOUCH_FLOAT_SAMPLES)
 endif()
 
-if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(armv7.*|armv8.*)$")
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(armv7.*|armv8.*|aarch64.*)$")
   set(NEON_CPU ON)
 else()
   set(NEON_CPU OFF)
