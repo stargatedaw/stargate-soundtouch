@@ -71,6 +71,12 @@ if(${NEON} AND ${NEON_CPU})
   target_compile_options(SoundTouch PRIVATE -mfpu=neon)
 endif()
 
+find_package(OpenMP)
+option(OPENMP "Use parallel multicore calculation through OpenMP" OFF)
+if(OPENMP AND OPENMP_FOUND)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+endif()
+
 install(
   FILES
     include/BPMDetect.h
