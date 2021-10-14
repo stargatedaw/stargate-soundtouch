@@ -1,5 +1,12 @@
 # SoundTouch library
 
+## SoundTouch git repository moved to codeberg.org
+
+2021-10-14 OP: For some reason that currently is unknown to us, gitlab.com blocked soundtouch account without any prior or posterior notice, hence soundtouch repository moved to codeberg.org, hopefully a more stable and friendly home for an opensource project.
+
+
+## About
+
 SoundTouch is an open-source audio processing library that allows changing the sound tempo, pitch and playback rate parameters independently from each other:
 * Change **tempo** while maintaining the original pitch
 * Change **pitch** while maintaining the original tempo
