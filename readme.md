@@ -14,7 +14,7 @@ SoundTouch is an open-source audio processing library that allows changing the s
 same time
 * Change any combination of tempo/pitch/rate
 
-Visit [SoundTouch website](https://www.surina.net/soundtouch) and see the [README file](README.html) for more information and audio examples.
+Visit [SoundTouch website](https://www.surina.net/soundtouch) and see the [README file](https://www.surina.net/soundtouch/readme.html) for more information and audio examples.
 
 ### The latest stable release is 2.3.1
 
@@ -41,6 +41,16 @@ SoundTouch is written in C++ and compiles in virtually any platform:
 * embedded systems
 
 The source code package includes dynamic library import modules for C#, Java and Pascal/Delphi languages.
+
+## Tarballs
+
+Source code release tarballs:
+* https://www.surina.net/soundtouch/soundtouch-2.3.1.tar.gz
+* https://www.surina.net/soundtouch/soundtouch-2.3.0.tar.gz
+* https://www.surina.net/soundtouch/soundtouch-2.2.0.tar.gz
+* https://www.surina.net/soundtouch/soundtouch-2.1.2.tar.gz
+* https://www.surina.net/soundtouch/soundtouch-2.1.1.tar.gz
+* https://www.surina.net/soundtouch/soundtouch-2.0.0.tar.gz
 
 ## License
 
