@@ -2,15 +2,22 @@
 
 ## SoundTouch git repository moved to codeberg.org
 
-2021-10-14 OP: The soundtouch repository has moved from gitlab.com to [codeberg.org](https://codeberg.org/soundtouch/soundtouch). This is because gitlab.com blocked soundtouch account in mid-October without any prior notice, making it unavailable also for external developers and projects depending on it. The account was re-enabled after a week of waiting, yet hopefully gitberg provides a more stable and friendly home for an opensource project.
+The soundtouch repository has moved from gitlab.com to [codeberg.org](https://codeberg.org/soundtouch/soundtouch).
 
 Please accordingly switch to use the new repository location:
 * www: https://codeberg.org/soundtouch/soundtouch
 * clone:
-  `git clone https://codeberg.org/soundtouch/soundtouch.git`
+  ```
+  git clone https://codeberg.org/soundtouch/soundtouch.git
+  ```
 * switch your existing git checkout to use the codeberg repository:
-  `git remote set-url origin https://codeberg.org/soundtouch/soundtouch.git`
+  ```
+  git remote set-url origin https://codeberg.org/soundtouch/soundtouch.git
+  ```
 
+This move is because gitlab.com blocked soundtouch account in mid-October without any prior notice, making it unavailable also for external developers and projects depending on it. That's not a great way to collaborate.
+
+The gitlab eventually re-enable our account after a week of waiting, yet hopefully gitberg provides a more stable and friendly home for an opensource project.
 
 ## About
 
