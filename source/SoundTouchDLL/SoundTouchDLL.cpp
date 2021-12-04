@@ -207,21 +207,37 @@ SOUNDTOUCHDLL_API void __cdecl soundtouch_setPitchSemiTones(HANDLE h, float newP
 
 
 /// Sets the number of channels, 1 = mono, 2 = stereo
-SOUNDTOUCHDLL_API void __cdecl soundtouch_setChannels(HANDLE h, uint numChannels)
+SOUNDTOUCHDLL_API int __cdecl soundtouch_setChannels(HANDLE h, uint numChannels)
 {
     STHANDLE *sth = (STHANDLE*)h;
-    if (sth->dwMagic != STMAGIC) return;
+    if (sth->dwMagic != STMAGIC) return 0;
 
-    sth->pst->setChannels(numChannels);
+    try
+    {
+        sth->pst->setChannels(numChannels);
+    }
+    catch (const std::exception&)
+    {
+        return 0;
+    }
+    return 1;
 }
 
 /// Sets sample rate.
-SOUNDTOUCHDLL_API void __cdecl soundtouch_setSampleRate(HANDLE h, uint srate)
+SOUNDTOUCHDLL_API int __cdecl soundtouch_setSampleRate(HANDLE h, uint srate)
 {
     STHANDLE *sth = (STHANDLE*)h;
-    if (sth->dwMagic != STMAGIC) return;
+    if (sth->dwMagic != STMAGIC) return 0;
 
-    sth->pst->setSampleRate(srate);
+    try
+    {
+        sth->pst->setSampleRate(srate);
+    }
+    catch (const std::exception&)
+    {
+        return 0;
+    }
+    return 1;
 }
 
 /// Flushes the last samples from the processing pipeline to the output.
@@ -231,18 +247,26 @@ SOUNDTOUCHDLL_API void __cdecl soundtouch_setSampleRate(HANDLE h, uint srate)
 /// stream. This function may introduce additional blank samples in the end
 /// of the sound stream, and thus it's not recommended to call this function
 /// in the middle of a sound stream.
-SOUNDTOUCHDLL_API void __cdecl soundtouch_flush(HANDLE h)
+SOUNDTOUCHDLL_API int __cdecl soundtouch_flush(HANDLE h)
 {
     STHANDLE *sth = (STHANDLE*)h;
-    if (sth->dwMagic != STMAGIC) return;
+    if (sth->dwMagic != STMAGIC) return 0;
 
-    sth->pst->flush();
+    try
+    {
+        sth->pst->flush();
+    }
+    catch (const std::exception&)
+    {
+        return 0;
+    }
+    return 1;
 }
 
 /// Adds 'numSamples' pcs of samples from the 'samples' memory position into
 /// the input of the object. Notice that sample rate _has_to_ be set before
 /// calling this function, otherwise throws a runtime_error exception.
-SOUNDTOUCHDLL_API void __cdecl soundtouch_putSamples(HANDLE h, 
+SOUNDTOUCHDLL_API int __cdecl soundtouch_putSamples(HANDLE h,
         const SAMPLETYPE *samples,      ///< Pointer to sample buffer.
         unsigned int numSamples         ///< Number of samples in buffer. Notice
                                         ///< that in case of stereo-sound a single sample
@@ -250,9 +274,17 @@ SOUNDTOUCHDLL_API void __cdecl soundtouch_putSamples(HANDLE h,
         )
 {
     STHANDLE *sth = (STHANDLE*)h;
-    if (sth->dwMagic != STMAGIC) return;
+    if (sth->dwMagic != STMAGIC) return 0;
 
-    sth->pst->putSamples(samples, numSamples);
+    try
+    {
+        sth->pst->putSamples(samples, numSamples);
+    }
+    catch (const std::exception&)
+    {
+        return 0;
+    }
+    return 1;
 }
 
 /// int16 version of soundtouch_putSamples(): This accept int16 (short) sample data
@@ -444,7 +476,14 @@ SOUNDTOUCHDLL_API HANDLE __cdecl bpm_createInstance(int numChannels, int sampleR
     if (tmp)
     {
         tmp->dwMagic = BPMMAGIC;
-        tmp->pbpm = new BPMDetect(numChannels, sampleRate);
+        try
+        {
+            tmp->pbpm = new BPMDetect(numChannels, sampleRate);
+        }
+        catch (const std::exception&)
+        {
+            tmp->pbpm = NULL;
+        }
         if (tmp->pbpm == NULL)
         {
             delete tmp;
