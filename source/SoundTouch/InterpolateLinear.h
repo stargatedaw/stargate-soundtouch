@@ -47,19 +47,19 @@ protected:
 
     virtual int transposeMono(SAMPLETYPE *dest, 
                        const SAMPLETYPE *src, 
-                       int &srcSamples);
+                       int &srcSamples) override;
     virtual int transposeStereo(SAMPLETYPE *dest, 
                          const SAMPLETYPE *src, 
-                         int &srcSamples);
-    virtual int transposeMulti(SAMPLETYPE *dest, const SAMPLETYPE *src, int &srcSamples);
+                         int &srcSamples) override;
+    virtual int transposeMulti(SAMPLETYPE *dest, const SAMPLETYPE *src, int &srcSamples) override;
 public:
     InterpolateLinearInteger();
 
     /// Sets new target rate. Normal rate = 1.0, smaller values represent slower 
     /// rate, larger faster rates.
-    virtual void setRate(double newRate);
+    virtual void setRate(double newRate) override;
 
-    virtual void resetRegisters();
+    virtual void resetRegisters() override;
 
     int getLatency() const
     {
