@@ -234,7 +234,8 @@ extern "C" DLL_PUBLIC int Java_net_surina_soundtouch_SoundTouch_processFile(JNIE
 	LOGV("JNI process file %s", inputFile);
 
     /// gomp_tls storage bug workaround - see comments in _init_threading() function!
-    if (_init_threading(true)) return -1;
+    // update: apparently this is not needed any more with concurrent Android SDKs
+    // if (_init_threading(true)) return -1;
 
 	try
 	{
