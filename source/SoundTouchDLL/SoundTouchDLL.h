@@ -112,10 +112,10 @@ SOUNDTOUCHDLL_API void __cdecl soundtouch_setPitchSemiTones(HANDLE h, float newP
 
 
 /// Sets the number of channels, 1 = mono, 2 = stereo, n = multichannel
-SOUNDTOUCHDLL_API void __cdecl soundtouch_setChannels(HANDLE h, unsigned int numChannels);
+SOUNDTOUCHDLL_API int __cdecl soundtouch_setChannels(HANDLE h, unsigned int numChannels);
 
 /// Sets sample rate.
-SOUNDTOUCHDLL_API void __cdecl soundtouch_setSampleRate(HANDLE h, unsigned int srate);
+SOUNDTOUCHDLL_API int __cdecl soundtouch_setSampleRate(HANDLE h, unsigned int srate);
 
 /// Flushes the last samples from the processing pipeline to the output.
 /// Clears also the internal processing buffers.
@@ -124,12 +124,12 @@ SOUNDTOUCHDLL_API void __cdecl soundtouch_setSampleRate(HANDLE h, unsigned int s
 /// stream. This function may introduce additional blank samples in the end
 /// of the sound stream, and thus it's not recommended to call this function
 /// in the middle of a sound stream.
-SOUNDTOUCHDLL_API void __cdecl soundtouch_flush(HANDLE h);
+SOUNDTOUCHDLL_API int __cdecl soundtouch_flush(HANDLE h);
 
 /// Adds 'numSamples' pcs of samples from the 'samples' memory position into
 /// the input of the object. Notice that sample rate _has_to_ be set before
 /// calling this function, otherwise throws a runtime_error exception.
-SOUNDTOUCHDLL_API void __cdecl soundtouch_putSamples(HANDLE h, 
+SOUNDTOUCHDLL_API int __cdecl soundtouch_putSamples(HANDLE h,
         const float *samples,       ///< Pointer to sample buffer.
         unsigned int numSamples     ///< Number of sample frames in buffer. Notice
                                     ///< that in case of multi-channel sound a single 
