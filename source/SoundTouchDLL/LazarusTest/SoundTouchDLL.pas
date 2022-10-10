@@ -2,11 +2,8 @@ unit SoundTouchDLL;
 
 //////////////////////////////////////////////////////////////////////////////
 //
-// SoundTouch.dll wrapper for accessing SoundTouch routines from Delphi/Pascal
-//
-//  Module Author : Christian Budde
-//
-//  2014-01-12 fixes by Sandro Cumerlato <sandro.cumerlato 'at' gmail.com>
+// SoundTouch.dll / libSoundTouchDll.so wrapper for accessing SoundTouch
+// routines from Delphi/Pascal/Lazarus
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -33,8 +30,8 @@ unit SoundTouchDLL;
 
 interface
 
-uses
-  Windows;
+//uses
+  //Windows;
 
 type
   TSoundTouchHandle = THandle;
@@ -50,7 +47,7 @@ type
 
   // Get SoundTouch library version string 2
   TSoundTouchGetVersionString2 = procedure(VersionString : PAnsiChar; BufferSize : Integer); cdecl;
-  
+
   // Get SoundTouch library version Id
   TSoundTouchGetVersionId = function : Cardinal; cdecl;
 
@@ -107,6 +104,13 @@ type
                                                              //< contains data for both channels.
                                     ); cdecl;
 
+  TSoundTouchPutSamplesI16 = procedure (Handle: TSoundTouchHandle;
+                                     const Samples: Pint16; //< Pointer to sample buffer.
+                                     NumSamples: Cardinal    //< Number of samples in buffer. Notice
+                                                             //< that in case of stereo-sound a single sample
+                                                             //< contains data for both channels.
+                                    ); cdecl;
+
   // Clears all the samples in the object's output and internal processing
   // buffers.
   TSoundTouchClear = procedure (Handle: TSoundTouchHandle); cdecl;
@@ -131,16 +135,20 @@ type
   // Returns number of samples currently unprocessed.
   TSoundTouchNumUnprocessedSamples = function (Handle: TSoundTouchHandle): Cardinal; cdecl;
 
-  // Adjusts book-keeping so that given number of samples are removed from beginning of the
-  // sample buffer without copying them anywhere.
-  //
-  // Used to reduce the number of samples in the buffer when accessing the sample buffer directly
-  // with 'ptrBegin' function.
+  /// Receive ready samples from the processing pipeline.
+  ///
+  /// if called with outBuffer=NULL, just reduces amount of ready samples within the pipeline.
   TSoundTouchReceiveSamples = function (Handle: TSoundTouchHandle;
                                      OutBuffer: PSingle;           //< Buffer where to copy output samples.
                                      MaxSamples: Integer      //< How many samples to receive at max.
                                     ): Cardinal; cdecl;
 
+  /// int16 version of soundtouch_receiveSamples(): This converts internal float samples
+  /// into int16 (short) return data type
+  TSoundTouchReceiveSamplesI16 = function (Handle: TSoundTouchHandle;
+                                     OutBuffer: int16;        //< Buffer where to copy output samples.
+                                     MaxSamples: Integer      //< How many samples to receive at max.
+                                    ): Cardinal; cdecl;
   // Returns number of samples currently available.
   TSoundTouchNumSamples = function (Handle: TSoundTouchHandle): Cardinal; cdecl;
 
@@ -170,6 +178,7 @@ var
   SoundTouchGetSetting            : TSoundTouchGetSetting;
   SoundTouchNumUnprocessedSamples : TSoundTouchNumUnprocessedSamples;
   SoundTouchReceiveSamples        : TSoundTouchReceiveSamples;
+  SoundTouchReceiveSamplesI16     : TSoundTouchReceiveSamplesI16;
   SoundTouchNumSamples            : TSoundTouchNumSamples;
   SoundTouchIsEmpty               : TSoundTouchIsEmpty;
 
@@ -231,6 +240,9 @@ type
     property NumUnprocessedSamples: Cardinal read GetNumUnprocessedSamples;
     property IsEmpty: Integer read GetIsEmpty;
   end;
+
+  // list of exported functions and procedures
+function IsSoundTouchLoaded: Boolean;
 
 implementation
 
@@ -416,19 +428,20 @@ begin
 end;
 
 var
-  SoundTouchLibHandle: HINST;
-  SoundTouchDLLFile: PAnsiChar = 'SoundTouch.dll';
+  SoundTouchLibHandle: THandle;
+  SoundTouchDLLFile: AnsiString = 'libSoundTouchDll.so';
+  //SoundTouchDLLFile: AnsiString = 'SoundTouch.dll';
 
   // bpm detect functions. untested -- if these don't work then remove:
-  bpm_createInstance: function(chan: CInt32; sampleRate : CInt32): THandle; cdecl;
+  bpm_createInstance: function(chan: int32; sampleRate : int32): THandle; cdecl;
   bpm_destroyInstance: procedure(h: THandle); cdecl;
-  bpm_getBpm: function(h: THandle): cfloat; cdecl;
-  bpm_putSamples: procedure(h: THandle; const samples: pcfloat;
-  numSamples: cardinal); cdecl;
+  bpm_getBpm: function(h: THandle): Single; cdecl;
+  bpm_putSamples: procedure(h: THandle; const samples: PSingle; numSamples: cardinal); cdecl;
 
 procedure InitDLL;
 begin
-  SoundTouchLibHandle := LoadLibrary(SoundTouchDLLFile);
+  // for Windows: use 'SoundTouch.dll` as filename
+  SoundTouchLibHandle := LoadLibrary('./libSoundTouchDll.so');
   if SoundTouchLibHandle <> 0 then
   try
     Pointer(SoundTouchCreateInstance)        := GetProcAddress(SoundTouchLibHandle, 'soundtouch_createInstance');
@@ -461,7 +474,7 @@ begin
     Pointer(bpm_destroyInstance)            :=GetProcAddress(SoundTouchLibHandle, 'bpm_destroyInstance');
     Pointer(bpm_getBpm)                     :=GetProcAddress(SoundTouchLibHandle, 'bpm_getBpm');
     Pointer(bpm_putSamples)                 :=GetProcAddress(SoundTouchLibHandle, 'bpm_putSamples');
-        
+
   except
     FreeLibrary(SoundTouchLibHandle);
     SoundTouchLibHandle := 0;
@@ -471,6 +484,12 @@ end;
 procedure FreeDLL;
 begin
   if SoundTouchLibHandle <> 0 then FreeLibrary(SoundTouchLibHandle);
+end;
+
+// returns 'true' if SoundTouch dynamic library has been successfully loaded, otherwise 'false'
+function IsSoundTouchLoaded: Boolean;
+begin;
+  result := SoundTouchLibHandle <> 0
 end;
 
 initialization
