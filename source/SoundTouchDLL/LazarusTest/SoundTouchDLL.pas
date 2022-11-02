@@ -440,8 +440,11 @@ var
 
 procedure InitDLL;
 begin
-  // for Windows: use 'SoundTouch.dll` as filename
+{$ifdef mswindows}  // Windows
+  SoundTouchLibHandle := LoadLibrary('.\SoundTouchDll.dll');
+{$else}  // Unix
   SoundTouchLibHandle := LoadLibrary('./libSoundTouchDll.so');
+{$endif}
   if SoundTouchLibHandle <> 0 then
   try
     Pointer(SoundTouchCreateInstance)        := GetProcAddress(SoundTouchLibHandle, 'soundtouch_createInstance');

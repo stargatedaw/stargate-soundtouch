@@ -17,9 +17,6 @@
 
 include $(top_srcdir)/config/am_include.mk
 
-#AUTOMAKE_OPTIONS = subdir-objects
-
-
 noinst_HEADERS=../SoundTouch/AAFilter.h ../SoundTouch/cpu_detect.h ../SoundTouch/cpu_detect_x86.cpp ../SoundTouch/FIRFilter.h \
     ../SoundTouch/RateTransposer.h ../SoundTouch/TDStretch.h ../SoundTouch/PeakFinder.h ../SoundTouch/InterpolateCubic.h \
     ../SoundTouch/InterpolateLinear.h ../SoundTouch/InterpolateShannon.h
@@ -34,12 +31,8 @@ libSoundTouchDll_la_SOURCES=../SoundTouch/AAFilter.cpp ../SoundTouch/FIRFilter.c
     ../SoundTouch/BPMDetect.cpp ../SoundTouch/PeakFinder.cpp ../SoundTouch/InterpolateLinear.cpp \
     ../SoundTouch/InterpolateCubic.cpp ../SoundTouch/InterpolateShannon.cpp SoundTouchDLL.cpp
 
-# Compiler flags
-
 # Modify the default 0.0.0 to LIB_SONAME.0.0
-#libSoundTouchDll_la_LDFLAGS=-version-info @LIB_SONAME@
 LDFLAGS=-version-info @LIB_SONAME@
-
 
 if X86
 CXXFLAGS1=-mstackrealign -msse
@@ -49,9 +42,4 @@ if X86_64
 CXXFLAGS2=-fPIC
 endif
 
-#libSoundTouchDll_CXXFLAGS=$(AM_CXXFLAGS) $(CXXFLAGS1) $(CXXFLAGS2) -shared -DDLL_EXPORTS -fvisibility=hidden
 CXXFLAGS=$(AM_CXXFLAGS) $(CXXFLAGS1) $(CXXFLAGS2) -shared -DDLL_EXPORTS -fvisibility=hidden
-
-# TODO:
-# - saatu kääntymään
-# - tee testi, toimiiko dll?

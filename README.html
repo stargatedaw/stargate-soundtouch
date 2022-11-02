@@ -131,10 +131,12 @@
   </table>
 
   <b>Compiling portable Shared Library / DLL version</b>
-  <p> The GNU autotools compilation does not automatically create a shared-library version of
-    SoundTouch (.so or .dll) that features position-independent code and C-language
-    api that are more suitable for cross-language development than C++ libraries.</p>
-  <p> Use script "make-gnu-dll-sh" to build a portable dynamic library version if such is desired.</p>
+  <p> The GNU autotools compilation automatically builds an additional dynamic-link version
+    of SoundTouch library that features position-independent code and "C"-style API that is
+    more suitable for calling the SoundTouch routines from other programming languages.</p>
+    <p>This dynamic-link library is built under source/SoundTouchDLL directory, whose
+    subdirectories also comtain simple example apps that use the dynamic-link library.
+  </p>
 
   <h4><b>2.2.2 Compiling with cmake</b></h4>
   <p>'cmake' build scripts are provided as an alternative to the autotools toolchain.</p>
@@ -622,7 +624,7 @@
         window. This ensures that with zero tempo change the output will be same as input.
       </li>
       <li>Bugfix: Fix a bug in TDstrectch with too small initial skipFract value that occurred
-        with certain processing parameter settings: Replace assert with assignment that 
+        with certain processing parameter settings: Replace assert with assignment that
         corrects the situation.
       </li>
       <li>Remove OpenMP "_init_threading" workaround from Android build as it's not needed with concurrent
