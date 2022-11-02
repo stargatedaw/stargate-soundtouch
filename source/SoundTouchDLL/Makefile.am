@@ -31,6 +31,8 @@ libSoundTouchDll_la_SOURCES=../SoundTouch/AAFilter.cpp ../SoundTouch/FIRFilter.c
     ../SoundTouch/BPMDetect.cpp ../SoundTouch/PeakFinder.cpp ../SoundTouch/InterpolateLinear.cpp \
     ../SoundTouch/InterpolateCubic.cpp ../SoundTouch/InterpolateShannon.cpp SoundTouchDLL.cpp
 
+# Compiler flags
+
 # Modify the default 0.0.0 to LIB_SONAME.0.0
 LDFLAGS=-version-info @LIB_SONAME@
 
@@ -42,4 +44,4 @@ if X86_64
 CXXFLAGS2=-fPIC
 endif
 
-CXXFLAGS=$(AM_CXXFLAGS) $(CXXFLAGS1) $(CXXFLAGS2) -shared -DDLL_EXPORTS -fvisibility=hidden
+CXXFLAGS+=$(AM_CXXFLAGS) $(CXXFLAGS1) $(CXXFLAGS2) -shared -DDLL_EXPORTS -fvisibility=hidden
