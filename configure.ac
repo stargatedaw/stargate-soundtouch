@@ -15,7 +15,7 @@ dnl this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 dnl Place - Suite 330, Boston, MA  02111-1307, USA
 # Process this file with autoconf to produce a configure script.
 
-AC_INIT([SoundTouch],[2.3.1],[http://www.surina.net/soundtouch])
+AC_INIT([SoundTouch],[2.3.2],[http://www.surina.net/soundtouch])
 dnl Default to libSoundTouch.so.$LIB_SONAME.0.0
 LIB_SONAME=1
 AC_SUBST(LIB_SONAME)
@@ -31,9 +31,9 @@ AC_DISABLE_STATIC	dnl This makes libtool only build shared libs
 
 AC_LANG(C++)
 
-# Compiler flags. Apply -ffast-math to allow gcc autovectorization
+# Compiler flags. Apply -Ofast (implies -O3 -ffast-math) to allow gcc autovectorization
 # generate effective SIMD code.
-CXXFLAGS+=" -O3 -ffast-math"
+CXXFLAGS+=" -Ofast"
 
 # Set AR_FLAGS to avoid build warning "ar: `u' modifier ignored since `D' is the default (see `U')"
 AR_FLAGS='cr'

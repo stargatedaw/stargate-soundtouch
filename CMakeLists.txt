@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.1)
-project(SoundTouch VERSION 2.3.1 LANGUAGES CXX)
+project(SoundTouch VERSION 2.3.2 LANGUAGES CXX)
 
 include(GNUInstallDirs)
 

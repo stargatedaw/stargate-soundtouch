@@ -15,8 +15,8 @@
 
 <body class="normal">
   <hr>
-  <h1>SoundTouch audio processing library v2.3.1</h1>
-  <p class="normal">SoundTouch library Copyright &copy; Olli Parviainen 2001-2021</p>
+  <h1>SoundTouch audio processing library v2.3.2</h1>
+  <p class="normal">SoundTouch library Copyright &copy; Olli Parviainen 2001-2022</p>
   <hr>
   <h2>1. Introduction </h2>
   <p>SoundTouch is an open-source audio processing library that allows
@@ -450,7 +450,7 @@
     <h2><a name="SoundStretch"></a>4. SoundStretch audio processing utility
     </h2>
     <p>SoundStretch audio processing utility<br>
-      Copyright (c) Olli Parviainen 2002-2015</p>
+      Copyright (c) Olli Parviainen 2002-2022</p>
     <p>SoundStretch is a simple command-line application that can change
       tempo, pitch and playback rates of WAV sound files. This program is
       intended primarily to demonstrate how the "SoundTouch" library can be
@@ -605,6 +605,13 @@
     <hr>
     <h2>5. Change History</h2>
     <h3>5.1. SoundTouch library Change History </h3>
+    <p><b>2.3.2:</b></p>
+    <ul>
+      <li>Improve autotools makefiles to build the `SoundTouchDLL` dynamic-link link library with
+          C-style API. This library variation is easier to import and use from other programming
+          languages than the default C++ library.
+      </li>
+    </ul>
     <p><b>2.3.1:</b></p>
     <ul>
       <li>Adjusted cmake build settings and header files that cmake installs</li>
