@@ -75,11 +75,6 @@ FIRFilter::~FIRFilter()
 uint FIRFilter::evaluateFilterStereo(SAMPLETYPE *dest, const SAMPLETYPE *src, uint numSamples) const
 {
     int j, end;
-#ifdef SOUNDTOUCH_FLOAT_SAMPLES
-    // when using floating point samples, use a scaler instead of a divider
-    // because division is much slower operation than multiplying.
-    double dScaler = 1.0 / (double)resultDivider;
-#endif
     // hint compiler autovectorization that loop length is divisible by 8
     uint ilength = length & -8;
 
@@ -122,11 +117,6 @@ uint FIRFilter::evaluateFilterStereo(SAMPLETYPE *dest, const SAMPLETYPE *src, ui
 uint FIRFilter::evaluateFilterMono(SAMPLETYPE *dest, const SAMPLETYPE *src, uint numSamples) const
 {
     int j, end;
-#ifdef SOUNDTOUCH_FLOAT_SAMPLES
-    // when using floating point samples, use a scaler instead of a divider
-    // because division is much slower operation than multiplying.
-    double dScaler = 1.0 / (double)resultDivider;
-#endif
 
     // hint compiler autovectorization that loop length is divisible by 8
     int ilength = length & -8;
@@ -160,12 +150,6 @@ uint FIRFilter::evaluateFilterMono(SAMPLETYPE *dest, const SAMPLETYPE *src, uint
 uint FIRFilter::evaluateFilterMulti(SAMPLETYPE *dest, const SAMPLETYPE *src, uint numSamples, uint numChannels)
 {
     int j, end;
-
-#ifdef SOUNDTOUCH_FLOAT_SAMPLES
-    // when using floating point samples, use a scaler instead of a divider
-    // because division is much slower operation than multiplying.
-    double dScaler = 1.0 / (double)resultDivider;
-#endif
 
     assert(length != 0);
     assert(src != NULL);
