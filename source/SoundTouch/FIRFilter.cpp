@@ -81,9 +81,10 @@ uint FIRFilter::evaluateFilterStereo(SAMPLETYPE *dest, const SAMPLETYPE *src, ui
     double dScaler = 1.0 / (double)resultDivider;
 #endif
     // hint compiler autovectorization that loop length is divisible by 8
-    int ilength = length & -8;
+    uint ilength = length & -8;
 
     assert((length != 0) && (length == ilength) && (src != NULL) && (dest != NULL) && (filterCoeffs != NULL));
+    assert(numSamples > ilength);
 
     end = 2 * (numSamples - ilength);
 
@@ -96,7 +97,7 @@ uint FIRFilter::evaluateFilterStereo(SAMPLETYPE *dest, const SAMPLETYPE *src, ui
         suml = sumr = 0;
         ptr = src + j;
 
-        for (int i = 0; i < ilength; i ++)
+        for (uint i = 0; i < ilength; i ++)
         {
             suml += ptr[2 * i] * filterCoeffsStereo[2 * i];
             sumr += ptr[2 * i + 1] * filterCoeffsStereo[2 * i + 1];
