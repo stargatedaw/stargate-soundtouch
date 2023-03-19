@@ -7,7 +7,7 @@ if(MSVC)
   set(COMPILE_DEFINITIONS /O2 /fp:fast)
   set(COMPILE_OPTIONS )
 else()
-  set(COMPILE_OPTIONS -Ofast)
+  set(COMPILE_OPTIONS -Ofast -Wall -Wno-unknown-pragmas)
 endif()
 
 #####################
