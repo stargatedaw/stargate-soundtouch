@@ -90,10 +90,10 @@ SOUNDTOUCHDLL_API HANDLE __cdecl soundtouch_createInstance()
     {
         tmp->dwMagic = STMAGIC;
         tmp->pst = new SoundTouch();
-        if (tmp->pst == NULL)
+        if (tmp->pst == nullptr)
         {
             delete tmp;
-            tmp = NULL;
+            tmp = nullptr;
         }
     }
     return (HANDLE)tmp;
@@ -107,7 +107,7 @@ SOUNDTOUCHDLL_API void __cdecl soundtouch_destroyInstance(HANDLE h)
 
     sth->dwMagic = 0;
     if (sth->pst) delete sth->pst;
-    sth->pst = NULL;
+    sth->pst = nullptr;
     delete sth;
 }
 
@@ -375,7 +375,7 @@ SOUNDTOUCHDLL_API uint __cdecl soundtouch_numUnprocessedSamples(HANDLE h)
 
 /// Receive ready samples from the processing pipeline.
 ///
-/// if called with outBuffer=NULL, just reduces amount of ready samples within the pipeline.
+/// if called with outBuffer=nullptr, just reduces amount of ready samples within the pipeline.
 SOUNDTOUCHDLL_API uint __cdecl soundtouch_receiveSamples(HANDLE h,
         SAMPLETYPE *outBuffer,      ///< Buffer where to copy output samples.
         unsigned int maxSamples     ///< How many samples to receive at max.
@@ -406,7 +406,7 @@ SOUNDTOUCHDLL_API uint __cdecl soundtouch_receiveSamples_i16(HANDLE h,
     if (sth->dwMagic != STMAGIC) return 0;
     uint outTotal = 0;
 
-    if (outBuffer == NULL)
+    if (outBuffer == nullptr)
     {
         // only reduce sample count, not receive samples
         return sth->pst->receiveSamples(maxSamples);
@@ -480,12 +480,12 @@ SOUNDTOUCHDLL_API HANDLE __cdecl bpm_createInstance(int numChannels, int sampleR
         }
         catch (const std::exception&)
         {
-            tmp->pbpm = NULL;
+            tmp->pbpm = nullptr;
         }
-        if (tmp->pbpm == NULL)
+        if (tmp->pbpm == nullptr)
         {
             delete tmp;
-            tmp = NULL;
+            tmp = nullptr;
         }
     }
     return (HANDLE)tmp;
@@ -499,7 +499,7 @@ SOUNDTOUCHDLL_API void __cdecl bpm_destroyInstance(HANDLE h)
 
     sth->dwMagic = 0;
     if (sth->pbpm) delete sth->pbpm;
-    sth->pbpm = NULL;
+    sth->pbpm = nullptr;
     delete sth;
 }
 

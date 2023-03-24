@@ -294,8 +294,8 @@ void TDStretchMMX::overlapStereo(short *output, const short *input) const
 
 FIRFilterMMX::FIRFilterMMX() : FIRFilter()
 {
-    filterCoeffsAlign = NULL;
-    filterCoeffsUnalign = NULL;
+    filterCoeffsAlign = nullptr;
+    filterCoeffsUnalign = nullptr;
 }
 
 

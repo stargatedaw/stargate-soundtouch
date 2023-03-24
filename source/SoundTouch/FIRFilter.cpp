@@ -59,8 +59,8 @@ FIRFilter::FIRFilter()
     resultDivider = 0;
     length = 0;
     lengthDiv8 = 0;
-    filterCoeffs = NULL;
-    filterCoeffsStereo = NULL;
+    filterCoeffs = nullptr;
+    filterCoeffsStereo = nullptr;
 }
 
 
@@ -78,7 +78,7 @@ uint FIRFilter::evaluateFilterStereo(SAMPLETYPE *dest, const SAMPLETYPE *src, ui
     // hint compiler autovectorization that loop length is divisible by 8
     uint ilength = length & -8;
 
-    assert((length != 0) && (length == ilength) && (src != NULL) && (dest != NULL) && (filterCoeffs != NULL));
+    assert((length != 0) && (length == ilength) && (src != nullptr) && (dest != nullptr) && (filterCoeffs != nullptr));
     assert(numSamples > ilength);
 
     end = 2 * (numSamples - ilength);
@@ -152,9 +152,9 @@ uint FIRFilter::evaluateFilterMulti(SAMPLETYPE *dest, const SAMPLETYPE *src, uin
     int j, end;
 
     assert(length != 0);
-    assert(src != NULL);
-    assert(dest != NULL);
-    assert(filterCoeffs != NULL);
+    assert(src != nullptr);
+    assert(dest != nullptr);
+    assert(filterCoeffs != nullptr);
     assert(numChannels < 16);
 
     // hint compiler autovectorization that loop length is divisible by 8

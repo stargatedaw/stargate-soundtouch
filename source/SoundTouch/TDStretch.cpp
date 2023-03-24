@@ -66,8 +66,8 @@ TDStretch::TDStretch() : FIFOProcessor(&outputBuffer)
     bQuickSeek = false;
     channels = 2;
 
-    pMidBuffer = NULL;
-    pMidBufferUnaligned = NULL;
+    pMidBuffer = nullptr;
+    pMidBufferUnaligned = nullptr;
     overlapLength = 0;
 
     bAutoSeqSetting = true;
@@ -143,7 +143,7 @@ void TDStretch::setParameters(int aSampleRate, int aSequenceMS,
 
 
 /// Get routine control parameters, see setParameters() function.
-/// Any of the parameters to this function can be NULL, in such case corresponding parameter
+/// Any of the parameters to this function can be nullptr, in such case corresponding parameter
 /// value isn't returned.
 void TDStretch::getParameters(int *pSampleRate, int *pSequenceMs, int *pSeekWindowMs, int *pOverlapMs) const
 {

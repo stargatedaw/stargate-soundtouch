@@ -307,7 +307,7 @@ TransposerBase *TransposerBase::newInstance()
 
         default:
             assert(false);
-            return NULL;
+            return nullptr;
     }
 #endif
 }

@@ -115,8 +115,8 @@ RunParameters::RunParameters(const int nParams, const char * const paramStr[])
         ST_THROW_RT_ERROR(msg.c_str());
     }
 
-    inFileName = NULL;
-    outFileName = NULL;
+    inFileName = nullptr;
+    outFileName = nullptr;
     tempoDelta = 0;
     pitchDelta = 0;
     rateDelta = 0;
@@ -133,7 +133,7 @@ RunParameters::RunParameters(const int nParams, const char * const paramStr[])
     if (outFileName[0] == '-')
     {
         // no outputfile name was given but parameters
-        outFileName = NULL;
+        outFileName = nullptr;
         nFirstParam = 2;
     }
     else

@@ -103,7 +103,7 @@ static void openFiles(WavInFile **inFile, WavOutFile **outFile, const RunParamet
     }
     else
     {
-        *outFile = NULL;
+        *outFile = nullptr;
     }
 }
 
@@ -172,7 +172,7 @@ static void process(SoundTouch *pSoundTouch, WavInFile *inFile, WavOutFile *outF
     int buffSizeSamples;
     SAMPLETYPE sampleBuffer[BUFF_SIZE];
 
-    if ((inFile == NULL) || (outFile == NULL)) return;  // nothing to do.
+    if ((inFile == nullptr) || (outFile == nullptr)) return;  // nothing to do.
 
     nChannels = (int)inFile->getNumChannels();
     assert(nChannels > 0);
