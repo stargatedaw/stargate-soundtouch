@@ -123,7 +123,7 @@ static const char dataStr[] = "data";
     }
 
     // dummy helper-function
-    static inline void _swap16Buffer(short *pData, int numBytes)
+    static inline void _swap16Buffer(short *, int)
     {
         // do nothing
     }

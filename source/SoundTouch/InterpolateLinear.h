@@ -61,7 +61,7 @@ public:
 
     virtual void resetRegisters() override;
 
-    int getLatency() const
+    virtual int getLatency() const override
     {
         return 0;
     }
