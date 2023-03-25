@@ -413,15 +413,15 @@ int SoundTouch::getSetting(int settingId) const
             return (uint)pTDStretch->isQuickSeekEnabled();
 
         case SETTING_SEQUENCE_MS:
-            pTDStretch->getParameters(NULL, &temp, NULL, NULL);
+            pTDStretch->getParameters(nullptr, &temp, nullptr, nullptr);
             return temp;
 
         case SETTING_SEEKWINDOW_MS:
-            pTDStretch->getParameters(NULL, NULL, &temp, NULL);
+            pTDStretch->getParameters(nullptr, nullptr, &temp, nullptr);
             return temp;
 
         case SETTING_OVERLAP_MS:
-            pTDStretch->getParameters(NULL, NULL, NULL, &temp);
+            pTDStretch->getParameters(nullptr, nullptr, nullptr, &temp);
             return temp;
 
         case SETTING_NOMINAL_INPUT_SEQUENCE :

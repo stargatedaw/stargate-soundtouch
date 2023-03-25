@@ -195,16 +195,16 @@ double TDStretchSSE::calcCrossCorrAccumulate(const float *pV1, const float *pV2,
 
 FIRFilterSSE::FIRFilterSSE() : FIRFilter()
 {
-    filterCoeffsAlign = NULL;
-    filterCoeffsUnalign = NULL;
+    filterCoeffsAlign = nullptr;
+    filterCoeffsUnalign = nullptr;
 }
 
 
 FIRFilterSSE::~FIRFilterSSE()
 {
     delete[] filterCoeffsUnalign;
-    filterCoeffsAlign = NULL;
-    filterCoeffsUnalign = NULL;
+    filterCoeffsAlign = nullptr;
+    filterCoeffsUnalign = nullptr;
 }
 
 
@@ -245,10 +245,10 @@ uint FIRFilterSSE::evaluateFilterStereo(float *dest, const float *source, uint n
 
     if (count < 2) return 0;
 
-    assert(source != NULL);
-    assert(dest != NULL);
+    assert(source != nullptr);
+    assert(dest != nullptr);
     assert((length % 8) == 0);
-    assert(filterCoeffsAlign != NULL);
+    assert(filterCoeffsAlign != nullptr);
     assert(((ulongptr)filterCoeffsAlign) % 16 == 0);
 
     // filter is evaluated for two stereo samples with each iteration, thus use of 'j += 2'

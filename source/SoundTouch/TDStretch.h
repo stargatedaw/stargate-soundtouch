@@ -217,7 +217,7 @@ public:
                        );
 
     /// Get routine control parameters, see setParameters() function.
-    /// Any of the parameters to this function can be NULL, in such case corresponding parameter
+    /// Any of the parameters to this function can be nullptr, in such case corresponding parameter
     /// value isn't returned.
     void getParameters(int *pSampleRate, int *pSequenceMs, int *pSeekWindowMs, int *pOverlapMs) const;
 

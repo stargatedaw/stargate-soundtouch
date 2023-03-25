@@ -123,7 +123,7 @@ static const char dataStr[] = "data";
     }
 
     // dummy helper-function
-    static inline void _swap16Buffer(short *pData, int numBytes)
+    static inline void _swap16Buffer(short *, int)
     {
         // do nothing
     }
@@ -138,7 +138,7 @@ static const char dataStr[] = "data";
 
 WavFileBase::WavFileBase()
 {
-    convBuff = NULL;
+    convBuff = nullptr;
     convBuffSize = 0;
 }
 
@@ -173,7 +173,7 @@ WavInFile::WavInFile(const char *fileName)
 {
     // Try to open the file for reading
     fptr = fopen(fileName, "rb");
-    if (fptr == NULL) 
+    if (fptr == nullptr) 
     {
         // didn't succeed
         string msg = "Error : Unable to open file \"";
@@ -234,7 +234,7 @@ void WavInFile::init()
 WavInFile::~WavInFile()
 {
     if (fptr) fclose(fptr);
-    fptr = NULL;
+    fptr = nullptr;
 }
 
 
@@ -707,7 +707,7 @@ WavOutFile::WavOutFile(const char *fileName, int sampleRate, int bits, int chann
 {
     bytesWritten = 0;
     fptr = fopen(fileName, "wb");
-    if (fptr == NULL) 
+    if (fptr == nullptr) 
     {
         string msg = "Error : Unable to open file \"";
         msg += fileName;
@@ -725,7 +725,7 @@ WavOutFile::WavOutFile(FILE *file, int sampleRate, int bits, int channels)
 {
     bytesWritten = 0;
     fptr = file;
-    if (fptr == NULL) 
+    if (fptr == nullptr) 
     {
         string msg = "Error : Unable to access output file stream.";
         ST_THROW_RT_ERROR(msg.c_str());
@@ -740,7 +740,7 @@ WavOutFile::~WavOutFile()
 {
     finishHeader();
     if (fptr) fclose(fptr);
-    fptr = NULL;
+    fptr = nullptr;
 }
 
 

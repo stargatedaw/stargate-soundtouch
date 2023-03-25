@@ -54,7 +54,7 @@ using namespace soundtouch;
     static void _DEBUG_SAVE_AAFIR_COEFFS(SAMPLETYPE *coeffs, int len)
     {
         FILE *fptr = fopen("aa_filter_coeffs.txt", "wt");
-        if (fptr == NULL) return;
+        if (fptr == nullptr) return;
 
         for (int i = 0; i < len; i ++)
         {

@@ -196,7 +196,7 @@ namespace soundtouch
         /// - "values" receive array of beat detection strengths
         /// - max_num indicates max.size of "pos" and "values" array.  
         ///
-        /// You can query a suitable array sized by calling this with NULL in "pos" & "values".
+        /// You can query a suitable array sized by calling this with nullptr in "pos" & "values".
         ///
         /// \return number of beats in the arrays.
         int getBeats(float *pos, float *strength, int max_num);

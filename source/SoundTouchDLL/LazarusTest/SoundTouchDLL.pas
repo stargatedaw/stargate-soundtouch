@@ -137,7 +137,7 @@ type
 
   /// Receive ready samples from the processing pipeline.
   ///
-  /// if called with outBuffer=NULL, just reduces amount of ready samples within the pipeline.
+  /// if called with outBuffer=nullptr, just reduces amount of ready samples within the pipeline.
   TSoundTouchReceiveSamples = function (Handle: TSoundTouchHandle;
                                      OutBuffer: PSingle;           //< Buffer where to copy output samples.
                                      MaxSamples: Integer      //< How many samples to receive at max.

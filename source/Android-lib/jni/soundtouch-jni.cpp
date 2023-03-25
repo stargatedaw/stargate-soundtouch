@@ -46,7 +46,7 @@ static void _setErrmsg(const char *msg)
 
 #include <pthread.h>
 extern pthread_key_t gomp_tls_key;
-static void * _p_gomp_tls = NULL;
+static void * _p_gomp_tls = nullptr;
 
 /// Function to initialize threading for OpenMP.
 ///
@@ -54,7 +54,7 @@ static void * _p_gomp_tls = NULL;
 /// called from the Android App main thread because in the main thread the gomp_tls storage is
 /// properly set, however, Android does not properly initialize gomp_tls storage for other threads.
 /// Thus if OpenMP routines are invoked from some other thread than the main thread,
-/// the OpenMP routine will crash the application due to NULL pointer access on uninitialized storage.
+/// the OpenMP routine will crash the application due to nullptr access on uninitialized storage.
 ///
 /// This workaround stores the gomp_tls storage from main thread, and copies to other threads.
 /// In order this to work, the Application main thread needws to call at least "getVersionString"
@@ -63,7 +63,7 @@ static int _init_threading(bool warn)
 {
 	void *ptr = pthread_getspecific(gomp_tls_key);
 	LOGV("JNI thread-specific TLS storage %ld", (long)ptr);
-	if (ptr == NULL)
+	if (ptr == nullptr)
 	{
 		LOGV("JNI set missing TLS storage to %ld", (long)_p_gomp_tls);
 		pthread_setspecific(gomp_tls_key, _p_gomp_tls);
@@ -74,7 +74,7 @@ static int _init_threading(bool warn)
 		_p_gomp_tls = ptr;
 	}
 	// Where critical, show warning if storage still not properly initialized
-	if ((warn) && (_p_gomp_tls == NULL))
+	if ((warn) && (_p_gomp_tls == nullptr))
 	{
 		_setErrmsg("Error - OpenMP threading not properly initialized: Call SoundTouch.getVersionString() from the App main thread!");
 		return -1;

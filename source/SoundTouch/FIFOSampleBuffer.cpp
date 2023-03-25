@@ -50,8 +50,8 @@ FIFOSampleBuffer::FIFOSampleBuffer(int numChannels)
 {
     assert(numChannels > 0);
     sizeInBytes = 0; // reasonable initial value
-    buffer = NULL;
-    bufferUnaligned = NULL;
+    buffer = nullptr;
+    bufferUnaligned = nullptr;
     samplesInBuffer = 0;
     bufferPos = 0;
     channels = (uint)numChannels;
@@ -63,8 +63,8 @@ FIFOSampleBuffer::FIFOSampleBuffer(int numChannels)
 FIFOSampleBuffer::~FIFOSampleBuffer()
 {
     delete[] bufferUnaligned;
-    bufferUnaligned = NULL;
-    buffer = NULL;
+    bufferUnaligned = nullptr;
+    buffer = nullptr;
 }
 
 
@@ -166,7 +166,7 @@ void FIFOSampleBuffer::ensureCapacity(uint capacityRequirement)
         sizeInBytes = (capacityRequirement * channels * sizeof(SAMPLETYPE) + 4095) & (uint)-4096;
         assert(sizeInBytes % 2 == 0);
         tempUnaligned = new SAMPLETYPE[sizeInBytes / sizeof(SAMPLETYPE) + 16 / sizeof(SAMPLETYPE)];
-        if (tempUnaligned == NULL)
+        if (tempUnaligned == nullptr)
         {
             ST_THROW_RT_ERROR("Couldn't allocate memory!\n");
         }

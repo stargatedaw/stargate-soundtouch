@@ -144,8 +144,8 @@ protected:
     /// Sets output pipe.
     void setOutPipe(FIFOSamplePipe *pOutput)
     {
-        assert(output == NULL);
-        assert(pOutput != NULL);
+        assert(output == nullptr);
+        assert(pOutput != nullptr);
         output = pOutput;
     }
 
@@ -153,7 +153,7 @@ protected:
     /// 'setOutPipe' function.
     FIFOProcessor()
     {
-        output = NULL;
+        output = nullptr;
     }
 
     /// Constructor. Configures output pipe.

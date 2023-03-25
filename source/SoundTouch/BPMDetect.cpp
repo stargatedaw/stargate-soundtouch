@@ -554,13 +554,13 @@ float BPMDetect::getBpm()
 /// - "values" receive array of beat detection strengths
 /// - max_num indicates max.size of "pos" and "values" array.  
 ///
-/// You can query a suitable array sized by calling this with NULL in "pos" & "values".
+/// You can query a suitable array sized by calling this with nullptr in "pos" & "values".
 ///
 /// \return number of beats in the arrays.
 int BPMDetect::getBeats(float *pos, float *values, int max_num)
 {
     int num = (int)beats.size();
-    if ((!pos) || (!values)) return num;    // pos or values NULL, return just size
+    if ((!pos) || (!values)) return num;    // pos or values nullptr, return just size
 
     for (int i = 0; (i < num) && (i < max_num); i++)
     {
