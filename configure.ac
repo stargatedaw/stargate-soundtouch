@@ -33,7 +33,7 @@ AC_LANG(C++)
 
 # Compiler flags. Apply -Ofast (implies -O3 -ffast-math) to allow gcc autovectorization
 # generate effective SIMD code.
-CXXFLAGS+=" -Ofast -Wall -Wno-unknown-pragmas"
+CXXFLAGS+=" -Ofast -Wall -Wextra -Wzero-as-null-pointer-constant -Wno-unknown-pragmas"
 
 # Set AR_FLAGS to avoid build warning "ar: `u' modifier ignored since `D' is the default (see `U')"
 AR_FLAGS='cr'
