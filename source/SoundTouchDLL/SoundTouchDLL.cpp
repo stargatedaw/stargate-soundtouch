@@ -562,3 +562,21 @@ SOUNDTOUCHDLL_API float __cdecl bpm_getBpm(HANDLE h)
 
     return bpmh->pbpm->getBpm();
 }
+
+
+/// Get beat position arrays. Note: The array includes also really low beat detection values 
+/// in absence of clear strong beats. Consumer may wish to filter low values away.
+/// - "pos" receive array of beat positions
+/// - "values" receive array of beat detection strengths
+/// - max_num indicates max.size of "pos" and "values" array.  
+///
+/// You can query a suitable array sized by calling this with nullptr in "pos" & "values".
+///
+/// \return number of beats in the arrays.
+SOUNDTOUCHDLL_API int __cdecl bpm_getBeats(HANDLE h, float* pos, float* strength, int count)
+{
+	BPMHANDLE *bpmh = (BPMHANDLE *)h;
+	if (bpmh->dwMagic != BPMMAGIC) return 0;
+
+	return bpmh->pbpm->getBeats(pos, strength, count);
+}
