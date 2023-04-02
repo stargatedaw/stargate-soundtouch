@@ -750,6 +750,7 @@ void * TDStretch::operator new(size_t)
 
 TDStretch * TDStretch::newInstance()
 {
+    __attribute__((unused))
     uint uExtensions;
 
     uExtensions = detectCPUextensions();

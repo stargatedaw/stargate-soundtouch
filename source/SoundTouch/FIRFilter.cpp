@@ -283,6 +283,7 @@ void * FIRFilter::operator new(size_t)
 
 FIRFilter * FIRFilter::newInstance()
 {
+    __attribute__((unused))
     uint uExtensions;
 
     uExtensions = detectCPUextensions();
