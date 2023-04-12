@@ -750,10 +750,10 @@ void * TDStretch::operator new(size_t)
 
 TDStretch * TDStretch::newInstance()
 {
-    __attribute__((unused))
     uint uExtensions;
 
     uExtensions = detectCPUextensions();
+    (void)uExtensions;
 
     // Check if MMX/SSE instruction set extensions supported by CPU
 
