@@ -37,6 +37,11 @@
 #include "WavFile.h"
 #include "SoundTouch.h"
 #include "BPMDetect.h"
+#include "OS.h"
+
+#ifdef IS_WINDOWS
+#include <shellapi.h>
+#endif
 
 using namespace soundtouch;
 using namespace std;
@@ -72,7 +77,11 @@ static void openFiles(WavInFile **inFile, WavOutFile **outFile, const RunParamet
 {
     int bits, samplerate, channels;
 
+#ifdef IS_WINDOWS
+    if (wcscmp(params->inFileName, L"stdin") == 0)
+#else
     if (strcmp(params->inFileName, "stdin") == 0)
+#endif
     {
         // used 'stdin' as input file
         SET_STREAM_TO_BIN_MODE(stdin);
@@ -91,7 +100,11 @@ static void openFiles(WavInFile **inFile, WavOutFile **outFile, const RunParamet
 
     if (params->outFileName)
     {
+#ifdef IS_WINDOWS
+        if (wcscmp(params->outFileName, L"stdout") == 0)
+#else
         if (strcmp(params->outFileName, "stdout") == 0)
+#endif
         {
             SET_STREAM_TO_BIN_MODE(stdout);
             *outFile = new WavOutFile(stdout, samplerate, bits, channels);
@@ -271,7 +284,7 @@ static void detectBPM(WavInFile *inFile, RunParameters *params)
 }
 
 
-int main(const int nParams, const char * const paramStr[])
+int _main(const int nParams, const PATHCHAR * const paramStr[])
 {
     WavInFile *inFile;
     WavOutFile *outFile;
@@ -320,3 +333,17 @@ int main(const int nParams, const char * const paramStr[])
 
     return 0;
 }
+
+
+#ifdef IS_WINDOWS
+    int main(){
+	int argc;
+	LPWSTR* argv = CommandLineToArgvW(GetCommandLineW(), &argc);
+        return _main(argc, argv);
+    }
+#else
+    int main(int argc, char** argv){
+        return _main(argc, argv);
+    }
+#endif
+

@@ -42,6 +42,8 @@
 
 #include <stdio.h>
 
+#include "OS.h"
+
 #ifndef uint
 typedef unsigned int uint;
 #endif           
@@ -145,7 +147,7 @@ private:
 public:
     /// Constructor: Opens the given WAV file. If the file can't be opened,
     /// throws 'runtime_error' exception.
-    WavInFile(const char *filename);
+    WavInFile(const PATHCHAR *filename);
 
     WavInFile(FILE *file);
 
@@ -241,7 +243,7 @@ private:
 public:
     /// Constructor: Creates a new WAV file. Throws a 'runtime_error' exception 
     /// if file creation fails.
-    WavOutFile(const char *fileName,    ///< Filename
+    WavOutFile(const PATHCHAR *fileName,    ///< Filename
                int sampleRate,          ///< Sample rate (e.g. 44100 etc)
                int bits,                ///< Bits per sample (8 or 16 bits)
                int channels             ///< Number of channels (1=mono, 2=stereo)

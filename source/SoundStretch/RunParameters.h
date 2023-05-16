@@ -32,6 +32,7 @@
 #ifndef RUNPARAMETERS_H
 #define RUNPARAMETERS_H
 
+#include "OS.h"
 #include "STTypes.h"
 #include <string>
 
@@ -48,8 +49,8 @@ private:
     float parseSwitchValue(const string &str) const;
 
 public:
-    char  *inFileName;
-    char  *outFileName;
+    PATHCHAR  *inFileName;
+    PATHCHAR  *outFileName;
     float tempoDelta;
     float pitchDelta;
     float rateDelta;
@@ -59,7 +60,7 @@ public:
     bool  detectBPM;
     bool  speech;
 
-    RunParameters(const int nParams, const char * const paramStr[]);
+    RunParameters(const int nParams, const PATHCHAR * const paramStr[]);
 };
 
 #endif

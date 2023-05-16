@@ -96,7 +96,7 @@ static int _toLowerCase(int c)
 
 
 // Constructor
-RunParameters::RunParameters(const int nParams, const char * const paramStr[])
+RunParameters::RunParameters(const int nParams, const PATHCHAR * const paramStr[])
 {
     int i;
     int nFirstParam;
@@ -127,10 +127,14 @@ RunParameters::RunParameters(const int nParams, const char * const paramStr[])
     detectBPM = false;
 
     // Get input & output file names
-    inFileName = (char*)paramStr[1];
-    outFileName = (char*)paramStr[2];
+    inFileName = (PATHCHAR*)paramStr[1];
+    outFileName = (PATHCHAR*)paramStr[2];
 
+#ifdef IS_WINDOWS
+    if (outFileName[0] == L'-')
+#else
     if (outFileName[0] == '-')
+#endif
     {
         // no outputfile name was given but parameters
         outFileName = nullptr;
@@ -144,7 +148,13 @@ RunParameters::RunParameters(const int nParams, const char * const paramStr[])
     // parse switch parameters
     for (i = nFirstParam; i < nParams; i ++) 
     {
+#ifdef IS_WINDOWS
+        wstring wparam(paramStr[i]);
+        string cparam(wparam.begin(), wparam.end());
+        parseSwitchParam(cparam);
+#else
         parseSwitchParam(paramStr[i]);
+#endif
     }
 
     checkLimits();

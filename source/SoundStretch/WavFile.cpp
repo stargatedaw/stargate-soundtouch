@@ -45,6 +45,7 @@
 #include <assert.h>
 #include <limits.h>
 
+#include "OS.h"
 #include "WavFile.h"
 #include "STTypes.h"
 
@@ -169,15 +170,25 @@ void *WavFileBase::getConvBuffer(int sizeBytes)
 // Class WavInFile
 //
 
-WavInFile::WavInFile(const char *fileName)
+WavInFile::WavInFile(const PATHCHAR *fileName)
 {
     // Try to open the file for reading
+#ifdef IS_WINDOWS
+    fptr = _wfopen(fileName, L"rb");
+#else
     fptr = fopen(fileName, "rb");
+#endif
     if (fptr == nullptr) 
     {
         // didn't succeed
         string msg = "Error : Unable to open file \"";
+#ifdef IS_WINDOWS
+        wstring wfileName(fileName);
+        string cfileName(wfileName.begin(), wfileName.end());
+        msg += cfileName;
+#else
         msg += fileName;
+#endif
         msg += "\" for reading.";
         ST_THROW_RT_ERROR(msg.c_str());
     }
@@ -703,14 +714,24 @@ uint WavInFile::getElapsedMS() const
 // Class WavOutFile
 //
 
-WavOutFile::WavOutFile(const char *fileName, int sampleRate, int bits, int channels)
+WavOutFile::WavOutFile(const PATHCHAR *fileName, int sampleRate, int bits, int channels)
 {
     bytesWritten = 0;
+#ifdef IS_WINDOWS
+    fptr = _wfopen(fileName, L"wb");
+#else
     fptr = fopen(fileName, "wb");
+#endif
     if (fptr == nullptr) 
     {
         string msg = "Error : Unable to open file \"";
+#ifdef IS_WINDOWS
+        wstring wfileName(fileName);
+        string cfileName(wfileName.begin(), wfileName.end());
+        msg += cfileName;
+#else
         msg += fileName;
+#endif
         msg += "\" for writing.";
         //pmsg = msg.c_str;
         ST_THROW_RT_ERROR(msg.c_str());
