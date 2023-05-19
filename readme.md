@@ -1,3 +1,14 @@
+# stargate-soundtouch
+
+Fork of [Soundtouch](https://codeberg.org/soundtouch) time stretching and
+pitch shifting library.
+
+# Current differences
++ Support for unicode (UTF-16) file paths on Windows in `soundstretch.exe`
+
+
+# BEGIN ORIGINAL README FILE
+
 # SoundTouch library
 
 ## About
